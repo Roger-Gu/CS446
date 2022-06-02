@@ -1,9 +1,7 @@
 **This is for Team use only and not for marks.**
 
 
-
-
-
+#### Onboarding
 1. Initialize project on local PC
 * `git clone https://github.com/ErastoRuuuuuush/CS446.git`
 
