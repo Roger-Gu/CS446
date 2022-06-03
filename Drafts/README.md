@@ -19,3 +19,5 @@
 https://docs.google.com/document/d/1d2Zqu2CUBEBWm6C0IICZMAujLx7gIzBC6YNSrRdoTGc/edit
 #### D1 - Proposal Document
 https://docs.google.com/document/d/17Na1utHO01bmMq0kb-f_HFP26C1LB4RaVf5grTw-xWY/edit
+#### Background Story
+https://docs.google.com/document/d/1_pZboNtx0v-tQK7PJVap2PA9TX5AujluM_tloJxAGr4/edit
