@@ -1,4 +1,4 @@
-# CS446
+# CS446 - AWAKE
 The repo for **UW CS446 Spring 2022 Section 2 Group 8**
 
 **Group memebers: **
