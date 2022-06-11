@@ -10,5 +10,5 @@ The repo for **UW CS446 Spring 2022 Section 2 Group 8**
 | Yukai Wang  | y3229wan |                                                       |
 | Miranda Xie | m52xie   |                                                       |
 | Richella Li | j2333li  |                                                       |
-| Yixing Gu   | y232gu   |                                                       |
+| Yixing Gu   | y232gu   | [Roger](https://github.com/Roger-Gu)                 | 
 
