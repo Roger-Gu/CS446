@@ -1,0 +1,6 @@
+package com.cs446.awake.utils
+
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.Stage
+
+class BaseActor(x: Float, y: Float, s: Stage, texture: Texture? = null) : AbstractActor(x,y,s,texture)
