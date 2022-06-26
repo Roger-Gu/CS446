@@ -1,11 +1,10 @@
-package com.cs446.awake.model
-
 import com.badlogic.gdx.utils.Array
 
+// a deck of action cards
 class Deck {
-    var deck: Array<Card> = Array<Card>()
+    var deck: Array<ActionCard> = Array<ActionCard>()
 
-    fun addCard(card: Card) {
+    fun addCard(card: ActionCard) {
         deck.add(card)
     }
 
@@ -13,16 +12,6 @@ class Deck {
         return deck.isEmpty
     }
 
-    fun pop() : Card {
+    fun pop() : ActionCard {
         return deck.pop()
     }
-
-    fun shuffle() {
-        deck.shuffle()
-    }
-
-    fun count() : Int {
-        return deck.size
-    }
-
-}
