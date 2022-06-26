@@ -53,13 +53,21 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         val stateImg = Texture("burn.png")
         val stateWidth = stateImg.width.toFloat()
         intervalWid = 40f
-        val stateTotal = board.player.state.size -1
+        val playerStateTotal = board.player.state.size -1
         for ((stateIndex, state) in board.player.state.withIndex()){
             val stateActor = BaseActor(0f, 0f, stage)
             stateActor.loadTexture(state.img)
-            stateActor.centerAtPosition(-100f, height -780f)
-            stateActor.moveBy((wid-(stateTotal*stateWidth + (stateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+            stateActor.centerAtPosition(-800f, height -1000f)
+            stateActor.moveBy((wid-(playerStateTotal*stateWidth + (playerStateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+        }
 
+
+        val enemyStateTotal = board.enemy.state.size -1
+        for ((stateIndex, state) in board.enemy.state.withIndex()){
+            val stateActor = BaseActor(0f, 0f, stage)
+            stateActor.loadTexture(state.img)
+            stateActor.centerAtPosition(800f, height-100f)
+            stateActor.moveBy((wid-(enemyStateTotal*stateWidth + (enemyStateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
         }
 
     }
