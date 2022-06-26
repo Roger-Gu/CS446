@@ -36,7 +36,7 @@ class Awake : Game() {
 
         val imgs = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
         val enemy = Enemy(imgs,"Enemy",999, 99, 99, deck2, states)
-        board = Board(player, enemy, player, 1)
+        board = Board(player, enemy)
 
     }
 
