@@ -40,7 +40,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
 
         val cardImg = Texture("card_empty.png")
         val cardWidth = cardImg.width.toFloat()
-        val intervalWid = 40f
+        var intervalWid = 40f
         val cardTotal = board.player.hand.size -1
         for ((handIndex, card) in board.player.hand.withIndex()) {
             val cardActor = BaseActor(0f, 0f, stage)
@@ -49,6 +49,19 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             cardActor.centerAtPosition(0f, height - 1000f)
             cardActor.moveBy((wid-(cardTotal*cardWidth + (cardTotal-1)*intervalWid))/2 + handIndex*cardWidth,0f)
         }
+
+        val stateImg = Texture("burn.png")
+        val stateWidth = stateImg.width.toFloat()
+        intervalWid = 40f
+        val stateTotal = board.player.state.size -1
+        for ((stateIndex, state) in board.player.state.withIndex()){
+            val stateActor = BaseActor(0f, 0f, stage)
+            stateActor.loadTexture(state.img)
+            stateActor.centerAtPosition(-100f, height -780f)
+            stateActor.moveBy((wid-(stateTotal*stateWidth + (stateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+
+        }
+
     }
 
 

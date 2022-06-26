@@ -26,9 +26,15 @@ abstract class Character (val charName: String, var HP: Int, var energy: Int, va
 
     }
 
+    fun endRound(){}
+
     fun updateHealth(HpChange: Int){
         HP += HpChange
     }
+
+    fun updateStrength(strengthChange: Int) {}
+
+    fun updateEnergy(energyChange: Int) {}
 
     fun isDead(){}
 
