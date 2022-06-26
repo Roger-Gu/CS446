@@ -11,7 +11,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var strength = maxStrength
     var HP = maxHP
 
-    fun useCard(card: ActionCard) {
+    fun useCard(card: ActionCard, from: Character) {
         updateEnergy(card.energyCost)
         updateStrength(card.strengthCost)
         updateHealth(card.healthChange)
@@ -54,6 +54,8 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         energy = maxEnergy
         strength = maxStrength
     }
+
+    open fun reset() {}
 
     open fun endRound() {}
 
