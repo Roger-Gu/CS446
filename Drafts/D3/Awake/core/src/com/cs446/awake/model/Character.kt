@@ -42,6 +42,9 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         for (s in state) {
             s.apply()
         }
+        hand.clear()
+        energy = maxEnergy
+        strength = maxStrength
     }
 
     fun updateHealth(HpChange: Int){
