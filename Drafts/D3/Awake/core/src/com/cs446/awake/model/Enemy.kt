@@ -10,9 +10,7 @@ class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, 
     // Enemy may have pre-defined hand cards and randomly use
     fun useCard(target: Character) {}
 
-    override fun endRound() {
-        super.endRound()
-        // Enemy may trigger different skills
+    override fun postRound() {
+        super.postRound()
     }
-
 }

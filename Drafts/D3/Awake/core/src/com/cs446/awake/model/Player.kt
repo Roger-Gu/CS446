@@ -7,4 +7,8 @@ class Player(charName: String, HP: Int, energy: Int, strength: Int, deck: Deck, 
         }
     }
 
+    // player may handle card select
+    override fun selectHandCard(): ActionCard {
+        return super.selectHandCard()
+    }
 }
