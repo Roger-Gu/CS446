@@ -6,18 +6,22 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Array
 
 abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var state: MutableList<State>) {
-    var hand: MutableList<Card> = mutableListOf()
+    var hand: MutableList<ActionCard> = mutableListOf()
     var energy = maxEnergy
     var strength = maxStrength
     var HP = maxHP
 
-    fun useCard(card: Card, target: Character):Boolean {
-        if (card.cost(this)) {
-            card.useCard(target)
-            hand.remove(card)
-            return true
+    fun useCard(card: ActionCard) {
+        updateEnergy(card.energyCost)
+        updateStrength(card.strengthCost)
+        updateHealth(card.healthChange)
+        for (s in card.Effect) {
+            updateState(s)
         }
-        return false
+    }
+
+    open fun selectHandCard(): ActionCard {
+        return hand[0]
     }
 
     // add try catch block for 1. empty deck 2.hand full
@@ -27,24 +31,35 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     fun updateState(newState: State){
-        state.add(newState)
+        var curState: State? = state.find {card -> card.stateName == newState.stateName}
+        if (curState == null) {
+            state.add(newState)
+        } else {
+            curState.extend(newState)
+        }
     }
 
     fun removeState(removedStates: MutableList<String>){
+        var d = mutableListOf<State>()
+        for (s in state){
+            if (removedStates.contains(s.stateName)){
+                d.add(s)
+            }
+        }
+        state.removeAll(d)
 
     }
 
-    fun removeState(removedState: State){
-        state.remove((removedState))
+    open fun preRound() {
+        energy = maxEnergy
+        strength = maxStrength
     }
 
-    open fun endRound(){
+    open fun postRound(){
         for (s in state) {
             s.apply()
         }
         hand.clear()
-        energy = maxEnergy
-        strength = maxStrength
     }
 
     fun updateHealth(HpChange: Int){
