@@ -5,16 +5,24 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Array
 
-abstract class Character (val charName: String, var HP: Int, var energy: Int, var strength: Int, val deck: Deck, var state: MutableList<State>) {
+abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var state: MutableList<State>) {
+    var hand: MutableList<Card> = mutableListOf()
+    var energy = maxEnergy
+    var strength = maxStrength
+    var HP = maxHP
 
-    var hand: Array<Card> = Array<Card>()
-    // var deck: Array<Card> = Array<Card>()
-
-    fun useCard(card: Card, target: Character) {}
+    fun useCard(card: Card, target: Character):Boolean {
+        if (card.cost(this)) {
+            card.useCard(target)
+            hand.remove(card)
+            return true
+        }
+        return false
+    }
 
     // add try catch block for 1. empty deck 2.hand full
-    fun drawCard(){
-        val c = deck.pop()
+    open fun drawCard(){
+        val c = deck.pop() // deck should shuffle when it is empty
         hand.add(c)
     }
 
@@ -26,16 +34,30 @@ abstract class Character (val charName: String, var HP: Int, var energy: Int, va
 
     }
 
-    fun endRound(){}
+    fun removeState(removedState: State){
+        state.remove((removedState))
+    }
+
+    open fun endRound(){
+        for (s in state) {
+            s.apply()
+        }
+    }
 
     fun updateHealth(HpChange: Int){
         HP += HpChange
     }
 
-    fun updateStrength(strengthChange: Int) {}
+    fun updateStrength(strengthChange: Int) {
+        strength += strengthChange
+    }
 
-    fun updateEnergy(energyChange: Int) {}
+    fun updateEnergy(energyChange: Int) {
+        energy += energyChange
+    }
 
-    fun isDead(){}
+    fun isDead(): Boolean {
+        return HP <= 0
+    }
 
 }
