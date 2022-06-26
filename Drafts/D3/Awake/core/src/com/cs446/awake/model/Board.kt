@@ -44,7 +44,7 @@ class Board (val player: Player,val enemy: Enemy) {
     }
 
     private fun startRound() {
-        val Card = turn.drawCard()
+        val Card = turn.selectHandCard()
 
         // Option 1 - Notify one
         target.useCard(Card, from = turn)
