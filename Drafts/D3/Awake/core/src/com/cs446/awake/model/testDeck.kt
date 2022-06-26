@@ -27,6 +27,7 @@ fun getTestDeck(): Deck {
         val stateCard2 = ActionCard("freezer", "img.jpg", "freezes target for $i rounds",
             i-1, 0, 0, Array<State>(arrayOf(State("Freeze", i))))
         testDeck.addCard(stateCard2)
+        i ++
     }
     return testDeck
 }
