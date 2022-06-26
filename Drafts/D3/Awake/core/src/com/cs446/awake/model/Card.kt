@@ -10,4 +10,10 @@ import com.badlogic.gdx.utils.Array
 open class Card(val cardName: String, val img: String, val usage: String) {
 
     open fun use() {}
+
+    open fun useCard(target: Character) {}
+
+    open fun cost(turn: Character):Boolean {
+        return true
+    }
 }
