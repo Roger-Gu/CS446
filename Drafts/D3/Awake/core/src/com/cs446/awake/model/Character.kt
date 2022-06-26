@@ -55,6 +55,8 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         strength = maxStrength
     }
 
+    open fun endRound() {}
+
     open fun postRound(){
         for (s in state) {
             s.apply()
