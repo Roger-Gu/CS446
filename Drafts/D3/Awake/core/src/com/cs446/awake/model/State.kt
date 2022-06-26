@@ -3,8 +3,7 @@ package com.cs446.awake.model
 import kotlin.random.Random
 
 class State(val stateName: String,
-            var effectiveRound: Int,
-            var target: Character,
+            var effectiveRound: Int
             ) {
 
     var releaseProbability = 0.0    // prob of getting rid of the status
@@ -25,7 +24,6 @@ class State(val stateName: String,
             "Paralysis" -> setParalysis()
             "Sleep" -> setSleep()
         }
-        target.removeState(releaseList)
 
     }
 
@@ -84,21 +82,27 @@ class State(val stateName: String,
         return false
     }
 
+    fun extend(extendedState: State){
+        effectiveRound += extendedState.effectiveRound
+    }
 
-    fun apply(){
+    fun apply(target: Character, preRound: Boolean){
+        target.removeState(releaseList)
         // check if the state can be released
-        if (releaseProbability > 0 && random_event(releaseProbability)) {
-            target.removeState(mutableListOf(stateName))
+        if (preRound) {
+            if (releaseProbability > 0 && random_event(releaseProbability)) {
+                target.removeState(mutableListOf(stateName))
+                return
+            }
+
+            // check if player can move
+            if (moveProbability == 0.0) {
+                target.endRound()
+            } else if (moveProbability < 1.0 && !random_event(moveProbability)) {
+                target.endRound()
+            }
             return
         }
-
-        // check if player can move
-        if (moveProbability == 0.0) {
-            target.endRound()
-        } else if (moveProbability < 1.0 && !random_event(moveProbability)) {
-            target.endRound()
-        }
-
         // damage
         val damageAmount = (damage * target.HP).toInt()
         target.updateHealth(damageAmount)

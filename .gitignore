@@ -127,3 +127,6 @@ Thumbs.db
 # Game content
 # - save file
 /android/assets/player.json
+
+# D3
+Drafts/D3/Awake/local.properties
