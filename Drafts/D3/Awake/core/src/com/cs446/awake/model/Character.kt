@@ -11,12 +11,22 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var strength = maxStrength
     var HP = maxHP
 
-    fun useCard(card: ActionCard, from: Character) {
-        updateEnergy(card.energyCost)
-        updateStrength(card.strengthCost)
-        updateHealth(card.healthChange)
-        for (s in card.Effect) {
-            updateState(s)
+    fun update(card: ActionCard, from: Character) {
+        // If this card is used by myself, deduct the cost, and restores health if the card allows
+        if (from == this){
+            updateEnergy(0-card.energyCost)
+            updateStrength(0-card.strengthCost)
+            if (card.healthChange > 0){
+                updateHealth(card.healthChange)
+            }
+        }
+        else { // I am an enemy of the user
+            if (card.healthChange < 0) { // The card deals damage
+                updateHealth(card.healthChange)
+            }
+            for (s in card.Effect) {
+                updateState(s)
+            }
         }
     }
 
@@ -51,8 +61,12 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     open fun preRound() {
+        // demo only, restore some amount of energy in real game
         energy = maxEnergy
         strength = maxStrength
+        for (s in state) {
+            s.apply(this)
+        }
     }
 
     open fun reset() {}
@@ -60,10 +74,6 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     open fun endRound() {}
 
     open fun postRound(){
-        for (s in state) {
-            s.apply()
-        }
-        hand.clear()
     }
 
     fun updateHealth(HpChange: Int){
