@@ -36,6 +36,10 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     // add try catch block for 1. empty deck 2.hand full
     open fun drawCard(){
+        if (deck.isEmpty()){
+            HP = 0
+            endRound()
+        }
         val c = deck.pop() // deck should shuffle when it is empty
         hand.add(c)
     }
@@ -64,12 +68,17 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         // demo only, restore some amount of energy in real game
         energy = maxEnergy
         strength = maxStrength
+        drawCard()
         for (s in state) {
             s.apply(this)
         }
     }
 
-    open fun reset() {}
+    open fun reset() {
+        for (i in 1..5) {
+            drawCard()
+        }
+    }
 
     open fun endRound() {}
 
