@@ -64,13 +64,13 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     fun removeStateIcon(state:State){
-//        val name: String = state.stateName
-//        characterStateMap[name]!!.setOpacity(0.3f)
+        val name: String = state.stateName
+        characterStateMap[name]!!.setOpacity(0.3f)
     }
 
     fun addStateIcon(state:State){
-//        val name: String = state.stateName
-//        characterStateMap[name]!!.setOpacity(1f)
+        val name: String = state.stateName
+        characterStateMap[name]!!.setOpacity(1f)
     }
 
     fun removeState(removedStates: MutableList<String>){
