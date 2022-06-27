@@ -6,12 +6,14 @@ import com.cs446.awake.Awake
 import com.cs446.awake.model.Board
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
+import com.cs446.awake.utils.InputHandler
 
 // Temporary enter screen, can change to loading screen before rendering
 //     battleScreen in the future
 class EnterScreen(private val board: Board) : BaseScreen() {
 
     override fun initialize() {
+        Gdx.input.inputProcessor = stage
 
         val wid = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
