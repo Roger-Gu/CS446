@@ -100,7 +100,7 @@ class Board (val player: Player,val enemy: Enemy) {
         val temp = current
         current = target
         target = temp
-        startGame()
+        startRound()
     }
 
     fun removeEnemy(target: Enemy) {}
