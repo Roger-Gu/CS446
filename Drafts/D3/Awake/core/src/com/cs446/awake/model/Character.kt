@@ -16,6 +16,8 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     fun update(card: ActionCard, from: Character) {
         // If this card is used by myself, deduct the cost, and restores health if the card allows
+        println(card.cardName)
+        println(card.healthChange)
         if (from == this){
             updateEnergy(0-card.energyCost)
             updateStrength(0-card.strengthCost)
@@ -111,7 +113,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     open fun postRound(){
     }
 
-    fun updateHealth(HpChange: Int){
+    open fun updateHealth(HpChange: Int){
         HP += HpChange
     }
 

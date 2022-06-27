@@ -28,7 +28,7 @@ class Awake : Game() {
         val deck1 = getTestDeck()
         val deck2 = getTestDeck()
         val playerStates : MutableList<State> = mutableListOf()
-        val player = Player("Hero",100, 10, 10, deck1, playerStates, PlayerType.Human)
+        val player = Player("Hero",900, 10, 10, deck1, playerStates, PlayerType.Human)
 
         val imgs = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
 
