@@ -11,20 +11,27 @@ import com.badlogic.gdx.utils.Timer
 // applyCard(cardUsed: Card) receive card and apply to this character
 
 class Board (val player: Player,val enemy: Enemy) {
-    private var turn: Character = player
+    private var current: Character = player
     private var target: Character = enemy
-    private var currentRound: Int = 0
+    var currentRound: Int = 0
 
+    /*
     init {
         turn.reset()
         target.reset()
     }
 
+     */
+
     fun startGame() {
         print("game started")
-        if (!finished()) {
+        if (win() == null) {
+            current.preRound()
             currentRound++
+            /*
             if (currentRound % 2 == 1) preRound()
+
+             */
         }
         println("\n END GAME END GAME END GAME")
 //            // Separate function for easy maintenance and upgrade add-ons in future.
@@ -37,36 +44,40 @@ class Board (val player: Player,val enemy: Enemy) {
 //            println("Round $currentRound")
     }
     open fun removeCard(card: ActionCard) {
-        turn.removeCard(card)
+        current.removeCard(card)
     }
 
-    private fun finished(): Boolean {
-        if (player.isDead() || enemy.isDead()) {
+    fun win(): Boolean? {
+        if (player.isDead()) {
+            return false
+        }
+        if (enemy.isDead()) {
             return true
         }
-        return false
+        return null
     }
+
     fun isAITurn(): Boolean {
-        return turn != player
+        return current.playerType == PlayerType.AI
     }
 
     fun activeAI(){
-        val card = turn.selectRamdomCard()
+        val card = current.selectRamdomCard()
         notify(card)
         println("\nAI draw card ${card.cardName}")
     }
 
     private fun preRound() {
-        turn.preRound()
+        current.preRound()
         target.preRound()
     }
 
     fun checkTurn(target: Character): Boolean {
-        return target == turn
+        return target == current
     }
     fun notify(card: ActionCard) {
-        target.update(card, from = turn)
-        turn.update(card, from = turn)
+        target.update(card, from = current)
+        current.update(card, from = current)
     }
 
     private fun startRound() {
@@ -82,13 +93,13 @@ class Board (val player: Player,val enemy: Enemy) {
     private fun endRound(){}
 
     fun postRound() {
-        turn.postRound()
+        current.postRound()
         target.postRound()
     }
 
     fun switchTurn() {
-        val temp = turn
-        turn = target
+        val temp = current
+        current = target
         target = temp
         startGame()
     }

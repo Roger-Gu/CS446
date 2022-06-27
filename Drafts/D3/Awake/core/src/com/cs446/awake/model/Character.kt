@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array
 import com.cs446.awake.utils.BaseActor
 import org.jetbrains.annotations.NotNull
 
-abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var state: MutableList<State>) {
+abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var state: MutableList<State>, var playerType: PlayerType) {
     var hand: MutableList<ActionCard> = mutableListOf()
     var energy = maxEnergy
     var strength = maxStrength
@@ -89,18 +89,21 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         // demo only, restore some amount of energy in real game
         energy = maxEnergy
         strength = maxStrength
-        drawCard()
+        while (hand.size < 5) drawCard()
 
         for (s in state) {
             s.apply(this)
         }
     }
 
+    /*
     open fun reset() {
         for (i in 1..5) {
             drawCard()
         }
     }
+
+     */
 
     open fun endRound() {
     }

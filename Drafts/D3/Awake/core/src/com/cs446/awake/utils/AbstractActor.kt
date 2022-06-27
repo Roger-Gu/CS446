@@ -1,23 +1,22 @@
 package com.cs446.awake.utils
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.math.*
+import com.badlogic.gdx.math.collision.BoundingBox
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Array
-import com.badlogic.gdx.utils.viewport.Viewport
 
-abstract class AbstractActor(x: Float, y: Float, s: Stage, texture: Texture? = null) : Actor() {
+
+abstract class AbstractActor(x: Float, y: Float, s: Stage, texture: Texture? = null
+) : Actor() {
+    var bound: Rectangle = Rectangle()
     private var animation: Animation<TextureRegion>? = null
     private var elapsedTime = 0f
     private var animationPaused = false
@@ -30,6 +29,7 @@ abstract class AbstractActor(x: Float, y: Float, s: Stage, texture: Texture? = n
     init {
         setPosition(x, y)
         s.addActor(this)
+        bound = Rectangle(x,y, width, height)
     }
 
     fun setAnimation(anim: Animation<TextureRegion>?) {
@@ -47,6 +47,7 @@ abstract class AbstractActor(x: Float, y: Float, s: Stage, texture: Texture? = n
 
     override fun act(dt: Float) {
         super.act(dt)
+        bound = Rectangle(x,y, width, height)
         if (!animationPaused) elapsedTime += dt
     }
 
