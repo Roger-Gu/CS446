@@ -1,5 +1,7 @@
 package com.cs446.awake.model
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
+import com.badlogic.gdx.utils.Timer
 
 // TODO - Character Methods:
 // reset() reset everything (MAY not really needed)
@@ -11,26 +13,31 @@ package com.cs446.awake.model
 class Board (val player: Player,val enemy: Enemy) {
     private var turn: Character = player
     private var target: Character = enemy
-    private var currentRound = 0
+    private var currentRound: Int = 0
 
     init {
-        startGame()
+        turn.reset()
+        target.reset()
     }
 
     fun startGame() {
-        turn.reset()
-        target.reset()
         print("game started")
-        while (!finished()) {
-            // Separate function for easy maintenance and upgrade add-ons in future.
+        if (!finished()) {
             currentRound++
-            preRound()
-            startRound()
-            endRound()
-            postRound()
-            switchTurn()
-            println("Round $currentRound")
+            if (currentRound % 2 == 1) preRound()
         }
+        println("\n END GAME END GAME END GAME")
+//            // Separate function for easy maintenance and upgrade add-ons in future.
+//            currentRound++
+//            preRound()
+//            startRound()
+//            endRound()
+//            postRound()
+//            switchTurn()
+//            println("Round $currentRound")
+    }
+    open fun removeCard(card: ActionCard) {
+        turn.removeCard(card)
     }
 
     private fun finished(): Boolean {
@@ -39,33 +46,51 @@ class Board (val player: Player,val enemy: Enemy) {
         }
         return false
     }
+    fun isAITurn(): Boolean {
+        return turn != player
+    }
+
+    fun activeAI(){
+        val card = turn.selectRamdomCard()
+        notify(card)
+        println("\nAI draw card ${card.cardName}")
+    }
 
     private fun preRound() {
         turn.preRound()
         target.preRound()
     }
 
-    private fun startRound() {
-        val card = turn.selectHandCard() ?: return
-
-        // Option 1 - Notify one
-        // target.useCard(Card, from = turn)
-        // Option 2 - Notify everyone
+    fun checkTurn(target: Character): Boolean {
+        return target == turn
+    }
+    fun notify(card: ActionCard) {
         target.update(card, from = turn)
         turn.update(card, from = turn)
     }
 
+    private fun startRound() {
+//        val card = turn.selectHandCard() ?: return
+
+        // Option 1 - Notify one
+        // target.useCard(Card, from = turn)
+        // Option 2 - Notify everyone
+//        target.update(card, from = turn)
+//        turn.update(card, from = turn)
+    }
+
     private fun endRound(){}
 
-    private fun postRound() {
+    fun postRound() {
         turn.postRound()
         target.postRound()
     }
 
-    private fun switchTurn() {
+    fun switchTurn() {
         val temp = turn
         turn = target
         target = temp
+        startGame()
     }
 
     fun removeEnemy(target: Enemy) {}

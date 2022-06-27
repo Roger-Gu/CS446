@@ -33,8 +33,14 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         }
     }
 
-    open fun selectHandCard(): ActionCard {
-        return hand[0]
+    fun selectRamdomCard(): ActionCard {
+        val card: ActionCard = hand[0]
+        removeCard(card)
+        return card
+    }
+
+    open fun removeCard(card: ActionCard) {
+        hand.remove(card)
     }
 
     // add try catch block for 1. empty deck 2.hand full
