@@ -8,6 +8,7 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : A
     val self: DragDropActor = this
 
     private var onDragIntersect : () -> Unit = {}
+    private var onDragNoIntersect : () -> Unit = {}
     private var onDropIntersect : () -> Unit = {}
     private var onDropNoIntersect : () -> Unit = {}
 
@@ -42,6 +43,11 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : A
                 val deltaY = y - self.grabOffsetY
 
                 self.moveBy(deltaX, deltaY)
+                if (self.isIntersect(dropTarget)) {
+                    self.onDragIntersect()
+                } else {
+                    self.onDragNoIntersect()
+                }
             }
 
             override fun touchUp(
@@ -72,6 +78,10 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : A
 
     fun setOnDragIntersect(dragIntersectFunc: () -> Unit) {
         onDragIntersect = dragIntersectFunc
+    }
+
+    fun setOnDragNoIntersect(dragIntersectFunc: () -> Unit) {
+        onDragNoIntersect = dragIntersectFunc
     }
 
     fun setOnDropIntersect(dropIntersectFunc: () -> Unit) {
