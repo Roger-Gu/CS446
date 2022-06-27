@@ -25,7 +25,7 @@ class Board (val player: Player,val enemy: Enemy) {
 
     fun startGame() {
         print("game started")
-        if (!finished()) {
+        if (win() == null) {
             current.preRound()
             currentRound++
             /*
@@ -47,11 +47,14 @@ class Board (val player: Player,val enemy: Enemy) {
         current.removeCard(card)
     }
 
-    private fun finished(): Boolean {
-        if (player.isDead() || enemy.isDead()) {
+    fun win(): Boolean? {
+        if (player.isDead()) {
+            return false
+        }
+        if (enemy.isDead()) {
             return true
         }
-        return false
+        return null
     }
 
     fun isAITurn(): Boolean {

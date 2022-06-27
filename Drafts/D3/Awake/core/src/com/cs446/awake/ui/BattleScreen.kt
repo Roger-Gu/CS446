@@ -228,5 +228,25 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             startGame()
             round = board.currentRound
         }
+
+        if (board.win() == true) {
+            stage.clear()
+            val font = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
+            val buttonStyle = TextButtonStyle()
+            buttonStyle.font = font
+            val textButton = TextButton("You win!", buttonStyle)
+            textButton.setPosition(wid/2 - textButton.width/2, height/2 - textButton.height/2)
+            stage.addActor(textButton)
+        }
+
+        if (board.win() == false) {
+            stage.clear()
+            val font = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
+            val buttonStyle = TextButtonStyle()
+            buttonStyle.font = font
+            val textButton = TextButton("You lose", buttonStyle)
+            textButton.setPosition(wid/2 - textButton.width/2, height/2 - textButton.height/2)
+            stage.addActor(textButton)
+        }
     }
 }
