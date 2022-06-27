@@ -1,19 +1,18 @@
 package com.cs446.awake.ui
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.utils.Array
 import com.cs446.awake.model.Board
-import com.cs446.awake.utils.AbstractActor
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
-import com.cs446.awake.utils.InputHandler
+import com.cs446.awake.utils.DragDropActor
+
 
 class BattleScreen(private val board: Board) : BaseScreen(){
 
     override fun initialize() {
+        super.initialize()
+
         val wid = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
 
@@ -43,11 +42,17 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         var intervalWid = 40f
         val cardTotal = board.player.hand.size -1
         for ((handIndex, card) in board.player.hand.withIndex()) {
-            val cardActor = BaseActor(0f, 0f, stage)
+            val cardActor = DragDropActor(0f, 0f, stage, enemy)
             cardActor.loadTexture(card.img)
             // y-coord is set to hide the bottom half, click to elevate?
             cardActor.centerAtPosition(0f, height - 1000f)
             cardActor.moveBy((wid-(cardTotal*cardWidth + (cardTotal-1)*intervalWid))/2 + handIndex*cardWidth,0f)
+            cardActor.setOnDropIntersect {
+                println("intersected when dropped")
+            }
+            cardActor.setOnDropNoIntersect {
+                cardActor.setPosition(cardActor.startX, cardActor.startY)
+            }
         }
 
         val stateImg = Texture("burn.png")
@@ -63,7 +68,6 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         }
 
     }
-
 
     override fun update(delta: Float) {
     }

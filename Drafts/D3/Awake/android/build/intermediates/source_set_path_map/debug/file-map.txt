@@ -1,0 +1,8 @@
+com.cs446.awake.android-pngs-0 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/build/generated/res/pngs/debug
+com.cs446.awake.android-resValues-1 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/build/generated/res/resValues/debug
+com.cs446.awake.android-rs-2 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/build/generated/res/rs/debug
+com.cs446.awake.android-mergeDebugResources-3 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.cs446.awake.android-mergeDebugResources-4 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.cs446.awake.android-merged_res-5 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/build/intermediates/merged_res/debug
+com.cs446.awake.android-android-6 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/res
+com.cs446.awake.android-debug-7 /Users/littlemi/Desktop/CS446/Drafts/D3/Awake/android/src/debug/res

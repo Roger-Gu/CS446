@@ -9,7 +9,10 @@ abstract class BaseScreen : Screen {
 
     lateinit var stage: Stage
 
-    abstract fun initialize()
+    open fun initialize() {
+        Gdx.input.inputProcessor = stage;}
+
+    // abstract fun initialize()
 
     abstract fun update(delta: Float)
 

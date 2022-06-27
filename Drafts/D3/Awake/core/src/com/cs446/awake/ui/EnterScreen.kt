@@ -12,6 +12,7 @@ import com.cs446.awake.utils.BaseScreen
 class EnterScreen(private val board: Board) : BaseScreen() {
 
     override fun initialize() {
+        super.initialize()
 
         val wid = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
