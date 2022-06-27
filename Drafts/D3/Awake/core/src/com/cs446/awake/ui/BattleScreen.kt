@@ -216,12 +216,9 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 button: Int
             ): Boolean {
                 textButton.remove()
-<<<<<<< Updated upstream
                 board.startRound()
-=======
-                board.startGame()
                 board.enemy.initHealthBar()
->>>>>>> Stashed changes
+
                 startGame()
                 return true
             }
