@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array
 import com.cs446.awake.utils.BaseActor
 import org.jetbrains.annotations.NotNull
 
-abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var state: MutableList<State>, var playerType: PlayerType) {
+abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var states: MutableList<State>, var playerType: PlayerType) {
     var hand: MutableList<ActionCard> = mutableListOf()
     var energy = maxEnergy
     var strength = maxStrength
@@ -16,8 +16,6 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     fun update(card: ActionCard, from: Character) {
         // If this card is used by myself, deduct the cost, and restores health if the card allows
-        println(card.cardName)
-        println(card.healthChange)
         if (from == this){
             updateEnergy(0-card.energyCost)
             updateStrength(0-card.strengthCost)
@@ -57,9 +55,9 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     fun updateState(newState: State){
-        var curState: State? = state.find {card -> card.stateName == newState.stateName}
+        var curState: State? = states.find {card -> card.stateName == newState.stateName}
         if (curState == null) {
-            state.add(newState)
+            states.add(newState)
             addStateIcon(newState)
         } else {
             curState.extend(newState)
@@ -76,15 +74,15 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         characterStateMap[name]!!.setOpacity(1f)
     }
 
-    fun removeState(removedStates: MutableList<String>){
+    fun removeStates(removedStates: MutableList<String>){
         var d = mutableListOf<State>()
-        for (s in state){
+        for (s in states){
             if (removedStates.contains(s.stateName)){
                 d.add(s)
                 removeStateIcon(s)
             }
         }
-        state.removeAll(d)
+        states.removeAll(d)
 
     }
 
@@ -94,7 +92,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         strength = maxStrength
         while (hand.size < 5) drawCard()
 
-        for (s in state) {
+        for (s in states) {
             s.apply(this)
         }
     }
@@ -112,6 +110,14 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     open fun postRound(){
+        var removedStates = mutableListOf<String>()
+        for (state in states){
+            if (state.effectiveRound <= 0) {
+                removedStates.add(state.stateName)
+            }
+        }
+        removeStates(removedStates)
+
     }
 
     open fun updateHealth(HpChange: Int){
