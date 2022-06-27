@@ -25,20 +25,20 @@ class Awake : Game() {
     init {
         game = this
         // shouldn't be here, only in start code for demo
-        val deck = Deck()
-        for (i in 1..5) {
-            deck.addCard(Card("empty", "card_empty.png", "use"))
-        }
-        val states : MutableList<State> = mutableListOf()
-        val player = Player("Hero",100, 10, 10, deck, states)
-
-        player.updateState(State("Burn", 3, player))
-        player.updateState(State("Freeze", 3, player))
-        player.updateState(State("Poison", 3, player))
+        val deck1 = getTestDeck()
+        val deck2 = getTestDeck()
+        val playerStates : MutableList<State> = mutableListOf()
+        val player = Player("Hero",100, 10, 10, deck1, playerStates)
 
         val imgs = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
-        val enemy = Enemy(imgs,"Enemy",999, 99, 99, deck, states)
-        board = Board(player, enemy, player, 1)
+
+        val enemyStates : MutableList<State> = mutableListOf()
+        val enemy = Enemy(imgs,"Enemy",999, 99, 99, deck2, enemyStates)
+
+        board = Board(player, enemy)
+        print("board created")
+
+        
     }
 
     override fun create() {

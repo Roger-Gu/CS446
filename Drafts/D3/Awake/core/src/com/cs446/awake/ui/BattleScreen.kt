@@ -23,6 +23,12 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         background.setSize(wid, (wid / bgImg.width * bgImg.height))
         background.centerAtPosition(wid/2, height/2)
 
+        // Eric Start: To achieve not use then move back to deck.
+        var selectedCard: BaseActor? = null
+        var selectedPosX: Float = 0.0f
+        var selectedPosY: Float = 0.0f
+        // Eric End
+
         /*
         val imgs = Array<String?>()
         imgs.add("skeleton1.png")
@@ -37,6 +43,11 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         enemy.centerAtPosition(wid/2, height)
         enemy.moveBy(0f,-550f)
 
+        // Border for card
+        val borderTexture = Texture(Gdx.files.internal("badlogic.jpg")) // TODO: change the texture
+        val borderImage = Image(borderTexture)
+
+        // Card Actor
         val cardImg = Texture("card_empty.png")
         val cardWidth = cardImg.width.toFloat()
         var intervalWid = 40f
@@ -58,14 +69,40 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         val stateImg = Texture("burn.png")
         val stateWidth = stateImg.width.toFloat()
         intervalWid = 40f
-        val stateTotal = board.player.state.size -1
-        for ((stateIndex, state) in board.player.state.withIndex()){
-            val stateActor = BaseActor(0f, 0f, stage)
-            stateActor.loadTexture(state.img)
-            stateActor.centerAtPosition(-100f, height -780f)
-            stateActor.moveBy((wid-(stateTotal*stateWidth + (stateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
 
+        // init player states
+
+        val stateList = Array<String>(arrayOf("Burn","Freeze","Poison","Paralysis", "Sleep"))
+        for ((stateIndex, state) in stateList.withIndex()){
+            val stateActor = BaseActor(0f, 0f, stage)
+            board.player.characterStateMap[state] = stateActor
+
+            stateActor.loadTexture(state.lowercase() + ".png")
+            stateActor.centerAtPosition(-800f, height -1000f)
+            stateActor.moveBy((wid-(4*stateWidth + 3*intervalWid))/2 + stateIndex*stateWidth,0f)
+
+            stateActor.setOpacity(0.3f)
         }
+
+
+        // init enemy states
+
+        for ((stateIndex, state) in stateList.withIndex()){
+            val stateActor = BaseActor(0f, 0f, stage)
+            board.enemy.characterStateMap[state] = stateActor
+
+            stateActor.loadTexture(state.lowercase() + ".png")
+            stateActor.centerAtPosition(800f, height-100f)
+            stateActor.moveBy((wid-(4*stateWidth + (4-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+            stateActor.setOpacity(0.3f)
+        }
+
+//        board.player.updateState(State("Burn", 3))
+//        board.player.updateState(State("Freeze", 3))
+//        board.player.updateState(State("Poison", 3))
+//        board.enemy.updateState(State("Burn", 3))
+//        board.enemy.updateState(State("Freeze", 3))
+
 
     }
 
