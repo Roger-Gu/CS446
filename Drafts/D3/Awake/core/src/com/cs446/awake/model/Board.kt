@@ -17,7 +17,7 @@ class Board (val player: Player,val enemy: Enemy) {
 //        startGame()
     }
 
-    private fun startGame() {
+    fun startGame() {
         turn.reset()
         target.reset()
         print("game started")
@@ -29,6 +29,7 @@ class Board (val player: Player,val enemy: Enemy) {
             endRound()
             postRound()
             switchTurn()
+            println("Round $currentRound")
         }
     }
 
@@ -50,8 +51,8 @@ class Board (val player: Player,val enemy: Enemy) {
         // Option 1 - Notify one
         // target.useCard(Card, from = turn)
         // Option 2 - Notify everyone
-        target.update(Card, from = turn)
-        turn.update(Card, from = turn)
+        target.update(card, from = turn)
+        turn.update(card, from = turn)
     }
 
     private fun endRound(){}
