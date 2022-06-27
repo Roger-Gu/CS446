@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Array
+import com.cs446.awake.utils.BaseActor
+import org.jetbrains.annotations.NotNull
 
 abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: Int, val maxStrength: Int, val deck: Deck, var state: MutableList<State>) {
     var hand: MutableList<ActionCard> = mutableListOf()
     var energy = maxEnergy
     var strength = maxStrength
     var HP = maxHP
+    var characterStateMap = HashMap<String, BaseActor>()
 
     fun update(card: ActionCard, from: Character) {
         // If this card is used by myself, deduct the cost, and restores health if the card allows
@@ -38,7 +41,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     open fun drawCard(){
         if (deck.isEmpty()){
             HP = 0
-            return null
+            return endRound()
         }
         val c = deck.pop() // deck should shuffle when it is empty
         hand.add(c)
@@ -48,9 +51,20 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         var curState: State? = state.find {card -> card.stateName == newState.stateName}
         if (curState == null) {
             state.add(newState)
+            addStateIcon(newState)
         } else {
             curState.extend(newState)
         }
+    }
+
+    fun removeStateIcon(state:State){
+//        val name: String = state.stateName
+//        characterStateMap[name]!!.setOpacity(0.3f)
+    }
+
+    fun addStateIcon(state:State){
+//        val name: String = state.stateName
+//        characterStateMap[name]!!.setOpacity(1f)
     }
 
     fun removeState(removedStates: MutableList<String>){
@@ -58,6 +72,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         for (s in state){
             if (removedStates.contains(s.stateName)){
                 d.add(s)
+                removeStateIcon(s)
             }
         }
         state.removeAll(d)

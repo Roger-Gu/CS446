@@ -30,16 +30,10 @@ class Awake : Game() {
         val playerStates : MutableList<State> = mutableListOf()
         val player = Player("Hero",100, 10, 10, deck1, playerStates)
 
-        player.updateState(State("Burn", 3))
-        player.updateState(State("Freeze", 3))
-        player.updateState(State("Poison", 3))
-
         val imgs = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
 
         val enemyStates : MutableList<State> = mutableListOf()
         val enemy = Enemy(imgs,"Enemy",999, 99, 99, deck2, enemyStates)
-        enemy.updateState(State("Burn", 3))
-        enemy.updateState(State("Freeze", 3))
 
         board = Board(player, enemy)
         print("board created")

@@ -14,7 +14,7 @@ class Board (val player: Player,val enemy: Enemy) {
     private var currentRound = 0
 
     init {
-//        startGame()
+        startGame()
     }
 
     fun startGame() {
@@ -46,7 +46,7 @@ class Board (val player: Player,val enemy: Enemy) {
     }
 
     private fun startRound() {
-        val Card = turn.selectHandCard() ?: return
+        val card = turn.selectHandCard() ?: return
 
         // Option 1 - Notify one
         // target.useCard(Card, from = turn)

@@ -6,7 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener
+import com.badlogic.gdx.utils.Array
 import com.cs446.awake.model.Board
+import com.cs446.awake.model.State
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 
@@ -117,22 +119,40 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         val stateImg = Texture("burn.png")
         val stateWidth = stateImg.width.toFloat()
         intervalWid = 40f
-        val playerStateTotal = board.player.state.size -1
-        for ((stateIndex, state) in board.player.state.withIndex()){
+
+        // init player states
+
+        val stateList = Array<String>(arrayOf("Burn","Freeze","Poison","Paralysis", "Sleep"))
+        for ((stateIndex, state) in stateList.withIndex()){
             val stateActor = BaseActor(0f, 0f, stage)
-            stateActor.loadTexture(state.img)
+            board.player.characterStateMap[state] = stateActor
+
+            stateActor.loadTexture(state.lowercase() + ".png")
             stateActor.centerAtPosition(-800f, height -1000f)
-            stateActor.moveBy((wid-(playerStateTotal*stateWidth + (playerStateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+            stateActor.moveBy((wid-(4*stateWidth + 3*intervalWid))/2 + stateIndex*stateWidth,0f)
+
+            stateActor.setOpacity(0.3f)
         }
 
 
-        val enemyStateTotal = board.enemy.state.size -1
-        for ((stateIndex, state) in board.enemy.state.withIndex()){
+        // init enemy states
+
+        for ((stateIndex, state) in stateList.withIndex()){
             val stateActor = BaseActor(0f, 0f, stage)
-            stateActor.loadTexture(state.img)
+            board.enemy.characterStateMap[state] = stateActor
+
+            stateActor.loadTexture(state.lowercase() + ".png")
             stateActor.centerAtPosition(800f, height-100f)
-            stateActor.moveBy((wid-(enemyStateTotal*stateWidth + (enemyStateTotal-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+            stateActor.moveBy((wid-(4*stateWidth + (4-1)*intervalWid))/2 + stateIndex*stateWidth,0f)
+            stateActor.setOpacity(0.3f)
         }
+
+//        board.player.updateState(State("Burn", 3))
+//        board.player.updateState(State("Freeze", 3))
+//        board.player.updateState(State("Poison", 3))
+//        board.enemy.updateState(State("Burn", 3))
+//        board.enemy.updateState(State("Freeze", 3))
+
 
     }
 
