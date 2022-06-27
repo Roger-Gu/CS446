@@ -78,7 +78,7 @@ class Board (val player: Player,val enemy: Enemy) {
     }
 
     fun startRound() {
-        println("round $currentRound started")
+        println("round $currentRound started with health ${current.HP} and states" + current.state.toString())
         if (win() == null) {
             current.preRound()
             currentRound++
