@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener
 import com.badlogic.gdx.utils.Array
+import com.cs446.awake.model.ActionCard
 import com.cs446.awake.model.Board
 import com.cs446.awake.model.State
 import com.cs446.awake.utils.BaseActor
@@ -26,6 +27,12 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         background.loadTexture("dungeon.png")
         background.setSize(wid, (wid / bgImg.width * bgImg.height))
         background.centerAtPosition(wid/2, height/2)
+
+        // Eric Start: To achieve not use then move back to deck.
+        var selectedCard: BaseActor? = null
+        var selectedPosX: Float = 0.0f
+        var selectedPosY: Float = 0.0f
+        // Eric End
 
         /*
         val imgs = Array<String?>()
@@ -86,6 +93,12 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                     pointer: Int,
                     button: Int
                 ): Boolean {
+                    // Eric Start
+                    selectedCard = cardActor
+                    selectedPosX = cardActor.x
+                    selectedPosY = cardActor.y
+                    // Eric End
+
                     val actor = stage.hit(x, y, true)
                     if (actor != null) {
                         println("touchDown: " + actor.name.toString())
@@ -104,11 +117,18 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                     if (event != null) {
                         if (event.stageX in 730.0..1450.0 && event.stageY in 440.0..1080.0) {
                             println("Card Used")
-                            // TODO: remove card and call effect fun
+                            // TODO: call effect fun
+                            // Eric Start
+                            cardActor.remove()
+                            // Eric End
                         }
                         else {
                             println("Card Not Used")
                             // TODO: card return to start position
+                            // Eric Start
+                            selectedCard?.x = selectedPosX
+                            selectedCard?.y = selectedPosY
+                            // Eric End
                         }
                     }
                     borderImage.remove()
