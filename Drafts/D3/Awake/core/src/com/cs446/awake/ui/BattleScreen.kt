@@ -1,8 +1,14 @@
 package com.cs446.awake.ui
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.cs446.awake.model.Board
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
@@ -37,6 +43,45 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         // enemy.loadTexture("skeleton1.png")
         enemy.centerAtPosition(wid/2, height)
         enemy.moveBy(0f,-550f)
+
+        // enemy health
+        val enemyHP = board.enemy.HP
+
+        // health bar
+        // TODO: Fit health bar into Actor model
+        // bar background as red
+        var pixmap = Pixmap(100, 20, Pixmap.Format.RGBA8888)
+        pixmap.setColor(Color.RED)
+        pixmap.fill()
+        var drawable = TextureRegionDrawable(TextureRegion(Texture(pixmap)))
+        pixmap.dispose()
+        val progressBarStyle = ProgressBarStyle()
+        progressBarStyle.background = drawable
+
+        // health as green
+        pixmap = Pixmap(0, 20, Pixmap.Format.RGBA8888)
+        pixmap.setColor(Color.GREEN)
+        pixmap.fill()
+        drawable = TextureRegionDrawable(TextureRegion(Texture(pixmap)))
+        pixmap.dispose()
+        progressBarStyle.knob = drawable
+
+        pixmap = Pixmap(100, 20, Pixmap.Format.RGBA8888)
+        pixmap.setColor(Color.GREEN)
+        pixmap.fill()
+        drawable = TextureRegionDrawable(TextureRegion(Texture(pixmap)))
+        pixmap.dispose()
+        progressBarStyle.knobBefore = drawable
+
+
+        val healthBar = ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle)
+        healthBar.value = 1.0f
+        healthBar.setAnimateDuration(0.25f)
+        healthBar.setBounds(500F, 1000F, 1000F, 20F)
+
+        stage.addActor(healthBar)
+        healthBar.value = enemyHP / 100.0f // TODO: everytime deal damage, update this
+
 
         // Border for card
         val borderTexture = Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
