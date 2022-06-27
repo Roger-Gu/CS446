@@ -26,14 +26,9 @@ class Board (val player: Player,val enemy: Enemy) {
     fun startGame() {
         print("game started")
         if (win() == null) {
-            current.preRound()
-            currentRound++
-            /*
-            if (currentRound % 2 == 1) preRound()
-
-             */
+            startRound()
         }
-        println("\n END GAME END GAME END GAME")
+
 //            // Separate function for easy maintenance and upgrade add-ons in future.
 //            currentRound++
 //            preRound()
@@ -49,9 +44,11 @@ class Board (val player: Player,val enemy: Enemy) {
 
     fun win(): Boolean? {
         if (player.isDead()) {
+            println("\n You Lose！")
             return false
         }
         if (enemy.isDead()) {
+            println("\n You Win！")
             return true
         }
         return null
@@ -80,14 +77,16 @@ class Board (val player: Player,val enemy: Enemy) {
         current.update(card, from = current)
     }
 
-    private fun startRound() {
-//        val card = turn.selectHandCard() ?: return
+    fun startRound() {
+        println("round $currentRound started with health ${current.HP} and states" + current.states.toString())
+        if (win() == null) {
+            current.preRound()
+            currentRound++
+            /*
+            if (currentRound % 2 == 1) preRound()
 
-        // Option 1 - Notify one
-        // target.useCard(Card, from = turn)
-        // Option 2 - Notify everyone
-//        target.update(card, from = turn)
-//        turn.update(card, from = turn)
+             */
+        }
     }
 
     private fun endRound(){}
@@ -101,7 +100,7 @@ class Board (val player: Player,val enemy: Enemy) {
         val temp = current
         current = target
         target = temp
-        startGame()
+        startRound()
     }
 
     fun removeEnemy(target: Enemy) {}

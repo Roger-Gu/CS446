@@ -44,42 +44,9 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         enemy.centerAtPosition(wid / 2, height)
         enemy.moveBy(0f, -550f)
 
-        // health bar
-        // TODO: Fit health bar into Actor model
-        // bar background as red
-        var pixmap = Pixmap(100, 20, Pixmap.Format.RGBA8888)
-        pixmap.setColor(Color.RED)
-        pixmap.fill()
-        var drawable = TextureRegionDrawable(TextureRegion(Texture(pixmap)))
-        pixmap.dispose()
-        val progressBarStyle = ProgressBar.ProgressBarStyle()
-        progressBarStyle.background = drawable
-
-        // health as green
-        pixmap = Pixmap(0, 20, Pixmap.Format.RGBA8888)
-        pixmap.setColor(Color.GREEN)
-        pixmap.fill()
-        drawable = TextureRegionDrawable(TextureRegion(Texture(pixmap)))
-        pixmap.dispose()
-        progressBarStyle.knob = drawable
-
-        pixmap = Pixmap(100, 20, Pixmap.Format.RGBA8888)
-        pixmap.setColor(Color.GREEN)
-        pixmap.fill()
-        drawable = TextureRegionDrawable(TextureRegion(Texture(pixmap)))
-        pixmap.dispose()
-        progressBarStyle.knobBefore = drawable
+        stage.addActor(board.enemy.healthBar)
 
 
-        val healthBar = ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle)
-        healthBar.value = 1.0f
-        healthBar.setAnimateDuration(0.25f)
-        healthBar.setBounds(500F, 1000F, 1000F, 20F)
-
-        stage.addActor(healthBar)
-        board.enemy.healthBar = healthBar
-        healthBar.setRange(0f, board.enemy.HP / 100.0f) // TODO: everytime deal damage, update this
-        healthBar.value = board.enemy.HP / 100.0f
         val stateImg = Texture("burn.png")
         val stateWidth = stateImg.width.toFloat()
 
@@ -99,7 +66,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             )
             stateActor.setOpacity(0.3f)
 
-            for (playerState in board.player.state) {
+            for (playerState in board.player.states) {
                 if (playerState.stateName == state) stateActor.setOpacity(1f)
             }
         }
@@ -119,7 +86,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             )
             stateActor.setOpacity(0.3f)
 
-            for (enemyState in board.player.state) {
+            for (enemyState in board.player.states) {
                 if (enemyState.stateName == state) stateActor.setOpacity(1f)
             }
         }
@@ -250,7 +217,9 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 button: Int
             ): Boolean {
                 textButton.remove()
-                board.startGame()
+                board.startRound()
+                board.enemy.initHealthBar()
+
                 startGame()
                 return true
             }
