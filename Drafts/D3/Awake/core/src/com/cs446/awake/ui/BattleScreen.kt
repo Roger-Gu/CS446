@@ -15,7 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Timer
-import com.cs446.awake.model.Board
+import com.cs446.awake.Awake
+import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 import com.cs446.awake.utils.DragDropActor
@@ -190,45 +191,45 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             }
         }
 
-            // Eric start
+        // Eric start
 
 
-            if (board.isAITurn()) {
-                val cardTotal = board.player.hand.size - 1
-                for ((handIndex, card) in board.player.hand.withIndex()) {
-                    val cardActor = BaseActor(0f, 0f, stage)
-                    cardActor.loadTexture(card.img)
-                    // y-coord is set to hide the bottom half, click to elevate?
-                    cardActor.centerAtPosition(0f, height - 950f)
-                    cardActor.moveBy(
-                        (wid - (cardTotal * cardActor.width + (cardTotal - 1) * intervalWid)) / 2 + handIndex * (cardActor.width + intervalWid),
-                        0f
-                    )
-                }
-
-                val font = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
-                val buttonStyle = TextButtonStyle()
-                buttonStyle.font = font
-                val textButton = TextButton("Finish AI Round", buttonStyle)
-                textButton.y = height / 2 + textButton.height / 2
-                stage.addActor(textButton)
-                textButton.addListener(object : InputListener() {
-                    override fun touchDown(
-                        event: InputEvent?,
-                        x: Float,
-                        y: Float,
-                        pointer: Int,
-                        button: Int
-                    ): Boolean {
-                        board.activeAI()
-                        textButton.remove()
-                        board.postRound()
-                        board.switchTurn()
-                        return true
-                    }
-                })
+        if (board.isAITurn()) {
+            val cardTotal = board.player.hand.size - 1
+            for ((handIndex, card) in board.player.hand.withIndex()) {
+                val cardActor = BaseActor(0f, 0f, stage)
+                cardActor.loadTexture(card.img)
+                // y-coord is set to hide the bottom half, click to elevate?
+                cardActor.centerAtPosition(0f, height - 950f)
+                cardActor.moveBy(
+                    (wid - (cardTotal * cardActor.width + (cardTotal - 1) * intervalWid)) / 2 + handIndex * (cardActor.width + intervalWid),
+                    0f
+                )
             }
+
+            val font = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
+            val buttonStyle = TextButtonStyle()
+            buttonStyle.font = font
+            val textButton = TextButton("Finish AI Round", buttonStyle)
+            textButton.y = height / 2 + textButton.height / 2
+            stage.addActor(textButton)
+            textButton.addListener(object : InputListener() {
+                override fun touchDown(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    button: Int
+                ): Boolean {
+                    board.activeAI()
+                    textButton.remove()
+                    board.postRound()
+                    board.switchTurn()
+                    return true
+                }
+            })
         }
+    }
 
     override fun initialize() {
         Gdx.input.inputProcessor = stage;
@@ -264,24 +265,37 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             round = board.currentRound
         }
 
-        if (board.win() == true) {
+        if (board.win() != null) {
             stage.clear()
             val font = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
             val buttonStyle = TextButtonStyle()
             buttonStyle.font = font
-            val textButton = TextButton("You win!", buttonStyle)
+            val textButton = TextButton( if (board.win() == true) "You win!" else "You lose", buttonStyle)
             textButton.setPosition(wid/2 - textButton.width/2, height/2 - textButton.height/2)
             stage.addActor(textButton)
-        }
+            textButton.addListener(object : InputListener() {
+                override fun touchDown(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    button: Int
+                ): Boolean {
+                    val deck1 = getTestDeck()
+                    val deck2 = getTestDeck()
+                    val playerStates : MutableList<State> = mutableListOf()
+                    val player = Player("Hero",900, 10, 10, deck1, playerStates, PlayerType.Human)
 
-        if (board.win() == false) {
-            stage.clear()
-            val font = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
-            val buttonStyle = TextButtonStyle()
-            buttonStyle.font = font
-            val textButton = TextButton("You lose", buttonStyle)
-            textButton.setPosition(wid/2 - textButton.width/2, height/2 - textButton.height/2)
-            stage.addActor(textButton)
+                    val imgs = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
+
+                    val enemyStates : MutableList<State> = mutableListOf()
+                    val enemy = Enemy(imgs,"Enemy",999, 99, 99, deck2, enemyStates, PlayerType.AI)
+
+                    val newboard = Board(player, enemy)
+                    Awake.setActiveScreen(EnterScreen(newboard))
+                    return true
+                }
+            })
         }
     }
 }
