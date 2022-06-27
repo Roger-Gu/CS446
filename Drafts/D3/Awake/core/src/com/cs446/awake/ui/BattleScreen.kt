@@ -61,8 +61,11 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 (wid - (4 * stateWidth + 3 * intervalWid)) / 2 + stateIndex * stateWidth,
                 0f
             )
-
             stateActor.setOpacity(0.3f)
+
+            for (playerState in board.player.state) {
+                if (playerState.stateName == state) stateActor.setOpacity(1f)
+            }
         }
 
 
@@ -79,6 +82,10 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 0f
             )
             stateActor.setOpacity(0.3f)
+
+            for (enemyState in board.player.state) {
+                if (enemyState.stateName == state) stateActor.setOpacity(1f)
+            }
         }
 
         if (!board.isAITurn()) {
