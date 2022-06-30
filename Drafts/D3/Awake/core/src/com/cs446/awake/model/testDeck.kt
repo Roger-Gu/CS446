@@ -9,7 +9,7 @@ fun getTestDeck(): Deck {
         // make 5 - i attack cards with damage i
         var j = i
         while (j < 5) {
-            val attackCard = ActionCard(("AttackCard$i$j"),"Attack.png", "Deals $i damage after costing ${j/2} strength", 0, j/2, -i, Array<State>(0))
+            val attackCard = ActionCard(("AttackCard$i$j"),"Attack.png", "Deals ${i*10} damage after costing ${j/2} strength", 0, j/2, -i*10, Array<State>(0))
             testDeck.addCard(attackCard)
             j ++
         }
@@ -22,8 +22,8 @@ fun getTestDeck(): Deck {
     // make some state cards
     i = 1
     while (i < 4){
-        val stateCard1 = ActionCard("burner$i", "Fire.png", "burns target for $i rounds and poison target for 1 round",
-            i, 0, 0, Array<State>(arrayOf(State("Burn", i),State("Poison", 1))))
+        val stateCard1 = ActionCard("burner$i", "Fire.png", "burns target for $i rounds",
+            i, 0, 0, Array<State>(arrayOf(State("Burn", i))))
         testDeck.addCard(stateCard1)
         val stateCard2 = ActionCard("poison", "PoisonCard.png", "poisons target for $i rounds",
             i-1, 0, 0, Array<State>(arrayOf(State("Poison", i))))
