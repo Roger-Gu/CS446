@@ -108,8 +108,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                     pointer: Int,
                     button: Int
                 ): Boolean {
-                    board.postRound()
-                    board.switchTurn()
+                    board.endRound()
                     endTurnActor.remove()
                     return true
                 }
@@ -190,8 +189,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 ): Boolean {
                     board.activeAI()
                     textButton.remove()
-                    board.postRound()
-                    board.switchTurn()
+                    board.endRound()
                     return true
                 }
             })
@@ -217,7 +215,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 button: Int
             ): Boolean {
                 textButton.remove()
-                board.startRound()
+                board.startGame()
                 board.enemy.initHealthBar()
 
                 startGame()

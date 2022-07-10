@@ -89,7 +89,10 @@ class Board (val player: Player,val enemy: Enemy) {
         }
     }
 
-    private fun endRound(){}
+    fun endRound(){
+        postRound()
+        switchTurn()
+    }
 
     fun postRound() {
         current.postRound()
