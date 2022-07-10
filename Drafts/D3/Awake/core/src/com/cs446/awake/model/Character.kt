@@ -14,6 +14,11 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var strength = maxStrength
     var HP = maxHP
     var characterStateMap = HashMap<String, BaseActor>()
+    var bd : Board? = null
+
+    fun setBoard(bd: Board){
+        this.bd = bd
+    }
 
     fun update(card: ActionCard, from: Character) {
         // If this card is used by myself, deduct the cost, and restores health if the card allows
@@ -89,8 +94,8 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     open fun preRound() {
         // demo only, restore some amount of energy in real game
-        energy = maxEnergy
-        strength = maxStrength
+        energy += 3
+        strength += 3
         while (hand.size < 5) drawCard()
 
 
@@ -111,6 +116,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
      */
 
     open fun endRound() {
+        this.bd?.endRound()
     }
 
     open fun postRound(){
