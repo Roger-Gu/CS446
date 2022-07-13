@@ -3,6 +3,7 @@ package com.cs446.awake.model
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Null
 import com.cs446.awake.utils.BaseActor
@@ -15,6 +16,9 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var HP = maxHP
     var characterStateMap = HashMap<String, BaseActor>()
     var bd : Board? = null
+    lateinit var healthBar : ProgressBar
+
+    abstract fun initBars()
 
     fun setBoard(bd: Board){
         this.bd = bd
@@ -132,6 +136,8 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     open fun updateHealth(HpChange: Int){
         HP += HpChange
+        healthBar.value = HP / 100f
+        println(charName + " remaining health " + HP.toString())
     }
 
     fun updateStrength(strengthChange: Int) {
