@@ -68,4 +68,14 @@ class Player(charName: String, HP: Int, energy: Int, strength: Int, deck: Deck, 
         energyBar.setRange(0f, energy / 100.0f) // TODO: everytime deal damage, update this
         energyBar.value = energy / 100.0f
     }
+
+    override fun updateStrength(strengthChange: Int) {
+        strength += strengthChange
+        strengthBar.value = strength / 100f
+    }
+
+    override fun updateEnergy(energyChange: Int) {
+        energy += energyChange
+        energyBar.value = energy / 100f
+    }
 }

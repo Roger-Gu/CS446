@@ -134,17 +134,17 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     }
 
-    open fun updateHealth(HpChange: Int){
+    fun updateHealth(HpChange: Int){
         HP += HpChange
         healthBar.value = HP / 100f
-        println(charName + " remaining health " + HP.toString())
+//        println(charName + " remaining health " + HP.toString())
     }
 
-    fun updateStrength(strengthChange: Int) {
+    open fun updateStrength(strengthChange: Int) {
         strength += strengthChange
     }
 
-    fun updateEnergy(energyChange: Int) {
+    open fun updateEnergy(energyChange: Int) {
         energy += energyChange
     }
 
