@@ -1,5 +1,5 @@
 package com.cs446.awake.model
 
-class MaterialCard (cardName: String, img: String, usage: String, ) : Card(cardName, img, usage)
+class ItemCard (cardName: String, img: String, usage: String) : Card(cardName, img, usage)
 {
 }
