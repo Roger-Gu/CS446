@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.*
-import com.badlogic.gdx.math.collision.BoundingBox
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.Array
@@ -32,7 +31,7 @@ abstract class AbstractActor(x: Float, y: Float, s: Stage, texture: Texture? = n
         bound = Rectangle(x,y, width, height)
     }
 
-    fun setAnimation(anim: Animation<TextureRegion>?) {
+    fun setAnimation(anim: Animation<TextureRegion>) {
         animation = anim
         val tr = animation?.getKeyFrame(0f)!!
         val w = tr.regionWidth.toFloat()

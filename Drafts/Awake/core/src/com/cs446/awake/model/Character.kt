@@ -15,14 +15,10 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var strength = maxStrength
     var HP = maxHP
     var characterStateMap = HashMap<String, BaseActor>()
-    var bd : Board? = null
     lateinit var healthBar : ProgressBar
 
     abstract fun initBars()
 
-    fun setBoard(bd: Board){
-        this.bd = bd
-    }
 
     fun update(card: ActionCard, from: Character) {
         // If this card is used by myself, deduct the cost, and restores health if the card allows
@@ -120,7 +116,6 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
      */
 
     open fun endRound() {
-        this.bd?.endRound()
     }
 
     open fun postRound(){
