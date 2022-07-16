@@ -5,6 +5,9 @@ import com.cs446.awake.Awake
 import com.cs446.awake.model.Board
 import com.cs446.awake.utils.*
 
+// TODO: THIS CLASS IS NO LONGER NEEDED, REMOVE
+
+
 // First screen of the fight, tap to start the fight.
 // TODO: Graphic:
 //   * Background Picture:  dragon.jpeg
