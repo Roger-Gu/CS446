@@ -21,22 +21,22 @@ class DungeonMap(val level: Int) {
             for (col in 0..colnum){
                 // The first is always empty entry
                 if (row == 0 && col == 0){
-                    eventRow.add(Event("cardback", "entry"))
+                    eventRow.add(Event("Attack.png", "Heal.png"))
                     continue
                 }
                 // The last is always the boss
                 if (row == rownum && col == colnum){
-                    eventRow.add(BattleEvent("back", "boss", monsterInfo.randomSelect() as Monster))
+                    eventRow.add(BattleEvent("Attack.png", "skeleton1.png", monsterInfo.randomSelect() as Monster))
                     continue
                 }
                 // randomize between battle, item, or empty
                 val ram = (0..100).random()
                 if (ram < battleProbabilty){
-                    eventRow.add(BattleEvent("back", "boss", monsterInfo.randomSelect() as Monster))
+                    eventRow.add(BattleEvent("Attack.png", "skeleton1.png", monsterInfo.randomSelect() as Monster))
                 } else if (ram < battleProbabilty + collectProbabilty){
-                    eventRow.add(CollectEvent("back", "collect", materialInfo.randomSelect() as MaterialCard))
+                    eventRow.add(CollectEvent("Attack.png", "Fire.png", materialInfo.randomSelect() as MaterialCard))
                 } else {
-                    eventRow.add(Event("cardback", "empty"))
+                    eventRow.add(Event("Attack.png", "Heal.png"))
                 }
             }
             map.add(eventRow)

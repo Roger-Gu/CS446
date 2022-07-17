@@ -5,6 +5,9 @@ import com.badlogic.gdx.utils.Array
 // Todo: read from file
 // the current Enemy in battle
 public var enemy : Enemy? = null
+// the current Player in battle
+public var player: Player? = null
+
 // the materials that the player collects
 public var backPackMaterial : Array<MaterialCard> = Array<MaterialCard>()
 // the weapons that player bring into dungeon

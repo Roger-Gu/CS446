@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array
 
 open class Event(val backImg: String, val FrontImg: String) {
     private var flipped: Boolean = false
+    // return false if not activated
     fun isFlipped(): Boolean {
         return flipped
     }
