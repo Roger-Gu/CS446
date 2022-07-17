@@ -26,6 +26,7 @@ class DungeonMap(val level: Int) {
                 }
                 // The last is always the boss
                 if (row == rownum && col == colnum){
+                    println("BOSS before next room")
                     eventRow.add(BattleEvent("Attack.png", "skeleton1.png", monsterInfo.randomSelect() as Monster))
                     continue
                 }
