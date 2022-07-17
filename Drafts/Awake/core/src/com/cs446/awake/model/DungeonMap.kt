@@ -13,8 +13,7 @@ val colnum = 6
 // ToDo: generate map according to level
 class DungeonMap(val level: Int) {
     var map: Array<Array<Event>> = Array<Array<Event>>()
-    var currow = 0
-    var curcol = 0
+    var stepsLeft : Int = 15
     init {
         for (row in 0..rownum){
             var eventRow = Array<Event>()
@@ -24,10 +23,9 @@ class DungeonMap(val level: Int) {
                     eventRow.add(Event("Attack.png", "Heal.png"))
                     continue
                 }
-                // The last is always the boss
+                // The last is always empty exit for next level
                 if (row == rownum && col == colnum){
-                    println("BOSS before next room")
-                    eventRow.add(BattleEvent("Attack.png", "skeleton1.png", monsterInfo.randomSelect() as Monster))
+                    eventRow.add(Event("Attack.png", "Heal.png"))
                     continue
                 }
                 // randomize between battle, item, or empty
@@ -42,22 +40,28 @@ class DungeonMap(val level: Int) {
             }
             map.add(eventRow)
         }
+        // flipped the entry point
+        map[0][0].trigger()
     }
 
     // check if going to a coordinate is allowed
     fun canGo(row: Int, col: Int): Boolean {
-        if (col > colnum || col < 0 || row > rownum || row < 0) return false
+        // if out of map or no step left then return false
+        if (col > colnum || col < 0 || row > rownum || row < 0 || stepsLeft <= 0) return false
+        // if one of its four neighbours is flipped, the return true
         if (col < colnum && map[row][col+1].isFlipped()) return true
         if (col > 0 && map[row][col-1].isFlipped()) return true
         if (row < rownum && map[row+1][col].isFlipped()) return true
         if (row > 0 && map[row-1][col].isFlipped()) return true
+        // other wise default false
         return false
     }
 
     // go to position row,col
-    fun go(row:Int, col: Int): Boolean {
-        if (! canGo(row, col)) return false
-        map[row][col].trigger()
-        return true
+    // decrement steps, return 0 if cannot go, 1 if empty event, 2 if collect event, 3 if battle event, 4 if leave the level
+    fun go(row:Int, col: Int): Int {
+        if (! canGo(row, col)) return INVALIDMOVE
+        if (row == rownum && col == colnum) return NEXTLEVEL
+        return map[row][col].trigger()
     }
 }
