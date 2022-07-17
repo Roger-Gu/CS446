@@ -45,6 +45,7 @@ class Awake : Game() {
     override fun create() {
         // Test Battle View
         setActiveScreen(DungeonScreen(dungeonMap))
+        // setActiveScreen(BattleScreen(player, enemy))
     }
 
     override fun dispose() {
