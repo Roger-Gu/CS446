@@ -26,8 +26,42 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
     // DungeonMap Data
     private val level = map.level
 
+    // Timer variables
+    private var worldTimer  = -1
+    private var activeTimer = false
+    private val timerLimit = 10 // Not 0 in case of concurrency issue.
+    private var endTimeFcn : () -> Unit = {} // lambda function about what to do when time ends
+    private var duringTimeFcn : () -> Unit = {} // lambda function about what to do when each frame passed.
+    // private val countdownLabel = Label(String.format("%03d", worldTimer), Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+
+
+    // Function that active the timer
+    private fun startTimer(frames: Int, endTime : () -> Unit, duringTime : () -> Unit) {
+        endTimeFcn = endTime
+        duringTimeFcn = duringTime
+        worldTimer = frames
+        activeTimer = true
+    }
+
+    // Function that count down the timer. Stop timer when time ends.
+    private fun runTimer() {
+        if (activeTimer) {
+            if (worldTimer <= timerLimit) {
+                // Time up
+                activeTimer = false
+                endTimeFcn()
+            } else {
+                // During count down
+                duringTimeFcn()
+                worldTimer--
+            }
+        }
+    }
+
     override fun initialize() {
         Gdx.input.inputProcessor = stage
+        //stage.addActor(countdownLabel)
+        //countdownLabel.setPosition(screenWidth/2 - countdownLabel.width/2, screenHeight/2 + countdownLabel.height/2)
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
@@ -61,7 +95,14 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         for (row in 0 until 3) {
             for (column in 0 until 7) {
                 val card = BaseActor(0f, 0f, stage)
-                card.loadTexture(map.map[row][column].backImg)
+                // For reload the Screen use when exit from Battle.
+                if (map.map[row][column].isFlipped()) {
+                    card.loadTexture(map.map[row][column].frontImg)
+                    map.map[row][column].trigger()
+                } else {
+                    card.loadTexture(map.map[row][column].backImg)
+                }
+                // By default, start position is show and triggered, final room is show but not triggered.
                 if (row == 2 && column == 6) {
                     // Next Room (Boss)
                     card.loadTexture(map.map[row][column].frontImg)
@@ -70,8 +111,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                     card.loadTexture(map.map[row][column].frontImg)
                     map.map[row][column].trigger()
                 }
-//                card.setSize(screenWidth / 8f, (screenWidth / card.width * card.height))
-                card.height = card.width
+                card.height = card.width // Card is a square
                 card.centerAtPosition(screenWidth / 7 * column + card.width / 2 + 10, (screenHeight - 160) / 3 * row + card.height / 2)
 
                 // Set event action
@@ -96,7 +136,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
     }
 
     override fun update(delta: Float) {
-        // TODO: NOT IMPLEMENTED
+        runTimer()
         return
     }
 }
