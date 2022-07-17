@@ -34,6 +34,8 @@ class Awake : Game() {
         val enemyImage = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
         val enemyStates : MutableList<State> = mutableListOf()
         enemy = Enemy(enemyImage,"Enemy",100, 99, 99, enemyDeck, enemyStates, PlayerType.AI)
+
+        val dungeonMap = DungeonMap(1)
     }
 
 
