@@ -44,13 +44,13 @@ class CardData (cardList: MutableList<MergableCard>): Data<MergableCard>(cardLis
                 }
                 existingCard.count -= changedAmount
                 // update sum of elements
-                wood += card.wood * changedAmount
-                fire += card.fire * changedAmount
-                earth += card.earth * changedAmount
-                metal += card.metal * changedAmount
-                water += card.water * changedAmount
-                electric += card.electric * changedAmount
-                wind += card.wind * changedAmount
+                wood -= card.wood * changedAmount
+                fire -= card.fire * changedAmount
+                earth -= card.earth * changedAmount
+                metal -= card.metal * changedAmount
+                water -= card.water * changedAmount
+                electric -= card.electric * changedAmount
+                wind -= card.wind * changedAmount
                 break
             }
         }
