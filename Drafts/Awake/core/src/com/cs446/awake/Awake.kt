@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array
 import com.cs446.awake.model.*
 import com.cs446.awake.ui.BattleScreen
 import com.cs446.awake.ui.DungeonScreen
+import com.cs446.awake.ui.VillageScreen
 import com.cs446.awake.utils.BaseScreen
 
 // maybe better to create a BaseGame class and extend from there
@@ -13,7 +14,7 @@ class Awake : Game() {
     // Variable for demo usage
     private val player : Player
     private val enemy : Enemy
-    private val dungeonMap : DungeonMap
+    private val villageMap : VillageMap
 
     companion object {
         const val TITLE = "AWAKE"
@@ -38,13 +39,13 @@ class Awake : Game() {
         enemy = Enemy(enemyImage,"Enemy",100, 99, 99, enemyDeck, enemyStates, PlayerType.AI)
 
         // For dungeon demo
-        dungeonMap = DungeonMap(1)
+        villageMap = VillageMap()
     }
 
 
     override fun create() {
         // Test Battle View
-        setActiveScreen(DungeonScreen(dungeonMap))
+        setActiveScreen(VillageScreen(villageMap))
         // setActiveScreen(BattleScreen(player, enemy))
     }
 
