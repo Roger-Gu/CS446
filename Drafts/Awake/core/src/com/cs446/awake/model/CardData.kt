@@ -59,7 +59,7 @@ class CardData (cardList: MutableList<MergableCard>): Data<MergableCard>(cardLis
 
     // merge materials or items to get a new item
     // possilbeOutcomes should be all item cards, in particular, our global variable itemInfo
-    fun merge(inputList: CardData, possilbeOutcomes: CardData): ItemCard{
+    fun merge(inputList: CardData, possilbeOutcomes: CardData): ItemCard?{
         var validList = CardData(mutableListOf<MergableCard>())
         for (item in possilbeOutcomes.getStored()){
             // be a candidate if all element fields are satisfied
@@ -70,7 +70,7 @@ class CardData (cardList: MutableList<MergableCard>): Data<MergableCard>(cardLis
             }
         }
         // select a random one
-        return validList.randomSelect() as ItemCard
+        return validList.randomSelect() as ItemCard?
     }
 
 
