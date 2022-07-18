@@ -39,7 +39,7 @@ class CardData (cardList: MutableList<MergableCard>): Data<MergableCard>(cardLis
         // if card with same name already exists, update
         for (existingCard in list){
             if (card.cardName == existingCard.cardName){
-                var changedAmount = existingCard.count
+                var changedAmount = card.count
                 // if more than the existing amount, remove all
                 if (changedAmount > existingCard.count){
                     changedAmount = existingCard.count
