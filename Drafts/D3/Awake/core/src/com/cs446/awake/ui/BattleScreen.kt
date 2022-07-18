@@ -20,6 +20,7 @@ import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 import com.cs446.awake.utils.DragDropActor
+import kotlin.math.abs
 
 
 class BattleScreen(private val board: Board) : BaseScreen(){
@@ -44,10 +45,20 @@ class BattleScreen(private val board: Board) : BaseScreen(){
         enemy.centerAtPosition(wid / 2, height)
         enemy.moveBy(0f, -550f)
 
+        // enemy actor
         stage.addActor(board.enemy.healthBar)
+        stage.addActor(board.enemy.energyBar)
+        val enemyImageActor = BaseActor(0f, 0f, stage)
+        enemyImageActor.loadTexture(board.enemy.enemyImage)
+        enemyImageActor.centerAtPosition(wid - 220f, height - 150f)
+
+        // player actor
         stage.addActor(board.player.healthBar)
-        stage.addActor(board.player.strengthBar)
+//        stage.addActor(board.player.strengthBar)
         stage.addActor(board.player.energyBar)
+        val playerImageActor = BaseActor(0f, 0f, stage)
+        playerImageActor.loadTexture(board.player.playerImage)
+        playerImageActor.centerAtPosition(220f, 150f)
 
 
         val stateImg = Texture("burn.png")
@@ -62,7 +73,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             board.player.characterStateMap[state] = stateActor
 
             stateActor.loadTexture(state.lowercase() + ".png")
-            stateActor.centerAtPosition(-900f, height - 1000f)
+            stateActor.centerAtPosition(-650f, height - 850f)
             stateActor.moveBy(
                 (wid - (4 * stateWidth + 3 * intervalWid)) / 2 + stateIndex * stateWidth,
                 0f
@@ -82,7 +93,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             board.enemy.characterStateMap[state] = stateActor
 
             stateActor.loadTexture(state.lowercase() + ".png")
-            stateActor.centerAtPosition(800f, height - 100f)
+            stateActor.centerAtPosition(650f, height - 150f)
             stateActor.moveBy(
                 (wid - (4 * stateWidth + (4 - 1) * intervalWid)) / 2 + stateIndex * stateWidth,
                 0f
@@ -102,7 +113,7 @@ class BattleScreen(private val board: Board) : BaseScreen(){
 
             val endTurnActor = BaseActor(0f, 0f, stage)
             endTurnActor.loadTexture("EndTurnButton.png")
-            endTurnActor.centerAtPosition(wid - 250f, 150f)
+            endTurnActor.centerAtPosition(wid - 250f, 400f)
             endTurnActor.addListener(object : InputListener() {
                 override fun touchDown(
                     event: InputEvent?,
@@ -120,38 +131,90 @@ class BattleScreen(private val board: Board) : BaseScreen(){
             // Card Actor
             val cardTotal = board.player.hand.size - 1
             for ((handIndex, card) in board.player.hand.withIndex()) {
-                val cardActor = DragDropActor(0f, 0f, stage, enemy)
+                val cardActor = DragDropActor(0f, 0f, stage, enemy, playerImageActor)
                 cardActor.loadTexture(card.img)
                 // y-coord is set to hide the bottom half, click to elevate?
-                cardActor.centerAtPosition(0f, height - 950f)
+                cardActor.centerAtPosition(350f, height - 950f)
+                cardActor.setRotation(30f - 15f*handIndex)
                 cardActor.moveBy(
                     (wid - (cardTotal * cardActor.width + (cardTotal - 1) * intervalWid)) / 2 + handIndex * (cardActor.width + intervalWid),
-                    0f
+                    70f - abs(2-handIndex)*35f
                 )
+                if (card.isHealCard()) {
+                    cardActor.setOnDropPlayerIntersect {
+                        cardActor.remove()
+                        board.removeCard(card)
+                        board.notify(card)
+                        borderImage.remove()
+                    }
+                    cardActor.setOnDragPlayerIntersect {
+                        println("player CARD USING?")
+                        val borderWidth = 30
+                        borderImage.setSize(
+                            cardActor.width + borderWidth * 2,
+                            cardActor.height + borderWidth * 2
+                        )
 
-                cardActor.setOnDropIntersect {
-                    println("intersected when dropped")
-                    // check later on
-                    // if (board.checkTurn(board.player)) {
-                    cardActor.remove()
-                    board.removeCard(card)
-                    board.notify(card)
-                    borderImage.remove()
+                        borderImage.setPosition(
+                            cardActor.x - borderWidth,
+                            cardActor.y - borderWidth
+                        )
+
+                        borderImage.setOrigin((cardActor.width + borderWidth * 2)/2, (cardActor.height + borderWidth * 2)/2)
+                        borderImage.setRotation(30f - 15f*handIndex)
+
+                        stage.addActor(borderImage)
+                        cardActor.toFront()
+                    }
+
+                    cardActor.setOnDropEnemyIntersect {
+                        cardActor.setPosition(cardActor.startX, cardActor.startY)
+                        borderImage.remove()
+                    }
+                    cardActor.setOnDragEnemyIntersect {
+                        borderImage.remove()
+                    }
+
+                } else {
+                    cardActor.setOnDropEnemyIntersect {
+                        println("intersected when dropped")
+                        cardActor.remove()
+                        board.removeCard(card)
+                        board.notify(card)
+                        borderImage.remove()
+                    }
+                    cardActor.setOnDragEnemyIntersect {
+                        //println("CARD USING?")
+                        val borderWidth = 30
+                        borderImage.setSize(
+                            cardActor.width + borderWidth * 2,
+                            cardActor.height + borderWidth * 2
+                        )
+
+                        borderImage.setPosition(
+                            cardActor.x - borderWidth,
+                            cardActor.y - borderWidth
+                        )
+
+                        borderImage.setOrigin((cardActor.width + borderWidth * 2)/2, (cardActor.height + borderWidth * 2)/2)
+                        borderImage.setRotation(30f - 15f*handIndex)
+
+                        stage.addActor(borderImage)
+                        cardActor.toFront()
+                    }
+
+                    cardActor.setOnDropPlayerIntersect {
+                        cardActor.setPosition(cardActor.startX, cardActor.startY)
+                        borderImage.remove()
+                    }
+                    cardActor.setOnDragPlayerIntersect {
+                        borderImage.remove()
+                    }
                 }
+
                 cardActor.setOnDropNoIntersect {
                     cardActor.setPosition(cardActor.startX, cardActor.startY)
                     borderImage.remove()
-                }
-                cardActor.setOnDragIntersect {
-                    //println("CARD USING?")
-                    val borderWidth = 30
-                    borderImage.setSize(
-                        cardActor.width + borderWidth * 2,
-                        cardActor.height + borderWidth * 2
-                    )
-                    borderImage.setPosition(cardActor.x - borderWidth, cardActor.y - borderWidth)
-                    stage.addActor(borderImage)
-                    cardActor.toFront()
                 }
                 cardActor.setOnDragNoIntersect {
                     borderImage.remove()
@@ -169,10 +232,11 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                 val cardActor = BaseActor(0f, 0f, stage)
                 cardActor.loadTexture(card.img)
                 // y-coord is set to hide the bottom half, click to elevate?
-                cardActor.centerAtPosition(0f, height - 950f)
+                cardActor.centerAtPosition(350f, height - 950f)
+                cardActor.setRotation(30f - 15f*handIndex)
                 cardActor.moveBy(
                     (wid - (cardTotal * cardActor.width + (cardTotal - 1) * intervalWid)) / 2 + handIndex * (cardActor.width + intervalWid),
-                    0f
+                    70f - abs(2-handIndex)*35f
                 )
             }
 
@@ -255,12 +319,12 @@ class BattleScreen(private val board: Board) : BaseScreen(){
                     val deck1 = getTestDeck()
                     val deck2 = getTestDeck()
                     val playerStates : MutableList<State> = mutableListOf()
-                    val player = Player("Hero",300, 10, 10, deck1, playerStates, PlayerType.Human)
+                    val player = Player("Hero",300, 10, 10, "badlogic.jpg", deck1, playerStates, PlayerType.Human)
 
                     val imgs = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
 
                     val enemyStates : MutableList<State> = mutableListOf()
-                    val enemy = Enemy(imgs,"Enemy",100, 99, 99, deck2, enemyStates, PlayerType.AI)
+                    val enemy = Enemy(imgs,"Enemy",100, 99, 99, "badlogic.jpg", deck2, enemyStates, PlayerType.AI)
 
                     val newboard = Board(player, enemy)
                     Awake.setActiveScreen(EnterScreen(newboard))

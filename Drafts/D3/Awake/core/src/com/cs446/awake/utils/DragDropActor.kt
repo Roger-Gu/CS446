@@ -4,12 +4,14 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.*
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 
-class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : AbstractActor(x, y, s){
+class DragDropActor(x: Float, y: Float, s: Stage, dropEnemyTarget: AbstractActor, dropPlayerTarget: AbstractActor) : AbstractActor(x, y, s){
     val self: DragDropActor = this
 
-    private var onDragIntersect : () -> Unit = {}
+    private var onDragPlayerIntersect : () -> Unit = {}
+    private var onDragEnemyIntersect : () -> Unit = {}
     private var onDragNoIntersect : () -> Unit = {}
-    private var onDropIntersect : () -> Unit = {}
+    private var onDropPlayerIntersect : () -> Unit = {}
+    private var onDropEnemyIntersect : () -> Unit = {}
     private var onDropNoIntersect : () -> Unit = {}
 
     var grabOffsetX: Float = 0f
@@ -43,8 +45,10 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : A
                 val deltaY = y - self.grabOffsetY
 
                 self.moveBy(deltaX, deltaY)
-                if (self.isIntersect(dropTarget)) {
-                    self.onDragIntersect()
+                if (self.isIntersect(dropEnemyTarget)) {
+                    self.onDragEnemyIntersect()
+                } else if (self.isIntersect(dropPlayerTarget)) {
+                    self.onDragPlayerIntersect()
                 } else {
                     self.onDragNoIntersect()
                 }
@@ -57,8 +61,10 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : A
                 pointer: Int,
                 button: Int
             ) {
-                if (self.isIntersect(dropTarget)) {
-                    self.onDropIntersect()
+                if (self.isIntersect(dropEnemyTarget)) {
+                    self.onDropEnemyIntersect()
+                } else if (self.isIntersect(dropPlayerTarget)) {
+                    self.onDropPlayerIntersect()
                 } else {
                     self.onDropNoIntersect()
                 }
@@ -76,16 +82,23 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropTarget: AbstractActor) : A
         return bounding1.overlaps(bounding2)
     }
 
-    fun setOnDragIntersect(dragIntersectFunc: () -> Unit) {
-        onDragIntersect = dragIntersectFunc
+    fun setOnDragPlayerIntersect(dragIntersectFunc: () -> Unit) {
+        onDragPlayerIntersect = dragIntersectFunc
+    }
+
+    fun setOnDragEnemyIntersect(dragIntersectFunc: () -> Unit) {
+        onDragEnemyIntersect = dragIntersectFunc
     }
 
     fun setOnDragNoIntersect(dragIntersectFunc: () -> Unit) {
         onDragNoIntersect = dragIntersectFunc
     }
 
-    fun setOnDropIntersect(dropIntersectFunc: () -> Unit) {
-        onDropIntersect = dropIntersectFunc
+    fun setOnDropPlayerIntersect(dropIntersectFunc: () -> Unit) {
+        onDropPlayerIntersect = dropIntersectFunc
+    }
+    fun setOnDropEnemyIntersect(dropIntersectFunc: () -> Unit) {
+        onDropEnemyIntersect = dropIntersectFunc
     }
 
     fun setOnDropNoIntersect(dropNoIntersectFunc: () -> Unit) {
