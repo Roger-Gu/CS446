@@ -86,7 +86,8 @@ class State(val stateName: String,
         effectiveRound += extendedState.effectiveRound
     }
 
-    fun apply(target: Character){
+    // Return true to stop character using cards. (Freeze Character)
+    fun apply(target: Character): Boolean {
         //target.removeState(releaseList)
         // check if the state can be released
 
@@ -94,12 +95,12 @@ class State(val stateName: String,
         //    target.removeState(mutableListOf(stateName))
         //    return
         //}
-
+        var freezePlayer = false
         // check if player can move
         if (moveProbability == 0.0) {
-            target.endRound()
+            freezePlayer = true
         } else if (moveProbability < 1.0 && !random_event(moveProbability)) {
-            target.endRound()
+            freezePlayer = true
         }
 
         // damage
@@ -121,6 +122,7 @@ class State(val stateName: String,
         //if (effectiveRound <= 0){
         //    target.removeState(mutableListOf(stateName))
         //}
+        return freezePlayer
     }
 
 }
