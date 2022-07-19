@@ -13,12 +13,17 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropEnemyTarget: AbstractActor
     private var onDropPlayerIntersect : () -> Unit = {}
     private var onDropEnemyIntersect : () -> Unit = {}
     private var onDropNoIntersect : () -> Unit = {}
+    private var onClick : () -> Unit = {}
+    private var onDrag : () -> Unit = {}
+    private var onDrop : () -> Unit = {}
 
     var grabOffsetX: Float = 0f
     var grabOffsetY: Float = 0f
 
     var startX: Float = 0f
     var startY: Float = 0f
+
+    var startRotation = 0f
 
     init {
         addListener (object: InputListener() {
@@ -31,6 +36,9 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropEnemyTarget: AbstractActor
             ): Boolean {
                 self.startX = self.x
                 self.startY = self.y
+                self.startRotation = self.rotation
+
+                self.onClick()
 
                 self.grabOffsetX = x
                 self.grabOffsetY = y
@@ -41,6 +49,8 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropEnemyTarget: AbstractActor
             }
 
             override fun touchDragged(event: InputEvent?, x: Float, y: Float, pointer: Int) {
+                self.onDrag()
+
                 val deltaX = x - self.grabOffsetX
                 val deltaY = y - self.grabOffsetY
 
@@ -61,6 +71,8 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropEnemyTarget: AbstractActor
                 pointer: Int,
                 button: Int
             ) {
+                self.onDrop()
+
                 if (self.isIntersect(dropEnemyTarget)) {
                     self.onDropEnemyIntersect()
                 } else if (self.isIntersect(dropPlayerTarget)) {
@@ -80,6 +92,18 @@ class DragDropActor(x: Float, y: Float, s: Stage, dropEnemyTarget: AbstractActor
         val bounding2: Rectangle = other.bound
         if (bounding1 == null || bounding2 == null) return false
         return bounding1.overlaps(bounding2)
+    }
+
+    fun setOnClick(clickFunc: () -> Unit) {
+        onClick = clickFunc
+    }
+
+    fun setOnDrag(dragFunc: () -> Unit) {
+        onDrag = dragFunc
+    }
+
+    fun setOnDrop(dropFunc: () -> Unit) {
+        onDrop = dropFunc
     }
 
     fun setOnDragPlayerIntersect(dragIntersectFunc: () -> Unit) {
