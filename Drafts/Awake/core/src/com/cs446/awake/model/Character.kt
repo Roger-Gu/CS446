@@ -15,6 +15,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var strength = maxStrength
     var HP = maxHP
     var characterStateMap = HashMap<String, BaseActor>()
+    var canUseCard = true
     lateinit var healthBar : ProgressBar
 
     abstract fun initBars()
@@ -100,9 +101,13 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
 
         println("start with states:")
+        canUseCard = true
         for (s in states) {
             println(s.stateName + " for ${s.effectiveRound} rounds")
-            s.apply(this)
+            if (s.apply(this)) {
+                // True means freeze character
+                canUseCard = false
+            }
         }
     }
 
