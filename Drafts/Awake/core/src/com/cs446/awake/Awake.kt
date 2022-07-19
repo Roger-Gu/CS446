@@ -32,12 +32,12 @@ class Awake : Game() {
         // Create demo player
         val playerDeck = getTestDeck() // A function in file testDeck.kt
         val playerStates : MutableList<State> = mutableListOf()
-        player = Player("Hero",300, 10, 10, playerDeck, playerStates, PlayerType.Human)
+        player = Player("Hero",300, 10, 10,"badlogic.jpg", playerDeck, playerStates, PlayerType.Human)
         // Create demo enemy
         val enemyDeck = getTestDeck()
         val enemyImage = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
         val enemyStates : MutableList<State> = mutableListOf()
-        enemy = Enemy(enemyImage,"Enemy",100, 99, 99, enemyDeck, enemyStates, PlayerType.AI)
+        enemy = Enemy(enemyImage,"Enemy",100, 99, 99,"badlogic.jpg", enemyDeck, enemyStates, PlayerType.AI)
 
         // For dungeon demo
         dungeonMap = DungeonMap(1)
