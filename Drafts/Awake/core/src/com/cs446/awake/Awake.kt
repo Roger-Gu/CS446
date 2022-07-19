@@ -15,6 +15,7 @@ class Awake : Game() {
     private val player : Player
     private val enemy : Enemy
     private val villageMap : VillageMap
+    private val dungeonMap : DungeonMap
 
     companion object {
         const val TITLE = "AWAKE"
@@ -39,14 +40,16 @@ class Awake : Game() {
         enemy = Enemy(enemyImage,"Enemy",100, 99, 99, enemyDeck, enemyStates, PlayerType.AI)
 
         // For dungeon demo
+        dungeonMap = DungeonMap(1)
         villageMap = VillageMap()
     }
 
 
     override fun create() {
         // Test Battle View
-        setActiveScreen(VillageScreen())
-        // setActiveScreen(BattleScreen(player, enemy))
+//        setActiveScreen(VillageScreen())
+        setActiveScreen(DungeonScreen(dungeonMap))
+//        setActiveScreen(BattleScreen(player, enemy))
     }
 
     override fun dispose() {
