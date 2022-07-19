@@ -19,7 +19,7 @@ import com.cs446.awake.model.INVALIDMOVE
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 
-class VillageScreen(private val map: VillageMap) : BaseScreen() {
+class VillageScreen() : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
 
@@ -102,7 +102,7 @@ class VillageScreen(private val map: VillageMap) : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(DungeonScreen(dungeonMap))
+                Awake.setActiveScreen(BackpackScreen())
                 return true
             }
         })

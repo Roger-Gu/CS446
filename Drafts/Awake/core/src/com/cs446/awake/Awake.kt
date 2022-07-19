@@ -45,7 +45,7 @@ class Awake : Game() {
 
     override fun create() {
         // Test Battle View
-        setActiveScreen(VillageScreen(villageMap))
+        setActiveScreen(VillageScreen())
         // setActiveScreen(BattleScreen(player, enemy))
     }
 
