@@ -58,6 +58,7 @@ class VillageScreen() : BaseScreen() {
     }
 
     override fun initialize() {
+        dumpJson()
         readJson()
         Gdx.input.inputProcessor = stage
         //stage.addActor(countdownLabel)
@@ -92,7 +93,7 @@ class VillageScreen() : BaseScreen() {
             ) : Boolean {
                 dumpJson()
                 val duringTime: () -> Unit = {
-                    val winLabel = Label("Saving...", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+                    val winLabel = Label("Saving...", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
                     winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
                     stage.addActor(winLabel)
                 }
