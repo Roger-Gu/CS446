@@ -36,6 +36,9 @@ public var backPackItem : ItemCardData = ItemCardData(mutableListOf())
 
 // Additional storage for selected item for battle
 public var battleItem : ItemCardData = ItemCardData(mutableListOf())
+// Keep track of the dungeon map and whether facing boss
+public var dungeonMap : DungeonMap? = null
+public var activeBoss : Boolean = false
 
 // reset all savable value
 fun reset(){

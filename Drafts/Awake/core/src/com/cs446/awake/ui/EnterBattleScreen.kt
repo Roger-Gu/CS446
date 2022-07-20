@@ -250,15 +250,12 @@ class EnterBattleScreen() : BaseScreen() {
                 // generate new player deck according to the items in backpack
                 deck = Deck()
                 for (item in battleItem.getStored()){
-                    println("==================>")
                     if (item !is ItemCard){
                         println("Warning: non-material in backpack")
                         continue
                     }
                     item.addToDeck()
                 }
-                println(deck.count())
-                battleItem = ItemCardData(mutableListOf())
                 player = Player("Hero", getHP(), getEnergy(), strength, "badlogic.jpg", deck, mutableListOf(), PlayerType.Human)
                 if (player != null && enemy != null) {
                     val p : Player = player as Player

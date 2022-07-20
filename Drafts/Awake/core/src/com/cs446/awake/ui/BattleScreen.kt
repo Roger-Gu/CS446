@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Null
 import com.cs446.awake.Awake
+import com.cs446.awake.Awake.Companion.setActiveScreen
 import com.cs446.awake.model.*
 import com.cs446.awake.utils.*
 import java.awt.Rectangle
@@ -331,8 +332,27 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         // Let enemy vanish
         val duringTime : () -> Unit = { enemyDisplay.setOpacity(worldTimer / 60f) }
         val endTime : () -> Unit = {
-            enemyDisplay.remove()
-            // TODO: Exit back to Dungeon
+            if (activeBoss) {
+                // Beat the boss
+                enemyDisplay.remove()
+                storage.append(backPackMaterial)
+                storage.append(backPackItem)
+                storage.append(battleItem)
+                backPackItem = ItemCardData(mutableListOf())
+                backPackMaterial = MaterialCardData(mutableListOf())
+                battleItem = ItemCardData(mutableListOf())
+                setActiveScreen(VillageScreen())
+                dumpJson()
+            } else {
+                enemyDisplay.remove()
+                backPackItem.append(battleItem)
+                battleItem = ItemCardData(mutableListOf()) // clear battle item
+                if (dungeonMap != null) {
+                    setActiveScreen(DungeonScreen(dungeonMap as DungeonMap))
+                }
+                dumpJson()
+            }
+
         }
         startTimer(60, endTime, duringTime) // about 1 second
     }
@@ -365,7 +385,11 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(VillageScreen())
+                // Clear eveything one has.
+                backPackItem = ItemCardData(mutableListOf())
+                backPackMaterial = MaterialCardData(mutableListOf())
+                battleItem = ItemCardData(mutableListOf())
+                setActiveScreen(VillageScreen())
                 return true
             }
         })
