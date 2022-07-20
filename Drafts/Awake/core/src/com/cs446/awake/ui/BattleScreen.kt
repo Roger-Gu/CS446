@@ -83,7 +83,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
     private val descriptionWidth = descriptionImage.width / 2
     private val descriptionHeight = descriptionImage.height / 4
 
-    private val descriptionFont = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
+    private val descriptionFont = BitmapFont(Gdx.files.internal("font/font1.fnt"))
 
 
     //// Variable of game Core
@@ -544,7 +544,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         // Description
         descriptionTable.setBackground(TextureRegionDrawable(TextureRegion(descriptionTexture)))
-        descriptionFont.getData().setScale(0.4f)
+        descriptionFont.getData().setScale(0.8f)
 
         // State
         for ((stateIndex, state) in stateList.withIndex()) {

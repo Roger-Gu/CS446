@@ -49,23 +49,33 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
-        // Menu Bar Label
-        val progress = Label("Level: $level/4", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        //"Village ${"■".repeat(level*2)}${"■".repeat(10-level*2)} BOSS"
-        //"Health ${"♥".repeat(3)}"
+        // Level Star Label
+        val intervalWid = 30f
+        val labelImage = Texture("star_light.png")
+        val labelWidth = labelImage.width*2
+        for (i in 1..4) {
+            val labelActor = BaseActor(0f, 0f, stage)
+            if (i <= level) {
+                labelActor.loadTexture("star_light.png")
+            } else {
+                labelActor.loadTexture("star_dark.png")
+            }
+            labelActor.setSize(labelActor.width*2, labelActor.height*2)
+            labelActor.centerAtPosition(screenWidth/2 - 200f, screenHeight - 100f)
+            labelActor.moveBy((labelWidth + intervalWid)*(i-1), 0f)
+        }
 
-        // Menu Bar Picture
-        val bgPixmap = Pixmap(1, 1, Pixmap.Format.RGB565)
-        bgPixmap.setColor(Color.GRAY)
-        bgPixmap.fill()
-        val textureRegionDrawableBg = TextureRegionDrawable(TextureRegion(Texture(bgPixmap)))
-        val menuBar = Table()
-        menuBar.background = textureRegionDrawableBg
-        menuBar.setPosition(0f, screenHeight - 160f)
-        menuBar.setSize(screenWidth, 160f)
-        menuBar.top()
-        menuBar.add(progress).expandX()
-        stage.addActor(menuBar)
+        // Village button
+        val villageButtonActor = BaseActor(0f, 0f, stage)
+        villageButtonActor.loadTexture("Icon_village.png")
+        villageButtonActor.setSize(villageButtonActor.width/2, villageButtonActor.height/2)
+        villageButtonActor.setPosition(100f, screenHeight-150f)
+
+        // backpack button
+        val backpackButtonActor = BaseActor(0f, 0f, stage)
+        backpackButtonActor.loadTexture("Icon_backpack.png")
+        backpackButtonActor.setSize(backpackButtonActor.width/2, backpackButtonActor.height/2)
+        backpackButtonActor.setPosition(screenWidth-250f, screenHeight-150f)
 
         // Add Event Cards
         for (row in 0 until 3) {
