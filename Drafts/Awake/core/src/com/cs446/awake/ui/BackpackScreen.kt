@@ -19,6 +19,8 @@ import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 import com.cs446.awake.utils.DragDropActor
 
+val TOTAL_ITEM = itemInfo.getStored().size
+val TOTAL_MATERIAL = materialInfo.getStored().size
 
 class BackpackScreen(val g: Int) : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
@@ -178,7 +180,6 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
-
         weapon = BaseActor(0f, 0f, stage)
         weapon.loadTexture("equipment.png")
         weapon.setSize(800f, 850f)
@@ -220,6 +221,26 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 return true
             }
         })
+
+        var ilen = 0
+        var mlen = 0
+        for (c in storage.getStored()) {
+            if (c is ItemCard) {
+                ilen += 1
+            } else {
+                mlen += 1
+            }
+        }
+        var ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        var mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        ip.setPosition(weapon.x + 50, weapon.y + 200)
+        mp.setPosition(material.x + 50, material.y + 200)
+        stage.addActor(ip)
+        stage.addActor(mp)
+        if (g == 1) {
+            ip.isVisible = false
+            mp.isVisible = false
+        }
 
         back = BaseActor(0f, 0f, stage)
         back.loadTexture("backArrow.png")
