@@ -262,7 +262,7 @@ class VillageScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(DungeonScreen(dungeonMap))
+                Awake.setActiveScreen(EnterDungeonScreen())
                 return true
             }
         })
