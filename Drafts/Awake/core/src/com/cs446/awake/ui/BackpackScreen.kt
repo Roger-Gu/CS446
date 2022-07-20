@@ -43,6 +43,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
     private lateinit var paper : BaseActor
     private lateinit var name : Label
     private lateinit var use : Label
+    private lateinit var ip : Label
+    private lateinit var mp : Label
 
     // Function that active the timer
     private fun startTimer(frames: Int, endTime : () -> Unit, duringTime : () -> Unit) {
@@ -197,6 +199,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 weapon.remove()
                 material.remove()
                 back.remove()
+                ip.isVisible = false
+                mp.isVisible = false
                 backpackScroll(1)
                 return true
             }
@@ -218,6 +222,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 weapon.remove()
                 material.remove()
                 back.remove()
+                ip.isVisible = false
+                mp.isVisible = false
                 backpackScroll(2)
                 return true
             }
@@ -232,8 +238,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 mlen += 1
             }
         }
-        var ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        var mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         ip.setPosition(weapon.x + 250, weapon.y + 810)
         mp.setPosition(material.x + 250, material.y + 810)
         stage.addActor(ip)
