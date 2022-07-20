@@ -1,11 +1,14 @@
 package com.cs446.awake.model
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
@@ -20,9 +23,17 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     var HP = maxHP
     var characterStateMap = HashMap<String, BaseActor>()
     var canUseCard = true
-    lateinit var healthBar : ProgressBar
-    lateinit var energyBar : ProgressBar
+    lateinit var healthBar : Image
+    lateinit var energyBar : Image
     lateinit var image : Texture
+
+    var originalHP = maxHP
+    var originalEnergy = maxEnergy
+    var healthOriginalWidth = 0f
+    var healthStartX = 0f
+    var energyOriginalWidth = 0f
+    var energyStartX = 0f
+
 
     fun createBarStyle(backGroundColor: Color, frontColor: Color, height : Int) : ProgressBar.ProgressBarStyle {
         // bar background as red
@@ -132,8 +143,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     open fun preRound() {
-        // demo only, restore some amount of energy in real game
-        energy += 3
+        updateEnergy(3)
         while (hand.size < 5) drawCard()
 
 
@@ -171,20 +181,14 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     }
 
-    fun updateHealth(HpChange: Int){
-        HP += HpChange
-        healthBar.value = HP / 100f
-//        println(charName + " remaining health " + HP.toString())
-    }
+    abstract fun updateHealth(HpChange: Int)
 
     open fun updateStrength(strengthChange: Int) {
         strength += strengthChange
     }
 
-    fun updateEnergy(energyChange: Int) {
-        energy += energyChange
-        energyBar.value = energy / 100f
-    }
+    abstract fun updateEnergy(energyChange: Int)
+
 
     fun isDead(): Boolean {
         return HP <= 0

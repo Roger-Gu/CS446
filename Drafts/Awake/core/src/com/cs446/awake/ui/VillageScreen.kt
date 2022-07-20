@@ -13,15 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.cs446.awake.Awake
-import com.cs446.awake.model.DungeonMap
-import com.cs446.awake.model.VillageMap
-import com.cs446.awake.model.INVALIDMOVE
+import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 
 class VillageScreen() : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
+    private val houseWidth = screenWidth / 4f
 
     // Timer variables
     private var worldTimer  = -1
@@ -66,11 +65,30 @@ class VillageScreen() : BaseScreen() {
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
-        val house1 = BaseActor(0f, 0f, stage)
-        house1.loadTexture("House1.png")
+        val saveButton = BaseActor(0f, 0f, stage)
+        saveButton.loadTexture("Icon_save.png")
+        saveButton.setSize(150f, 150f)
+        saveButton.centerAtPosition(100f, 950f)
+        saveButton.toFront()
+        saveButton.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ) : Boolean {
+                dumpJson()
+                return true
+            }
+        })
 
-        house1.height = house1.width // Card is a square
-        house1.centerAtPosition(screenWidth / 5 * 0 + house1.width / 2 + 100, (screenHeight / 2) + house1.height / 2 - 200)
+        val house1 = BaseActor(0f, 0f, stage)
+        house1.loadTexture("villages/TX House A.png")
+
+        // house1.height = house1.width
+        house1.setSize(houseWidth,houseWidth/house1.width*house1.height )
+        house1.centerAtPosition(screenWidth / 5 * 0 + house1.width / 2 + 100, (screenHeight / 2) + 50f)
 
         // Set event action
         house1.addListener(object : InputListener() {
@@ -86,28 +104,21 @@ class VillageScreen() : BaseScreen() {
             }
         })
 
-        val anvil = BaseActor(0f, 0f, stage)
-        anvil.loadTexture("anvil.png")
-
-        anvil.width = house1.width / 3
-        anvil.height = anvil.width
-        anvil.centerAtPosition(house1.x + 50, (screenHeight / 2) + house1.height / 2 - 400)
-
-        val bar1 = Table()
-        // bar1.background = textureRegionDrawableBg
-        bar1.setPosition(house1.x + 90 + anvil.width, anvil.y + 30)
-        bar1.setSize(anvil.width / 2, anvil.height / 2)
-        bar1.top()
-        val label1 = Label("Storage", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        label1.setFontScale(0.5f,0.5f)
-        bar1.add(label1)
-        stage.addActor(bar1)
+        val label1width = house1.width - 50f
+        val label1 = BaseActor(0f, 0f, stage)
+        label1.loadTexture("storage.png")
+        label1.setSize(label1width, label1width/label1.width*label1.height)
+        label1.centerAtActor(house1)
+        label1.moveBy(-25f,-house1.height/2 - 80f)
 
         val house2 = BaseActor(0f, 0f, stage)
-        house2.loadTexture("House2.png")
+        house2.loadTexture("villages/TX House C.png")
 
-        house2.height = house2.width // Card is a square
-        house2.centerAtPosition(screenWidth / 5 * 1 + house2.width / 2 + 100, (screenHeight / 2) + house2.height / 2 - 200)
+        // house2.height = house2.width
+        house2.setSize(houseWidth,houseWidth/house2.width*house2.height )
+        house2.centerAtActor(house1)
+        house2.moveBy(house1.width + 100f, 0f)
+        // house2.centerAtPosition(screenWidth / 5 * 1 + house2.width / 2 + 100, (screenHeight / 2) - 100f)
 
         // Set event action
         house2.addListener(object : InputListener() {
@@ -124,28 +135,21 @@ class VillageScreen() : BaseScreen() {
         })
 
 
-        val apple = BaseActor(0f, 0f, stage)
-        apple.loadTexture("apple.png")
-
-        apple.width = house2.width / 3
-        apple.height = apple.width
-        apple.centerAtPosition(house2.x + 50, (screenHeight / 2) + house2.height / 2 - 400)
-
-        val bar2 = Table()
-        // bar1.background = textureRegionDrawableBg
-        bar2.setPosition(house2.x + 90 + apple.width, apple.y + 30)
-        bar2.setSize(apple.width / 2, apple.height / 2)
-        bar2.top()
-        val label2 = Label("Gallery", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        label2.setFontScale(0.5f,0.5f)
-        bar2.add(label2)
-        stage.addActor(bar2)
+        val label2width = house2.width - 50f
+        val label2 = BaseActor(0f, 0f, stage)
+        label2.loadTexture("gallery.png")
+        label2.setSize(label2width, label2width/label2.width*label2.height)
+        label2.centerAtActor(house2)
+        label2.moveBy(0f,-house2.height/2 - 80f)
 
         val house3 = BaseActor(0f, 0f, stage)
-        house3.loadTexture("House3.png")
+        house3.loadTexture("villages/TX House B.png")
 
-        house3.height = house3.width // Card is a square
-        house3.centerAtPosition(screenWidth / 5 * 2 + house3.width / 2 + 100, (screenHeight / 2) + house3.height / 2 - 200)
+        // house3.height = house3.width
+        house3.setSize(houseWidth,houseWidth/house3.width*house3.height )
+        house3.centerAtActor(house2)
+        house3.moveBy(house2.width +100f, 100f)
+        // house3.centerAtPosition(screenWidth / 5 * 2 + house3.width / 2 + 100, (screenHeight / 2))
 
         // Set event action
         house3.addListener(object : InputListener() {
@@ -161,6 +165,7 @@ class VillageScreen() : BaseScreen() {
             }
         })
 
+        /*
         val potion = BaseActor(0f, 0f, stage)
         potion.loadTexture("potion.png")
 
@@ -173,64 +178,23 @@ class VillageScreen() : BaseScreen() {
         bar3.setPosition(house3.x + 90 + potion.width, potion.y + 30)
         bar3.setSize(potion.width / 2, potion.height / 2)
         bar3.top()
-        val label3 = Label("Craft", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        label3.setFontScale(0.5f,0.5f)
-        bar3.add(label3)
-        stage.addActor(bar3)
-
-        val house4 = BaseActor(0f, 0f, stage)
-        house4.loadTexture("House4.png")
-
-        house4.height = house4.width // Card is a square
-        house4.centerAtPosition(screenWidth / 5 * 3 + house4.width / 2 + 100, (screenHeight / 2) + house4.height / 2 - 200)
-
-        // Set event action
-        house4.addListener(object : InputListener() {
-            override fun touchDown(
-                event: InputEvent?,
-                x: Float,
-                y: Float,
-                pointer: Int,
-                button: Int
-            ): Boolean {
-                Awake.setActiveScreen(MergeScreen())
-                return true
-            }
-        })
-
-        val build = BaseActor(0f, 0f, stage)
-        build.loadTexture("build.png")
-
-        build.width = house4.width / 3
-        build.height = build.width
-        build.centerAtPosition(house4.x + 50, (screenHeight / 2) + house4.height / 2 - 400)
-
-        val bar4 = Table()
-        // bar1.background = textureRegionDrawableBg
-        bar4.setPosition(house4.x + 90 + build.width, build.y + 30)
-        bar4.setSize(build.width / 2, build.height / 2)
-        bar4.top()
-        val label4 = Label("Placeholder", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        label4.setFontScale(0.5f,0.5f)
-        bar4.add(label4)
-        stage.addActor(bar4)
-
-        for (i in 0 until 3) {
-            val dummy = BaseActor(0f, 0f, stage)
-            dummy.loadTexture("dummy.png")
-            dummy.width = house1.width / 2
-            dummy.height = house1.height / 2
-            dummy.centerAtPosition(
-                screenWidth - dummy.width - 350,
-                (screenHeight / 2) + dummy.height / 2 - 400 + 200*i
-            )
-        }
+         */
+        // val label3 = Label("Craft", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        // label3.setFontScale(0.5f,0.5f)
+        // bar3.add(label3)
+        // stage.addActor(bar3)
+        val label3width = house3.width - 50f
+        val label3 = BaseActor(0f, 0f, stage)
+        label3.loadTexture("craft.png")
+        label3.setSize(label3width, label3width/label3.width*label3.height)
+        label3.centerAtActor(house3)
+        label3.moveBy(-25f,-house3.height/2 - 80f)
 
         val dungeon = BaseActor(0f, 0f, stage)
-        dungeon.loadTexture("img.jpg")
+        dungeon.loadTexture("dungeonDirect.png")
 
-        dungeon.height = dungeon.width * 3
-        dungeon.centerAtPosition(screenWidth - dungeon.width + 150, (screenHeight / 2) + dungeon.height / 2 - 500)
+        dungeon.setSize(label1width , label1width/dungeon.width*dungeon.height)
+        dungeon.centerAtPosition(screenWidth - dungeon.width/2, screenHeight / 7)
 
         // Set event action
         dungeon.addListener(object : InputListener() {

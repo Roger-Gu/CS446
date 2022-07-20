@@ -45,7 +45,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("dragon.jpeg")
+        background.loadTexture("darkbackground.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
@@ -87,8 +87,9 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                     card.loadTexture(map.map[row][col].frontImg)
                     map.map[row][col].trigger()
                 }
-                card.height = card.width // Card is a square
-                card.centerAtPosition(screenWidth / 7 * col + card.width / 2 + 10, (screenHeight - 160) / 3 * row + card.height / 2)
+                card.setSize(275f,275f)
+                // card.height = card.width // Card is a square
+                card.centerAtPosition(screenWidth / 7 * column + card.width / 2 + 10, (screenHeight - 160) / 3 * row + card.height / 2)
 
                 // Set event action
                 card.addListener(object : InputListener() {
@@ -103,8 +104,9 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                         if (map.map[row][col].isFlipped()) return true
                         val result = map.go(row, col)
                         if (result != INVALIDMOVE) {
-                            card.loadTexture(map.map[row][col].frontImg)
-                            card.height = card.width
+                            card.loadTexture(map.map[row][column].frontImg)
+                            card.setSize(275f,275f)
+                            // card.height = card.width
                         }
                         if (result == COLLECT) {
                             val timer = Timer(0)

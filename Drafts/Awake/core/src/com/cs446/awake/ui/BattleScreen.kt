@@ -392,7 +392,6 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             cardActor.setOnDragNoIntersect {
                 borderImage.remove()
             }
-
         }
     }
 
@@ -437,17 +436,19 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         // enemy actor
         enemyImageActor = BaseActor(0f, 0f, stage)
         enemyImageActor.loadTexture(enemy.enemyImage)
-        enemyImageActor.centerAtPosition(screenWidth - 220f, screenHeight - 150f)
+        enemyImageActor.setSize(enemyImageActor.width/3*2, enemyImageActor.height/5*3)
+        enemyImageActor.centerAtPosition(screenWidth - 350f, screenHeight - 150f)
 
         // player actor
 
         playerImageActor = BaseActor(0f, 0f, stage)
         playerImageActor.loadTexture(player.playerImage)
-        playerImageActor.centerAtPosition(220f, 150f)
+        playerImageActor.setSize(playerImageActor.width/5*3, playerImageActor.height/5*3)
+        playerImageActor.centerAtPosition(380f, 150f)
 
         // Bars
         stage.addActor(enemy.healthBar)
-        stage.addActor(enemy.energyBar)
+//        stage.addActor(enemy.energyBar)
         stage.addActor(player.healthBar)
         stage.addActor(player.energyBar)
 
@@ -463,7 +464,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             // State of player
             val playerStateActor = BaseActor(0f, 0f, stage)
             playerStateActor.loadTexture("${state.lowercase()}.png")
-            playerStateActor.centerAtPosition(-650f, screenHeight - 850f)
+            playerStateActor.centerAtPosition(-650f, screenHeight - 810f)
             playerStateActor.moveBy(
                 (screenWidth - (4 * stateWidth + 3 * intervalWid)) / 2 + stateIndex * stateWidth,
                 0f
@@ -473,7 +474,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             // State of enemy
             val enemyStateActor = BaseActor(0f, 0f, stage)
             enemyStateActor.loadTexture("${state.lowercase()}.png")
-            enemyStateActor.centerAtPosition(650f, screenHeight - 150f)
+            enemyStateActor.centerAtPosition(690f, screenHeight - 140f)
             enemyStateActor.moveBy(
                 (screenWidth - (4 * stateWidth + (4 - 1) * intervalWid)) / 2 + stateIndex * stateWidth,
                 0f
@@ -536,6 +537,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             ): Boolean {
                 enemy.initBars()
                 player.initBars()
+
                 battleScreen()
                 startTurn()
                 return true

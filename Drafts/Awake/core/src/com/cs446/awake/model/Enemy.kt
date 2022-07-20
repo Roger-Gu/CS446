@@ -1,42 +1,62 @@
 package com.cs446.awake.model
 
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
+import com.cs446.awake.utils.BaseActor
 
 
 class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, strength: Int, var enemyImage: String, deck: Deck, state: MutableList<State>, playerType: PlayerType) : Character(charName, HP, energy, strength, enemyImage,deck, state, playerType) {
 
     override fun initBars() {
-        val heathBarStyle = createBarStyle(Color.BLACK, Color.RED, 20)
+//        healthBar = BaseActor(0f, 0f, stage)
+//        healthBar.loadTexture("HP_line.png")
+//        energyBar = BaseActor(0f, 0f, stage)
+//        energyBar.loadTexture("MP_line.png")
 
-        healthBar = ProgressBar(0.0f, 1.0f, 0.01f, false, heathBarStyle)
-        healthBar.value = 1.0f
-        healthBar.setAnimateDuration(0.25f)
-        healthBar.setBounds(1400F, 980F, 600F, 20f)
-        healthBar.setRange(0f, HP / 100.0f) // TODO: everytime deal damage, update this
-        healthBar.value = HP / 100.0f
+        healthBar = Image(Texture(Gdx.files.internal("HP_line.png")))
+        energyBar = Image(Texture(Gdx.files.internal("MP_line.png")))
 
-        val energyBarStyle = createBarStyle(Color.BLACK, Color.SKY, 20)
+        healthBar.setSize(388f, 82f)
+        energyBar.setSize(550f, 80f)
+        healthBar.setPosition(1682f, 767f)
+        energyBar.setPosition(1450f, 900f)
 
-        energyBar =  ProgressBar(0.0f, 1.0f, 0.01f, false, energyBarStyle)
-        energyBar.value = 1.0f
-        energyBar.setAnimateDuration(0.25f)
-        energyBar.setBounds(1500F, 930F, 500F, 20f)
-        energyBar.setRange(0f, energy / 100.0f) // TODO: everytime deal damage, update this
-        energyBar.value = energy / 100.0f
+        healthOriginalWidth = healthBar.width
+        healthStartX = healthBar.x
+        energyOriginalWidth = energyBar.width
+        energyStartX = energyBar.x
     }
 
+
+    override  fun updateHealth(HpChange: Int){
+        HP += HpChange
+        val gap = healthBar.width - HP.toFloat()/originalHP * healthOriginalWidth
+        healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
+        healthBar.setPosition(healthBar.x + gap, healthBar.y)
+    }
+
+
+    override fun updateEnergy(energyChange: Int) {
+        energy += energyChange
+        if (energy > maxEnergy) energy = maxEnergy
+        val gap = energyBar.width - energy.toFloat()/originalEnergy * energyOriginalWidth
+        energyBar.setSize(energy.toFloat()/originalEnergy * energyOriginalWidth, energyBar.height)
+        energyBar.setPosition(energyBar.x + gap, energyBar.y)
+    }
     override fun initCharImage() {
     }
 
     override fun initChar() {
 //        initCharImage()
-        initBars()
+//        initBars()
     }
 }
