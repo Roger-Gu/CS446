@@ -105,7 +105,6 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     // return false if cannot drawCard
     open fun drawCard(): Boolean {
         if (deck.isEmpty()){
-            HP = 0
             return false
         }
         val c = deck.pop() // deck should shuffle when it is empty
@@ -149,7 +148,13 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     open fun preRound(): Boolean {
         updateEnergy(3)
         while (hand.size < 5) {
-            if (!drawCard()) { return false }
+            if (!drawCard()) {
+                if (hand.size == 0) {
+                    return false
+                } else {
+                    break
+                }
+            }
         }
 
 
