@@ -138,8 +138,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         // Add card border image
         val borderWidth = 30
         borderImage.setSize(
-            borderImage.width + borderWidth * 2,
-            borderImage.height + borderWidth * 2
+            itemPic.width + borderWidth * 2,
+            itemPic.height + borderWidth * 2
         )
         borderImage.setPosition(itemPic.x - borderWidth, itemPic.y - borderWidth)
         stage.addActor(borderImage)
