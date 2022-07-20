@@ -25,6 +25,7 @@ val TOTAL_MATERIAL = materialInfo.getStored().size
 class BackpackScreen(val g: Int) : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
+    private val buttonHeight = screenHeight / 6 - 75f
 
     // Timer variables
     private var worldTimer  = -1
@@ -42,6 +43,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
     private lateinit var paper : BaseActor
     private lateinit var name : Label
     private lateinit var use : Label
+    private lateinit var ip : Label
+    private lateinit var mp : Label
 
     // Function that active the timer
     private fun startTimer(frames: Int, endTime : () -> Unit, duringTime : () -> Unit) {
@@ -81,9 +84,9 @@ class BackpackScreen(val g: Int) : BaseScreen() {
 
     fun backpackScroll(i: Int) {
         paper = BaseActor(0f, 0f, stage)
-        paper.loadTexture("paperboarder.png")
-        paper.setPosition(100f, 300f)
-        paper.setSize(390f, 780f)
+        paper.loadTexture("map/empty.png")
+        paper.setPosition(screenWidth / 20, screenHeight / 6 - 50f)
+        paper.setSize(390f, screenHeight / 2.5f * 2 + 50f)
 
         name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
@@ -110,7 +113,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
             }
             val cardActor = BaseActor(0f, 0f, stage)
             cardActor.loadTexture(c.img)
-            cardActor.setSize(500f, 600f)
+            val cardHeight = screenHeight / 2.5f - 100f
+            cardActor.setSize(cardHeight / cardActor.height*cardActor.width, cardHeight)
             cardActor.addListener(object : InputListener() {
                 override fun touchDown(
                     event: InputEvent?,
@@ -122,11 +126,11 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                     showInfo(c)
                     val borderWidth = 30
                     borderImage.setSize(
-                        cardActor.width - 20,
-                        cardActor.height + borderWidth * 2
+                        cardActor.width + 25,
+                        cardActor.height + 25
                     )
+                    borderImage.setPosition(cardActor.x-10, cardActor.y-10)
                     borderImage.isVisible = true
-                    borderImage.setPosition(cardActor.x + 20, cardActor.y - borderWidth)
                     return true
                 }
             })
@@ -139,20 +143,19 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         scrollPane.scrollTo(0f,0f,0f,0f)
 
         container.add(scrollPane)
-        container.setPosition(300f, 260f)
-        container.setSize(screenWidth - 100, 860f)
+        container.setPosition(screenWidth / 4.5f, screenHeight / 4 - 50f)
+        container.setSize(screenWidth / 5 * 3.9f, screenHeight / 2f)
         var skin = Skin()
         skin.add("logo", Texture("bpback.png"));
         container.background(skin.getDrawable("logo"))
         container.row()
-        container.getCell(scrollPane).size(1900f,600f)
+        container.getCell(scrollPane).size(1720f,container.height /2*3)
         stage.addActor(container)
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("backArrow.png")
-        back.setSize(200f, 200f)
-        // back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 300, (screenHeight / 2) + back.height / 2 - 700)
-        back.centerAtPosition(back.width, screenHeight / 2)
+        back.loadTexture("backButton.png")
+        back.setSize(buttonHeight / back.height * back.width, buttonHeight)
+        back.setPosition(screenWidth / 20, 20f)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(
@@ -196,6 +199,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 weapon.remove()
                 material.remove()
                 back.remove()
+                ip.isVisible = false
+                mp.isVisible = false
                 backpackScroll(1)
                 return true
             }
@@ -217,6 +222,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 weapon.remove()
                 material.remove()
                 back.remove()
+                ip.isVisible = false
+                mp.isVisible = false
                 backpackScroll(2)
                 return true
             }
@@ -231,8 +238,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 mlen += 1
             }
         }
-        var ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        var mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         ip.setPosition(weapon.x + 250, weapon.y + 810)
         mp.setPosition(material.x + 250, material.y + 810)
         stage.addActor(ip)
@@ -243,10 +250,9 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         }
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("backArrow.png")
-        back.setSize(200f, 200f)
-        // back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 200, (screenHeight / 2) + back.height / 2 - 600)
-        back.centerAtPosition(back.width, screenHeight / 2)
+        back.loadTexture("backButton.png")
+        back.setSize(buttonHeight / back.height * back.width, buttonHeight)
+        back.setPosition(screenWidth / 20, 20f)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(

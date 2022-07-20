@@ -21,6 +21,7 @@ class MergeScreen() : BaseScreen() {
     // Screen size
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
+    private val buttonHeight = screenHeight / 6 - 75f
 
     // Background
     private lateinit var background : BaseActor
@@ -273,9 +274,9 @@ class MergeScreen() : BaseScreen() {
 
         // merge card button
         mergeCard = BaseActor(0f, 0f, stage)
-        mergeCard.loadTexture("check.png")
-        mergeCard.setSize(250f, 200f)
-        mergeCard.centerAtPosition(screenWidth - 250f, (screenHeight / 2) + mergeCard.height / 2 - 500)
+        mergeCard.loadTexture("merge.png")
+        mergeCard.setSize(buttonHeight / mergeCard.height * mergeCard.width, buttonHeight)
+        mergeCard.setPosition(screenWidth / 20 * 19 - mergeCard.width, 20f)
         mergeCard.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -315,7 +316,7 @@ class MergeScreen() : BaseScreen() {
                     // add this item into storage
                     val outputCardActor = BaseActor(0f, 0f, stage)
                     outputCardActor.toFront()
-                    outputCardActor.loadTexture("skeleton1.png") //TODO: read card image & info
+                    outputCardActor.loadTexture(outputCard.img) //TODO: read card image & info
                     outputCardActor.setPosition(screenWidth/2 - outputCardActor.width/2, screenHeight/2 - 300)
                     outputCardActor.setSize(350f, 400f)
 
@@ -357,9 +358,9 @@ class MergeScreen() : BaseScreen() {
 
         // clear merge button
         clearMerge = BaseActor(0f, 0f, stage)
-        clearMerge.loadTexture("EndTurnButton.png")
-        clearMerge.setSize(250f, 200f)
-        clearMerge.centerAtPosition(screenWidth / 2, (screenHeight / 2) + clearMerge.height / 2 - 500)
+        clearMerge.loadTexture("cancel1.png")
+        clearMerge.setSize(buttonHeight / clearMerge.height * clearMerge.width, buttonHeight)
+        clearMerge.setPosition(screenWidth / 2 - clearMerge.width / 2, 20f)
         clearMerge.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -384,9 +385,9 @@ class MergeScreen() : BaseScreen() {
         })
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("backArrow.png")
-        back.setSize(250f, 200f)
-        back.centerAtPosition(back.width, (screenHeight / 2) + back.height / 2 - 500)
+        back.loadTexture("backButton.png")
+        back.setSize(buttonHeight / back.height * back.width, buttonHeight)
+        back.setPosition(screenWidth / 20, 20f)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(
@@ -400,6 +401,7 @@ class MergeScreen() : BaseScreen() {
                 return true
             }
         })
+
     }
 
     override fun update(delta: Float) {
