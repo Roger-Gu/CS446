@@ -44,11 +44,11 @@ class Awake : Game() {
         // For dungeon demo
         dungeonMap = DungeonMap(1)
 
-        var card = MaterialCard("a","equipment.png","useassssssssssssssssssssssssssssssssssssssssss")
-        var card1 = MaterialCard("b","equipment.png","useb")
-        var card2 = MaterialCard("c","equipment.png","usec")
-        var card3 = MaterialCard("d","equipment.png","usec")
-        var card4 = MaterialCard("e","equipment.png","usec")
+        var card = MaterialCard("a","material/bone.png","useassssssssssssssssssssssssssssssssssssssssss")
+        var card1 = MaterialCard("b","material/stick.png","useb")
+        var card2 = MaterialCard("c","material/iron.png","usec")
+        var card3 = MaterialCard("d","material/log.png","usec")
+        var card4 = MaterialCard("e","material/potion.png","usec")
         val d = deck
         var card5 = ItemCard("f","material/boneSword.png","usec",1,1,1,1,1,1,1,d)
         var card6 = ItemCard("g","material/bow.png","usec",1,1,1,1,1,1,1,d)
@@ -87,8 +87,8 @@ class Awake : Game() {
         // Test Battle View
 
 //        setActiveScreen(EnterDungeonScreen())
-        setActiveScreen(BattleScreen(player, enemy))
-//        setActiveScreen(VillageScreen())
+//        setActiveScreen(BattleScreen(player, enemy))
+        setActiveScreen(VillageScreen())
     }
 
     override fun dispose() {
