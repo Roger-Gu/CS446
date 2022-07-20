@@ -40,8 +40,13 @@ class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, 
     override  fun updateHealth(HpChange: Int){
         HP += HpChange
         val gap = healthBar.width - HP.toFloat()/originalHP * healthOriginalWidth
-        healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
-        healthBar.setPosition(healthBar.x + gap, healthBar.y)
+        if (HP >= 0) {
+            healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
+            healthBar.setPosition(healthBar.x + gap, healthBar.y)
+        } else {
+            healthBar.setSize(0f, healthBar.height)
+            healthBar.setPosition(healthBar.x + gap, healthBar.y)
+        }
     }
 
 

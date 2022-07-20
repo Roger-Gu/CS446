@@ -79,8 +79,8 @@ class Awake : Game() {
         // Test Battle View
 
 //        setActiveScreen(EnterDungeonScreen())
-//        setActiveScreen(BattleScreen(player, enemy))
-        setActiveScreen(VillageScreen())
+        setActiveScreen(BattleScreen(player, enemy))
+//        setActiveScreen(VillageScreen())
 //        setActiveScreen(DungeonScreen(dungeonMap))
 //        setActiveScreen(BattleScreen(player, enemy))
     }

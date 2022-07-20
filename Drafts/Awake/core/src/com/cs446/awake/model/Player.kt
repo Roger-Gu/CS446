@@ -37,7 +37,11 @@ class Player(charName: String, HP: Int, energy: Int, strength: Int, var playerIm
 
     override fun updateHealth(HpChange: Int){
         HP += HpChange
-        healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
+        if (HP >= 0) {
+            healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
+        } else {
+            healthBar.setSize(0f, healthBar.height)
+        }
     }
 
 

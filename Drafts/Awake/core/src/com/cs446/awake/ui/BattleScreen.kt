@@ -272,12 +272,16 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
     }
 
     // Function that apply event of using cards.
-    private fun useCard(card: ActionCard) {
+    private fun useCard(card: ActionCard) : Boolean {
+
+        // Notify everyone to apply effect of card
+        if (!player.update(card, from = currentTurn)) {
+            return false
+        }
+        enemy.update(card, from = currentTurn)
+
         // Remove the used card
         currentTurn.removeCard(card)
-        // Notify everyone to apply effect of card
-        player.update(card, from = currentTurn)
-        enemy.update(card, from = currentTurn)
         // Check game status
         if (isPlayerWin() != null) {
             // Game end
@@ -287,6 +291,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
                 loseGame()
             }
         }
+        return true
     }
 
     // Function that apply the end part of round of game.
@@ -433,9 +438,15 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             )
 
             cardActor.setOnDropIntersect {
-                cardActor.remove()
-                useCard(card)
-                borderImage.remove()
+                if (useCard(card)) {
+                    cardActor.remove()
+                    borderImage.remove()
+                } else {
+                    cardActor.setPosition(cardActor.startX, cardActor.startY)
+                    cardActor.setRotation(cardActor.startRotation)
+                    borderImage.remove()
+                }
+
             }
             cardActor.setOnDragIntersect {
                 borderImage.setSize(
