@@ -24,6 +24,7 @@ class MergeScreen() : BaseScreen() {
 
     // Background
     private lateinit var background : BaseActor
+    private lateinit var paper : BaseActor
 
     // Merge Area
     private lateinit var mergeArea : BaseActor
@@ -143,15 +144,17 @@ class MergeScreen() : BaseScreen() {
                 val cardActor = DragDropActor(0f, 0f, stage, mergeArea, inTable = true)
                 cardActor.toFront()
                 cardActor.loadTexture(material.img)
-                cardActor.setSize(500f, 600f)
+                cardActor.setSize(300f, 300f)
 
                 // if not on the merge area, return back to the start position
                 cardActor.setOnDropNoIntersect {
+                    mergeArea.isVisible = false
                     toMerge = false
                     cardActor.setPosition(cardActor.startX, cardActor.startY)
                 }
                 // if on the merge area, update merge list and storage
                 cardActor.setOnDropIntersect {
+                    mergeArea.isVisible = false
                     toMerge = false
                     if (mergeAreaCards.size >= 7) {
                         cardActor.setPosition(cardActor.startX, cardActor.startY)
@@ -177,6 +180,7 @@ class MergeScreen() : BaseScreen() {
                         newCard.toFront()
 
                         newCard.loadTexture(oneMaterial.img)
+                        newCard.setSize(300f, 300f)
 
                         mergeTable.add(newCard).expandX().pad(10f).right()
                     }
@@ -188,9 +192,11 @@ class MergeScreen() : BaseScreen() {
                         changeX = cardActor.x - cardActor.startX
                         tableDisplay.setPosition(tableDisplay.x + changeX, tableDisplay.y)
                     }
+                    mergeArea.isVisible = true
                 }
                 cardActor.setOnDragIntersect {
                     toMerge = true
+                    mergeArea.isVisible = true
                 }
                 cardStack.add(cardActor)
                 count--
@@ -214,8 +220,36 @@ class MergeScreen() : BaseScreen() {
         storage.add(log)
         storage.add(log)
 
-        tableDisplay.setSize(screenWidth, screenHeight/2)
-        tableDisplay.setPosition(0f,screenHeight -1000 )
+        // set background
+        background = BaseActor(0f, 0f, stage)
+        background.loadTexture("dragonBackground.png") //TODO: background image
+        background.setSize(screenWidth, (screenWidth / background.width * background.height))
+        background.centerAtPosition(screenWidth / 2, screenHeight / 2)
+
+        var mergeField = BaseActor(0f,0f,stage)
+        mergeField.loadTexture("bpback.png")
+        mergeField.setSize(screenWidth*2, screenHeight/3)
+        mergeField.centerAtPosition(screenWidth/2,screenHeight -400+ mergeField.height/2)
+        val txt1 = Label("Merge Field", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        txt1.setSize(screenWidth/3, screenHeight/2)
+        txt1.setPosition(50f,screenHeight -400)
+        txt1.setFontScale(0.5f)
+        txt1.wrap = true
+        stage.addActor(txt1)
+
+        var storageField = BaseActor(0f,0f,stage)
+        storageField.loadTexture("bpback.png")
+        storageField.setSize(screenWidth*2, screenHeight/3)
+        storageField.centerAtPosition(screenWidth/2,screenHeight -800 + storageField.height/2 )
+        val txt2 = Label("Storage Field", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        txt2.setSize(screenWidth/3, screenHeight/2)
+        txt2.setPosition(50f,screenHeight -800)
+        txt2.setFontScale(0.5f)
+        txt2.wrap = true
+        stage.addActor(txt2)
+
+        tableDisplay.setSize(screenWidth/2, screenHeight/3)
+        tableDisplay.setPosition(500f,screenHeight -800 )
         println("Init Storage:")
         for (i in storage.getStored()) {
             println(i.cardName + " " + i.count.toString())
@@ -224,29 +258,24 @@ class MergeScreen() : BaseScreen() {
 
         Gdx.input.inputProcessor = stage
 
-        // set background
-        background = BaseActor(0f, 0f, stage)
-        background.loadTexture("dragonBackground.png") //TODO: background image
-        background.setSize(screenWidth, (screenWidth / background.width * background.height))
-        background.centerAtPosition(screenWidth / 2, screenHeight / 2)
-
         // set merge area
-        mergeDisplay.setSize(screenWidth, screenHeight/2)
-        mergeDisplay.setPosition(0f,screenHeight -600 )
+        mergeDisplay.setSize(screenWidth/2, screenHeight/3)
+        mergeDisplay.setPosition(500f,screenHeight -400 )
         mergeArea = BaseActor(0f, 0f, stage)
         mergeArea.toFront()
-        mergeArea.loadTexture("transparent.png") //TODO: transparent merge area
-        mergeArea.setSize(screenWidth, screenHeight / 2)
+        mergeArea.loadTexture("highlight_border.png")
+        mergeArea.setSize(screenWidth, screenHeight/3)
         mergeArea.centerAtPosition(screenWidth / 2, screenHeight * 3 / 4)
+        mergeArea.isVisible = false
 
         // init table
         renderTable()
 
         // merge card button
         mergeCard = BaseActor(0f, 0f, stage)
-        mergeCard.loadTexture("EndTurnButton.png")
+        mergeCard.loadTexture("check.png")
         mergeCard.setSize(250f, 200f)
-        mergeCard.centerAtPosition(screenWidth - 250f, screenHeight / 2)
+        mergeCard.centerAtPosition(screenWidth - 250f, (screenHeight / 2) + mergeCard.height / 2 - 500)
         mergeCard.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -263,6 +292,11 @@ class MergeScreen() : BaseScreen() {
                 println("Merge Clicked")
                 if (outputCard != null) {
                     println("Card Merged")
+
+                    txt1.isVisible = false
+                    txt2.isVisible = false
+                    mergeField.isVisible = false
+                    storageField.isVisible = false
                     storage.add(outputCard)
 
                     mergeAreaCards.clear()
@@ -273,16 +307,6 @@ class MergeScreen() : BaseScreen() {
                     txt.setPosition(screenWidth/5, screenHeight/2)
                     txt.setFontScale(0.5f)
                     txt.wrap = true
-                    // Menu Bar Picture
-//                    val bgPixmap = Pixmap(1, 1, Pixmap.Format.RGB565)
-//                    bgPixmap.setColor(Color.GRAY)
-//                    bgPixmap.fill()
-//                    val textureRegionDrawableBg = TextureRegionDrawable(TextureRegion(Texture(bgPixmap)))
-//                    val menuBar = Table()
-//                    menuBar.background = textureRegionDrawableBg
-//                    menuBar.setPosition(0f, screenHeight - 160f)
-//                    menuBar.setSize(screenWidth, screenHeight/2)
-//                    menuBar.add(txt)
                     stage.addActor(txt)
 
                     mergeTable.clear()
@@ -292,7 +316,9 @@ class MergeScreen() : BaseScreen() {
                     val outputCardActor = BaseActor(0f, 0f, stage)
                     outputCardActor.toFront()
                     outputCardActor.loadTexture("skeleton1.png") //TODO: read card image & info
-                    outputCardActor.setPosition(screenWidth/2 + 100, screenHeight/2 - 300)
+                    outputCardActor.setPosition(screenWidth/2 - outputCardActor.width/2, screenHeight/2 - 300)
+                    outputCardActor.setSize(350f, 400f)
+
                     outputCardActor.addListener(object : InputListener() {
                         override fun touchDown(
                             event: InputEvent?,
@@ -303,6 +329,10 @@ class MergeScreen() : BaseScreen() {
                         ): Boolean {
                             // refresh table
                             txt.isVisible = false
+                            txt1.isVisible = true
+                            txt2.isVisible = true
+                            mergeField.isVisible = true
+                            storageField.isVisible = true
                             outputCardActor.remove()
                             renderTable()
 
@@ -329,7 +359,7 @@ class MergeScreen() : BaseScreen() {
         clearMerge = BaseActor(0f, 0f, stage)
         clearMerge.loadTexture("EndTurnButton.png")
         clearMerge.setSize(250f, 200f)
-        clearMerge.centerAtPosition(screenWidth / 2, (screenHeight / 2) + clearMerge.height / 2 - 700)
+        clearMerge.centerAtPosition(screenWidth / 2, (screenHeight / 2) + clearMerge.height / 2 - 500)
         clearMerge.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -354,9 +384,9 @@ class MergeScreen() : BaseScreen() {
         })
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("EndTurnButton.png")
+        back.loadTexture("backArrow.png")
         back.setSize(250f, 200f)
-        back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 300, (screenHeight / 2) + back.height / 2 - 700)
+        back.centerAtPosition(back.width, (screenHeight / 2) + back.height / 2 - 500)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(
