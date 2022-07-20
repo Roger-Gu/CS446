@@ -94,6 +94,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                 battleItem = ItemCardData(mutableListOf())
                 dungeonMusic.stop()
                 dumpJson()
+                dungeonLevel = 1
                 Awake.setActiveScreen(VillageScreen())
                 return true
             }
