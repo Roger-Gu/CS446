@@ -102,7 +102,7 @@ class VillageScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(BackpackScreen())
+                Awake.setActiveScreen(BackpackScreen(1))
                 return true
             }
         })
@@ -139,7 +139,7 @@ class VillageScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(GalleryScreen())
+                Awake.setActiveScreen(BackpackScreen(0))
                 return true
             }
         })

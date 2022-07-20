@@ -40,13 +40,10 @@ class EnterDungeonScreen() : BaseScreen() {
     private lateinit var name : Label
     private lateinit var use : Label
     private lateinit var card : MergableCard
+    private lateinit var border1 : Image
+    private lateinit var border : Image
     private var v = true
     private var selected = false
-
-    // Card's border
-    private val borderTexture =
-        Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
-    private val borderImage = Image(borderTexture)
 
     // Function that active the timer
     private fun startTimer(frames: Int, endTime : () -> Unit, duringTime : () -> Unit) {
@@ -95,6 +92,11 @@ class EnterDungeonScreen() : BaseScreen() {
 
         var table = Table()
         var container = Table()
+        // Card's border
+        val borderTexture =
+            Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
+        border = Image(borderTexture)
+        border.isVisible = false
         for (c in storage.getStored()) {
             if (c is MaterialCard) {
                 continue
@@ -114,6 +116,14 @@ class EnterDungeonScreen() : BaseScreen() {
                     button: Int
                 ): Boolean {
                     showInfo(c)
+                    val borderWidth = 30
+                    border.isVisible = true
+                    border.setSize(
+                        cardActor.width + borderWidth * 2,
+                        cardActor.height + borderWidth * 2
+                    )
+                    border.setPosition(cardActor.x - borderWidth, cardActor.y - borderWidth)
+                    border1.isVisible = false
                     card = c.clone()
                     v = true
                     selected = true
@@ -122,6 +132,7 @@ class EnterDungeonScreen() : BaseScreen() {
             })
             table.add(cardActor)
         }
+        table.add(border)
         table.row()
         //table.setSize(screenWidth - 300, 860f)
 
@@ -140,6 +151,10 @@ class EnterDungeonScreen() : BaseScreen() {
 
         var table1 = Table()
         var container1 = Table()
+        val borderTexture1 =
+            Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
+        border1 = Image(borderTexture1)
+        border1.isVisible = false
         for (c in backPackItem.getStored()) {
             if (c is MaterialCard) {
                 continue
@@ -159,6 +174,14 @@ class EnterDungeonScreen() : BaseScreen() {
                     button: Int
                 ): Boolean {
                     showInfo(c)
+                    val borderWidth = 30
+                    border1.isVisible = true
+                    border1.setSize(
+                        cardActor.width + borderWidth * 2,
+                        cardActor.height + borderWidth * 2
+                    )
+                    border1.setPosition(cardActor.x - borderWidth, cardActor.y - borderWidth)
+                    border.isVisible = false
                     card = c.clone()
                     v = false
                     selected = true
@@ -167,6 +190,7 @@ class EnterDungeonScreen() : BaseScreen() {
             })
             table1.add(cardActor)
         }
+        table1.add(border1)
         table1.row()
         //table.setSize(screenWidth - 300, 860f)
 

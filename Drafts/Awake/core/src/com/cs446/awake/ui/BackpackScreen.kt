@@ -19,7 +19,7 @@ import com.cs446.awake.utils.BaseScreen
 import com.cs446.awake.utils.DragDropActor
 
 
-class BackpackScreen() : BaseScreen() {
+class BackpackScreen(val g: Int) : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
 
@@ -88,29 +88,11 @@ class BackpackScreen() : BaseScreen() {
         var table = Table()
         var container = Table()
 
-        var card = MaterialCard("a","equipment.png","useassssssssssssssssssssssssssssssssssssssssss")
-        var card1 = MaterialCard("b","equipment.png","useb")
-        var card2 = MaterialCard("c","equipment.png","usec")
-        var card3 = MaterialCard("d","equipment.png","usec")
-        var card4 = MaterialCard("e","equipment.png","usec")
-        val d = deck
-        var card5 = ItemCard("f","equipment.png","usec",1,1,1,1,1,1,1,d)
-        var card6 = ItemCard("g","equipment.png","usec",1,1,1,1,1,1,1,d)
-        var card7 = ItemCard("h","equipment.png","usec",1,1,1,1,1,1,1,d)
-        var card8 = ItemCard("i","equipment.png","usec",1,1,1,1,1,1,1,d)
-        var card9 = MergableCard("j","equipment.png","usec")
-        storage.add(card)
-        storage.add(card1)
-        storage.add(card2)
-        storage.add(card3)
-        storage.add(card4)
-        storage.add(card5)
-        storage.add(card6)
-        storage.add(card7)
-        storage.add(card8)
-        storage.add(card9)
-
-
+        // Card's border
+        val borderTexture =
+            Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
+        val borderImage = Image(borderTexture)
+        borderImage.isVisible = false
         for (c in storage.getStored()) {
             if (i == 1 && c is MaterialCard) {
                 continue
@@ -118,7 +100,7 @@ class BackpackScreen() : BaseScreen() {
             if (i == 2 && c is ItemCard) {
                 continue
             }
-            if (c.count == 0) {
+            if (g == 1 && c.count == 0) {
                 continue
             }
             val cardActor = BaseActor(0f, 0f, stage)
@@ -133,13 +115,20 @@ class BackpackScreen() : BaseScreen() {
                     button: Int
                 ): Boolean {
                     showInfo(c)
+                    val borderWidth = 30
+                    borderImage.setSize(
+                        cardActor.width + borderWidth * 2,
+                        cardActor.height + borderWidth * 2
+                    )
+                    borderImage.isVisible = true
+                    borderImage.setPosition(cardActor.x - borderWidth, cardActor.y - borderWidth)
                     return true
                 }
             })
             table.add(cardActor)
         }
+        table.add(borderImage)
         table.row()
-        //table.setSize(screenWidth - 300, 860f)
 
         scrollPane = ScrollPane(table)
         scrollPane.scrollTo(0f,0f,0f,0f)
@@ -167,7 +156,7 @@ class BackpackScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(BackpackScreen())
+                Awake.setActiveScreen(BackpackScreen(g))
                 return true
             }
         })
