@@ -113,6 +113,9 @@ class EnterBattleScreen() : BaseScreen() {
                     pointer: Int,
                     button: Int
                 ): Boolean {
+                    select.loadTexture("selectButton.png")
+                    select.setSize(buttonHeight / select.height * select.width, buttonHeight)
+                    select.setPosition(screenWidth / 2 - select.width / 2, 20f)
                     showInfo(c)
                     border.isVisible = true
                     border.setSize(
