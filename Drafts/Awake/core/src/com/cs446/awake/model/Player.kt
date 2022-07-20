@@ -45,6 +45,7 @@ class Player(charName: String, HP: Int, energy: Int, strength: Int, var playerIm
         energy += energyChange
         if (energy > maxEnergy) energy = maxEnergy
         energyBar.setSize(energy.toFloat()/originalEnergy * energyOriginalWidth, energyBar.height)
+        println("Energy: " + energy)
     }
 
     override fun initCharImage() {

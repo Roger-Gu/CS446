@@ -38,7 +38,7 @@ class Awake : Game() {
         val enemyDeck = getTestDeck()
         val enemyImage = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
         val enemyStates : MutableList<State> = mutableListOf()
-        enemy = Enemy(enemyImage,"Enemy",100, 99, 99,"enemy_bar.png", enemyDeck, enemyStates, PlayerType.AI)
+        enemy = Enemy(enemyImage,"Enemy",100, 99, 99,"Monster_lv1/monster1_bar.png", enemyDeck, enemyStates, PlayerType.AI)
 
         // For dungeon demo
         dungeonMap = DungeonMap(1)
@@ -86,8 +86,8 @@ class Awake : Game() {
         // Test Battle View
 
 //        setActiveScreen(EnterDungeonScreen())
-//        setActiveScreen(BattleScreen(player, enemy))
-        setActiveScreen(VillageScreen())
+        setActiveScreen(BattleScreen(player, enemy))
+//        setActiveScreen(VillageScreen())
     }
 
     override fun dispose() {
