@@ -347,16 +347,17 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
                 backPackMaterial = MaterialCardData(mutableListOf())
                 battleItem = ItemCardData(mutableListOf())
                 dungeonLevel = 1
-                setActiveScreen(VillageScreen())
                 dumpJson()
+                setActiveScreen(VillageScreen())
+
             } else {
                 enemyDisplay.remove()
                 backPackItem.append(battleItem)
                 battleItem = ItemCardData(mutableListOf()) // clear battle item
                 if (dungeonMap != null) {
+                    dumpJson()
                     setActiveScreen(DungeonScreen(dungeonMap as DungeonMap))
                 }
-                dumpJson()
             }
 
         }
@@ -365,7 +366,6 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
     // The game result with player lose.
     private fun loseGame() {
-        reset() // loose everything
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
@@ -395,6 +395,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
                 backPackItem = ItemCardData(mutableListOf())
                 backPackMaterial = MaterialCardData(mutableListOf())
                 battleItem = ItemCardData(mutableListOf())
+                dumpJson()
                 setActiveScreen(VillageScreen())
                 dungeonLevel = 1
                 return true
