@@ -334,10 +334,10 @@ class MergeScreen() : BaseScreen() {
                     mergeAreaCards.clear()
                     mergeData = CardData(mutableListOf())
 
-                    val txt = Label("Congratulation! You have successfully merged these cards. Click to collect the card.", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-                    txt.setSize(screenWidth/3, screenHeight/2)
+                    val txt = Label("Congratulation! You have successfully merged these cards. Click to collect the card.", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+                    txt.setSize(screenWidth/2.2f, screenHeight/2)
                     txt.setPosition(screenWidth/5, screenHeight/2)
-                    txt.setFontScale(0.5f)
+                    txt.setFontScale(1f)
                     txt.wrap = true
                     stage.addActor(txt)
 
@@ -348,7 +348,7 @@ class MergeScreen() : BaseScreen() {
                     val outputCardActor = BaseActor(0f, 0f, stage)
                     outputCardActor.toFront()
                     outputCardActor.loadTexture(outputCard.img) //TODO: read card image & info
-                    outputCardActor.setPosition(screenWidth/2 - outputCardActor.width/2, screenHeight/2 - 300)
+                    outputCardActor.setPosition(screenWidth/2 - outputCardActor.width/2 - 30f, screenHeight/2 - 368)
                     outputCardActor.setSize(cardHeight/outputCardActor.height*outputCardActor.width * 1.3f, cardHeight*1.3f)
 
 

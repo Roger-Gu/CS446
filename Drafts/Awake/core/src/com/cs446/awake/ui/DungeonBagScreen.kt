@@ -86,8 +86,8 @@ class DungeonBagScreen() : BaseScreen() {
         paper.setPosition(screenWidth / 20, screenHeight / 6 - 50f)
         paper.setSize(390f, screenHeight / 2.5f * 2 + 50f)
 
-        name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
+        use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
         stage.addActor(name)
         stage.addActor(use)
 
@@ -167,8 +167,8 @@ class DungeonBagScreen() : BaseScreen() {
         paper.setPosition(screenWidth / 20, screenHeight / 6 - 50f)
         paper.setSize(390f, screenHeight / 2.5f * 2 + 50f)
 
-        name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
+        use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
         stage.addActor(name)
         stage.addActor(use)
 
