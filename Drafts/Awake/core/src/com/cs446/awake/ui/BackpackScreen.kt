@@ -75,21 +75,22 @@ class BackpackScreen(val g: Int) : BaseScreen() {
     fun showInfo(card: MergableCard) {
         name.setText(card.cardName)
         name.setFontScale(0.8f)
-        name.setPosition(paper.x + 50, paper.y + 300)
+        name.setPosition(paper.x + 100, paper.y + 300)
         name.setSize(paper.width, paper.height)
         name.wrap = true
         if (g == 1){
             use.setText(card.count.toString())
             use.setFontScale(0.8f)
-            use.setPosition(paper.x + 50, paper.y)
+            use.setPosition(paper.x + 100, paper.y)
             use.setSize(paper.width, paper.height)
             use.wrap = true
         }
         else {
             use.setText(card.usage + "\n\n wood: ${card.wood}, \n fire: ${card.fire}, \n earth: ${card.earth}, \n " +
                     "metal: ${card.metal}, \n water: ${card.water}, \n electr: ${card.electric}， \n wind: ${card.wind} \n.")
+
             use.setFontScale(0.8f)
-            use.setPosition(paper.x + 60, paper.y)
+            use.setPosition(paper.x + 30, paper.y - 50)
             use.setSize(paper.width, paper.height)
             use.wrap = true
         }
@@ -98,8 +99,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
     fun backpackScroll(i: Int) {
         paper = BaseActor(0f, 0f, stage)
         paper.loadTexture("map/empty.png")
-        paper.setPosition(screenWidth / 20, screenHeight / 6 - 50f)
-        paper.setSize(390f, screenHeight / 2.5f * 2 + 50f)
+        paper.setPosition(screenWidth / 20, screenHeight / 4 - 125f)
+        paper.setSize(390f, screenHeight / 5 * 4f)
 
 
         name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
@@ -127,7 +128,7 @@ class BackpackScreen(val g: Int) : BaseScreen() {
             }
             val cardActor = BaseActor(0f, 0f, stage)
             cardActor.loadTexture(c.img)
-            val cardHeight = screenHeight / 2.5f - 100f
+            val cardHeight = screenHeight / 3 * 2f
             cardActor.setSize(cardHeight / cardActor.height*cardActor.width, cardHeight)
             cardActor.addListener(object : InputListener() {
                 override fun touchDown(
@@ -158,8 +159,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         scrollPane.scrollTo(0f,0f,0f,0f)
 
         container.add(scrollPane)
-        container.setPosition(screenWidth / 4.5f, screenHeight / 4 - 50f)
-        container.setSize(screenWidth / 5 * 3.9f, screenHeight / 2f)
+        container.setPosition(screenWidth / 4.5f, screenHeight / 4 - 125f)
+        container.setSize(screenWidth / 5 * 3.9f, screenHeight / 5 * 4f)
         var skin = Skin()
         skin.add("logo", Texture("bpback.png"));
         container.background(skin.getDrawable("logo"))
