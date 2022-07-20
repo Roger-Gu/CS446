@@ -40,8 +40,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
     override fun initialize() {
         Gdx.input.inputProcessor = stage
-        //stage.addActor(countdownLabel)
-        //countdownLabel.setPosition(screenWidth/2 - countdownLabel.width/2, screenHeight/2 + countdownLabel.height/2)
+        dungeonMap = map
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
@@ -113,6 +112,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                             collectAnimation(row, col, timer)
                         } else if (result == BATTLE) {
                             battleAnimation()
+                        } else if (result == NEXTLEVEL && level == 4) {
+                            bossAnimation()
                         } else if (result == NEXTLEVEL) {
                             nextLevelAnimation()
                         }
@@ -122,6 +123,33 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
             }
         }
     }
+
+    private fun bossAnimation() {
+        activeBoss = true
+        lockTouchDown = true
+        val timer = Timer(0)
+        val itemNotify = Label("BOSS Battle!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/2 + itemNotify.height/2)
+        stage.addActor(itemNotify)
+
+        // Display 0.4 sec
+        val timeUp: () -> Unit = {
+            // When time up, vanish card
+            val duringTime: () -> Unit = {
+                // vanish the card in about 0.2sec
+                val value: Float = timer.time / 20f
+                itemNotify.color.a = value
+            }
+            val endTime: () -> Unit = {
+                itemNotify.remove()
+                // Start select card for battle
+                Awake.setActiveScreen(EnterBattleScreen())
+            }
+            startTimer(20, endTime, duringTime, timer)
+        }
+        startTimer(30, timeUp, {}, timer)
+    }
+
     private fun collectAnimation(row: Int, col: Int, timeCount: Timer) {
         // Notification message
         val itemNotify = Label("Collected Item!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
@@ -170,7 +198,6 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         startTimer(60, timeUp, {}, timeCount)
     }
 
-    // TODO: lockTouchDown
     private fun battleAnimation() {
         lockTouchDown = true
         val timer = Timer(0)
@@ -215,7 +242,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
             val endTime: () -> Unit = {
                 itemNotify.remove()
                 stage.clear()
-                Awake.setActiveScreen(DungeonScreen(DungeonMap(level+1)))
+                dungeonLevel++
+                Awake.setActiveScreen(DungeonScreen(DungeonMap(dungeonLevel)))
                 dumpJson()
             }
             startTimer(20, endTime, duringTime, timer)
