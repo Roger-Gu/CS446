@@ -142,69 +142,69 @@ public const val Sleep = "Sleep"
 
 // Info
 // ActionCards
-val stickStrike : ActionCard = ActionCard("stickStrike", "playerAction/itemAction1.png",
+val stickStrike : ActionCard = ActionCard("stick strike", "playerAction/itemAction1.png",
     "", 1, 0, -5, Array<State>(), 5)
-val stoneSwordChop : ActionCard = ActionCard("stoneSwordChop", "playerAction/itemAction2",
+val stoneSwordChop : ActionCard = ActionCard("stone sword chop", "playerAction/itemAction2",
     "", 2, 0, -10, Array<State>(), 3)
-val stoneSwordStab : ActionCard = ActionCard("stoneSwordStab", "playerAction/itemAction3.png",
+val stoneSwordStab : ActionCard = ActionCard("stone sword Stab", "playerAction/itemAction3.png",
     "", 1, 0, -5, Array<State>(), 2)
-val stoneAxChop : ActionCard = ActionCard("stoneAxChop", "playerAction/itemAction4.png",
+val stoneAxChop : ActionCard = ActionCard("stone axe chop", "playerAction/itemAction4.png",
     "", 2, 0, -12, Array<State>(), 3)
-val stoneAxStrike : ActionCard = ActionCard("stoneAxStrike", "playerAction/itemAction5.png",
+val stoneAxStrike : ActionCard = ActionCard("stone axe knock", "playerAction/itemAction5.png",
     "", 3, 0, -8,
     Array<State>(arrayOf(State( Paralysis, 1))), 2)
 val archery : ActionCard = ActionCard("archery", "playerAction/itemAction6",
     "", 2, 0, -12, Array<State>(), 7)
-val ironAxChop : ActionCard = ActionCard("ironAxChop", "playerAction/itemAction9.png",
+val ironAxChop : ActionCard = ActionCard("iron axe chop", "playerAction/itemAction9.png",
     "", 2, 0, -20, Array<State>(), 4)
-val ironAxStrike : ActionCard = ActionCard("ironAxStrike", "playerAction/itemAction10.png",
+val ironAxStrike : ActionCard = ActionCard("iron axe knock", "playerAction/itemAction10.png",
     "", 3, 0, -15,
     Array<State>(arrayOf(State(Paralysis, 2))), 2)
-val ironAxHardStrike : ActionCard = ActionCard("ironAxHardStrike", "playerAction/itemAction11.png",
+val ironAxHardStrike : ActionCard = ActionCard("iron axe hard strike", "playerAction/itemAction11.png",
     "", 7, 0, -30,
     Array<State>(arrayOf(State(Burn, 2))), 1)
-val ironSwordChop : ActionCard = ActionCard("ironSwordChop", "playerAction/itemAction12.png",
+val ironSwordChop : ActionCard = ActionCard("iron sword chop", "playerAction/itemAction12.png",
     "", 2, 0, -15, Array<State>(), 3)
-val ironSwordStab : ActionCard = ActionCard("ironSwordStab", "playerAction/itemAction13.png",
+val ironSwordStab : ActionCard = ActionCard("iron sword stab", "playerAction/itemAction13.png",
     "", 1, 0, -10, Array<State>(), 2)
-val ironSwordStrike : ActionCard = ActionCard("ironSwordStrike", "playerAction/itemAction14.png",
+val ironSwordStrike : ActionCard = ActionCard("iron sword knock", "playerAction/itemAction14.png",
     "", 4, 0, -15,
     Array<State>(arrayOf(State(Paralysis, 1))), 2)
-val ironHammerStrike : ActionCard = ActionCard("ironHammerStrike", "playerAction/itemAction18.png",
+val ironHammerStrike : ActionCard = ActionCard("iron hammer knock", "playerAction/itemAction18.png",
     "", 2, 0, -12,
     Array<State>(arrayOf(State(Paralysis, 2))), 5)
-val ironHammerHardStrike : ActionCard = ActionCard("ironHammerHardStrike", "playerAction/itemAction19.png",
+val ironHammerHardStrike : ActionCard = ActionCard("iron hammer hard knock", "playerAction/itemAction19.png",
     "", 8, 0, -40,
     Array<State>(arrayOf(State(Paralysis, 2))), 2)
-val boneSwordChop : ActionCard = ActionCard("boneSwordChop", "playerAction/itemAction20.png",
+val boneSwordChop : ActionCard = ActionCard("bone sword chop", "playerAction/itemAction20.png",
     "", 2, 0, -12, Array<State>(), 4)
-val boneSwordStab : ActionCard = ActionCard("boneSwordStab", "playerAction/itemAction21.png",
+val boneSwordStab : ActionCard = ActionCard("bone sword stab", "playerAction/itemAction21.png",
     "", 1, 0, -8,
     Array<State>(arrayOf(State(Poison, 2))), 3)
-val fireSwordChop : ActionCard = ActionCard("fireSwordChop", "playerAction/itemAction22.png",
+val fireSwordChop : ActionCard = ActionCard("fire sword chop", "playerAction/itemAction22.png",
     "", 2, 0, -30,
     Array<State>(arrayOf(State(Burn, 1))), 7)
-val fireSwordHardStrike : ActionCard = ActionCard("fireSwordHardStrike", "playerAction/itemAction23.png",
+val fireSwordHardStrike : ActionCard = ActionCard("fire sword hard strike", "playerAction/itemAction23.png",
     "", 7, 0, -50,
     Array<State>(arrayOf(State(Burn, 2))), 2)
-val electricAxChop : ActionCard = ActionCard("electricAxChop", "playerAction/itemAction27.png",
+val electricAxChop : ActionCard = ActionCard("electric ax chop", "playerAction/itemAction27.png",
     "", 2, 0, -35, Array<State>(), 6)
-val electricAxHardStrike : ActionCard = ActionCard("electricAxHardStrike", "playerAction/itemAction28.png",
+val electricAxHardStrike : ActionCard = ActionCard("electric axe hard strike", "playerAction/itemAction28.png",
     "", 7, 0, -30,
     Array<State>(arrayOf(State(Paralysis, 2))), 3)
-val poisonedArchery : ActionCard = ActionCard("poisonedArchery", "playerAction/itemAction29.png",
+val poisonedArchery : ActionCard = ActionCard("poisoned archery", "playerAction/itemAction29.png",
     "", 2, 0, -24,
     Array<State>(arrayOf(State(Poison, 1))), 7)
-val malletStrike : ActionCard = ActionCard("malletStrike", "playerAction/itemAction30.png",
+val malletStrike : ActionCard = ActionCard("mallet wave", "playerAction/itemAction30.png",
     "", 3, 0, -15, Array<State>(), 5)
-val malletPerform : ActionCard = ActionCard("malletPerform", "playerAction/itemAction31.png",
+val malletPerform : ActionCard = ActionCard("mallet perform", "playerAction/itemAction31.png",
     "", 5, 0, -10,
     Array<State>(arrayOf(State(Sleep, 1))), 4)
-val earthShieldShield : ActionCard = ActionCard("earthShieldShield", "playerAction/itemAction32.png",
+val earthShieldShield : ActionCard = ActionCard("earth shield block", "playerAction/itemAction32.png",
     "", 3, 0, 30, Array<State>(), 5)
-val earthShieldDash : ActionCard = ActionCard("earthShieldShield", "playerAction/itemAction33.png",
+val earthShieldDash : ActionCard = ActionCard("earth shield block", "playerAction/itemAction33.png",
     "", 4, 0, -30, Array<State>(), 4)
-val heal : ActionCard = ActionCard("heal", "playerAction/itemAction34.png",
+val heal : ActionCard = ActionCard("potion heal", "playerAction/itemAction34.png",
     "", 0, 0, 20, Array<State>(), 1)
 
 // Monster Actions
@@ -263,38 +263,38 @@ val hardStrike43 : ActionCard = ActionCard("hardStrike", "Monster_action/lv4acti
 // Items
 val stick : ItemCard = ItemCard("stick", "material/stick.png", "",
     10, actionCards = Deck(mutableListOf(stickStrike)))
-val stoneSword : ItemCard = ItemCard("stoneSword", "material/stoneSword.png", "",
+val stoneSword : ItemCard = ItemCard("stone sword", "material/stoneSword.png", "",
     5, earth = 15, actionCards = Deck(mutableListOf(stoneSwordStab, stoneSwordChop)))
-val stoneAx : ItemCard = ItemCard("stoneAx", "material/stoneAx.png", "",
+val stoneAx : ItemCard = ItemCard("stone axe", "material/stoneAx.png", "",
     10, earth = 10, actionCards = Deck(mutableListOf(stoneAxChop, stoneAxStrike)))
 val bow : ItemCard = ItemCard("bow", "material/bow.png", "a simple weapon",
     10, 10, metal = 10, wind = 20,
     actionCards = Deck(mutableListOf(archery)))
-val ironSword : ItemCard = ItemCard("ironSword", "material/ironSword.png", "",
+val ironSword : ItemCard = ItemCard("iron sword", "material/ironSword.png", "",
     10, 10, metal = 20,
     actionCards = Deck(mutableListOf(ironSwordStab, ironSwordChop, ironSwordStrike)))
-val ironAx : ItemCard = ItemCard("ironAx", "material/ironAxe.png", "",
+val ironAx : ItemCard = ItemCard("iron ax", "material/ironAxe.png", "",
     5, 10, metal = 30,
     actionCards = Deck(mutableListOf(ironAxChop, ironAxStrike, ironAxHardStrike)))
-val ironHammer : ItemCard = ItemCard("ironHammer", "material/ironHammer.png", "",
+val ironHammer : ItemCard = ItemCard("iron hammer", "material/ironHammer.png", "",
     5, earth = 10, metal = 30,
     actionCards = Deck(mutableListOf(ironHammerStrike, ironHammerHardStrike)))
-val boneSword : ItemCard = ItemCard("boneSword", "material/boneSword.png", "",
+val boneSword : ItemCard = ItemCard("bone sword", "material/boneSword.png", "",
     15, 10, 15,
     actionCards = Deck(mutableListOf(boneSwordChop, boneSwordStab)))
-val fireSword : ItemCard = ItemCard("fireSword", "material/fireSword.png", "",
+val fireSword : ItemCard = ItemCard("fire sword", "material/fireSword.png", "",
     fire = 70, metal = 25, electric = 2,
     actionCards = Deck(mutableListOf(fireSwordChop, fireSwordHardStrike)))
-val electricAx : ItemCard = ItemCard("electricAx", "material/lightningAxe.png", "",
+val electricAx : ItemCard = ItemCard("electric axe", "material/lightningAxe.png", "",
     earth = 10, metal = 20, electric = 60,
     actionCards = Deck(mutableListOf(electricAxChop, electricAxHardStrike)))
-val poisonedArrow : ItemCard = ItemCard("poisonedArrow", "material/poisonArrow.png", "",
+val poisonedArrow : ItemCard = ItemCard("poisoned arrow", "material/poisonArrow.png", "",
     10,  metal = 25, wind = 30,
     actionCards = Deck(mutableListOf(poisonedArchery)))
 val mallet : ItemCard = ItemCard("mallet", "material/stickHammer.png", "",
     10,  water = 20, electric = 4,
     actionCards = Deck(mutableListOf(malletPerform, malletStrike)))
-val earthShield : ItemCard = ItemCard("earthShield", "material/earthShield.png", "",
+val earthShield : ItemCard = ItemCard("earth shield", "material/earthShield.png", "",
     earth = 70,  metal = 25, water = 5,
     actionCards = Deck(mutableListOf(earthShieldDash, earthShieldShield)))
 val potion : ItemCard = ItemCard("potion", "material/potion.png", "",
@@ -310,29 +310,29 @@ val stone : MaterialCard = MaterialCard("stone","material/stone.png", "a stone",
 val log : MaterialCard = MaterialCard("log", "material/log.png", "a log",
     wood = 5, fire = 2, earth = -2, level = 1)
 
-val ironOre : MaterialCard = MaterialCard("ironOre", "material/iron.png", "an iron ore",
+val ironOre : MaterialCard = MaterialCard("iron ore", "material/iron.png", "an iron ore",
     wood = -5, fire = 5, earth = 2, metal = 10, electric = 2, wind = -2, level = 2)
-val goldOre : MaterialCard = MaterialCard("goldOre", "material/gold.png", "a gold",
+val goldOre : MaterialCard = MaterialCard("gold ore", "material/gold.png", "a gold",
     wood = -5, fire = 15, earth = 5, metal = 15, level = 3)
-val woodGem : MaterialCard = MaterialCard("woodGem", "material/woodDiamond.png", "a wood Gem",
+val woodGem : MaterialCard = MaterialCard("wood gem", "material/woodDiamond.png", "a wood Gem",
     wood = 50, fire = 5, earth = -20, level = 3)
-val fireGem : MaterialCard = MaterialCard("fireGem", "material/fireDiamond.png", "a fire Gem",
+val fireGem : MaterialCard = MaterialCard("fire gem", "material/fireDiamond.png", "a fire Gem",
     fire = 50, earth = 5, metal = -20, level = 3)
-val earthGem : MaterialCard = MaterialCard("earthGem", "material/earthDiamond.png", "a earth Gem",
+val earthGem : MaterialCard = MaterialCard("earth gem", "material/earthDiamond.png", "a earth Gem",
     earth = 50, metal = 5, water = -20, level = 4)
-val metalGem : MaterialCard = MaterialCard("metalGem", "material/metalDiamond.png", "a metal Gem",
+val metalGem : MaterialCard = MaterialCard("metal gem", "material/metalDiamond.png", "a metal Gem",
     metal = 50, water = 5, wood = -20, level = 4)
-val waterGem : MaterialCard = MaterialCard("waterGem", "material/waterDiamond.png", "a water Gem",
+val waterGem : MaterialCard = MaterialCard("water gem", "material/waterDiamond.png", "a water Gem",
     wood = 5, fire = -5, water = 50, level = 4)
-val electricGem : MaterialCard = MaterialCard("electricGem", "material/lightningDiamond.png", "a electric Gem",
+val electricGem : MaterialCard = MaterialCard("electric gem", "material/lightningDiamond.png", "a electric Gem",
     wood = -10, earth = -10, water = -10, electric = 50, wind = 5, level = 4)
-val windGem : MaterialCard = MaterialCard("windGem", "material/windDiamond.png", "a wind Gem",
+val windGem : MaterialCard = MaterialCard("wind gem", "material/windDiamond.png", "a wind Gem",
     fire = -10, metal = -10, electric = 5, wind = 50, level = 3)
 val bone : MaterialCard = MaterialCard("bone", "material/bone.png", "a bone",
     5, -2, 5, -2, -2, -2, -2,  level = 2)
 val feather : MaterialCard = MaterialCard("feather", "material/feather.png", "a feather",
     fire = 5, electric = -2, wind = 10, level = 2)
-val herb : MaterialCard = MaterialCard("electricGem", "material/herb.png", "a electric Gem",
+val herb : MaterialCard = MaterialCard("herb", "material/herb.png", "could be used for potion",
     5, water = 5, level = 1)
     
 public var materialInfo : MaterialCardData =
