@@ -1,6 +1,8 @@
 package com.cs446.awake.model
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Array
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -13,15 +15,17 @@ public var enemy : Enemy? = null
 public var player: Player? = null
 // the deck of player
 public var deck : Deck = Deck()
+// the base HP of player
+public var baseHP : Int = 30
+// the base energy that the player has at beginning of battle
+public var baseEnergy : Int = 5
 
 // the storage of a player in village
 public var storage: CardData = CardData(mutableListOf())
 // the dungeon level that the player is at
 public var dungeonLevel : Int = 1
-// the HP of player
-public var HP : Int = 10
-// the energy that the player has at beginning of battle
-public var energy : Int = 5
+// the succeeded battle of player
+public var success : Int = 0
 // the strength of the player. Now assume it to be never used up
 public var strength : Int = 1000
 
@@ -30,6 +34,30 @@ public var backPackMaterial : MaterialCardData = MaterialCardData(mutableListOf(
 // the weapons that player bring into dungeon
 public var backPackItem : ItemCardData = ItemCardData(mutableListOf())
 
+// reset all savable value
+fun reset(){
+    storage = CardData(mutableListOf(stick, stick))
+    dungeonLevel = 1
+    success = 0
+    strength = 1000
+}
+
+// record a success battle
+fun succeed(){
+    success ++
+}
+
+// get current maxHP for player
+fun getHP(): Int {
+    return baseHP + 5 * (success % 3)
+}
+
+// get current HP for player
+fun getEnergy(): Int {
+    return baseEnergy + (success % 3)
+}
+
+// save the progress of game
 fun dumpJson (){// create json from class
     var json = Gson().toJson(storage, CardData::class.java)
     var handle = Gdx.files.local("storage")
@@ -39,12 +67,8 @@ fun dumpJson (){// create json from class
     handle = Gdx.files.local("dungeonLevel")
     handle.writeString(json, false)
 
-    json = Gson().toJson(HP, Int::class.java)
-    handle = Gdx.files.local("HP")
-    handle.writeString(json, false)
-
-    json = Gson().toJson(energy, Int::class.java)
-    handle = Gdx.files.local("energy")
+    json = Gson().toJson(success, Int::class.java)
+    handle = Gdx.files.local("success")
     handle.writeString(json, false)
 }
 
@@ -75,13 +99,9 @@ fun readJson (){
     json = handle.readString()
     dungeonLevel = Gson().fromJson(json, Int::class.java)
 
-    handle = Gdx.files.local("HP")
+    handle = Gdx.files.local("success")
     json = handle.readString()
-    HP = Gson().fromJson(json, Int::class.java)
-
-    handle = Gdx.files.local("energy")
-    json = handle.readString()
-    energy = Gson().fromJson(json, Int::class.java)
+    success = Gson().fromJson(json, Int::class.java)
 
     println("restored")
 }
@@ -99,7 +119,6 @@ public const val Freeze = "Freeze"
 public const val Poison = "Poison"
 public const val Paralysis = "Paralysis"
 public const val Sleep = "Sleep"
-
 
 // Info
 // ActionCards
@@ -138,33 +157,33 @@ val ironHammerHardStrike : ActionCard = ActionCard("ironHammerHardStrike", "skel
     "", 8, 0, -40,
     Array<State>(arrayOf(State(Paralysis, 2))), 2)
 val boneSwordChop : ActionCard = ActionCard("boneSwordChop", "skeleton1.png",
-    "", 2, 0, -12, Array<State>(), 3)
+    "", 2, 0, -12, Array<State>(), 4)
 val boneSwordStab : ActionCard = ActionCard("boneSwordStab", "skeleton1.png",
     "", 1, 0, -8,
-    Array<State>(arrayOf(State(Paralysis, 2))), 2)
+    Array<State>(arrayOf(State(Poison, 2))), 3)
 val fireSwordChop : ActionCard = ActionCard("fireSwordChop", "skeleton1.png",
     "", 2, 0, -30,
-    Array<State>(arrayOf(State(Burn, 2))), 3)
+    Array<State>(arrayOf(State(Burn, 1))), 7)
 val fireSwordHardStrike : ActionCard = ActionCard("fireSwordHardStrike", "skeleton1.png",
     "", 7, 0, -50,
     Array<State>(arrayOf(State(Burn, 2))), 2)
 val electricAxChop : ActionCard = ActionCard("electricAxChop", "skeleton1.png",
-    "", 2, 0, -35, Array<State>(), 4)
+    "", 2, 0, -35, Array<State>(), 6)
 val electricAxHardStrike : ActionCard = ActionCard("electricAxHardStrike", "skeleton1.png",
     "", 7, 0, -30,
-    Array<State>(arrayOf(State(Paralysis, 2))), 1)
+    Array<State>(arrayOf(State(Paralysis, 2))), 3)
 val poisonedArchery : ActionCard = ActionCard("poisonedArchery", "skeleton1.png",
     "", 2, 0, -24,
-    Array<State>(arrayOf(State(Poison, 2))), 1)
+    Array<State>(arrayOf(State(Poison, 1))), 7)
 val malletStrike : ActionCard = ActionCard("malletStrike", "skeleton1.png",
-    "", 3, 0, -15, Array<State>(), 1)
+    "", 3, 0, -15, Array<State>(), 5)
 val malletPerform : ActionCard = ActionCard("malletPerform", "skeleton1.png",
     "", 5, 0, -10,
-    Array<State>(arrayOf(State(Sleep, 2))), 1)
+    Array<State>(arrayOf(State(Sleep, 1))), 4)
 val earthShieldShield : ActionCard = ActionCard("earthShieldShield", "skeleton1.png",
-    "", 3, 0, 30, Array<State>(), 1)
+    "", 3, 0, 30, Array<State>(), 5)
 val earthShieldDash : ActionCard = ActionCard("earthShieldShield", "skeleton1.png",
-    "", 4, 0, -30, Array<State>(), 1)
+    "", 4, 0, -30, Array<State>(), 4)
 val heal : ActionCard = ActionCard("heal", "skeleton1.png",
     "", 0, 0, 20, Array<State>(), 1)
 
@@ -212,7 +231,7 @@ val freeze42 : ActionCard = ActionCard("freeze", "lv4action20.png",
     Array<State>(arrayOf(State(Freeze, 2))), 10)
 val sleep42 : ActionCard = ActionCard("sleep spell", "lv4action18.png",
     "", 0, 0, -15,
-    Array<State>(arrayOf(State(Sleep, 2))), 10)
+    Array<State>(arrayOf(State(Sleep, 1))), 10)
 val stab43 : ActionCard = ActionCard("stab", "lv4action19.png",
     "", 0, 0, -17,
     Array<State>(arrayOf(State(Poison, 1))), 20)
@@ -222,43 +241,43 @@ val hardStrike43 : ActionCard = ActionCard("hardStrike", "lv4action17.png",
 
 
 // Items
-val stick : ItemCard = ItemCard("stick", "skeleton1.png", "a simple weapon",
+val stick : ItemCard = ItemCard("stick", "stick.png", "a simple weapon",
     10, actionCards = Deck(Array<ActionCard>(arrayOf(stickStrike))))
-val stoneSword : ItemCard = ItemCard("stoneSword", "skeleton1.png", "a simple weapon",
+val stoneSword : ItemCard = ItemCard("stoneSword", "stoneSword.png", "a simple weapon",
     5, earth = 15, actionCards = Deck(Array<ActionCard>(arrayOf(stoneSwordStab, stoneSwordChop))))
-val stoneAx : ItemCard = ItemCard("stoneAx", "skeleton1.png", "a simple weapon",
+val stoneAx : ItemCard = ItemCard("stoneAx", "stoneAx.png", "a simple weapon",
     10, earth = 10, actionCards = Deck(Array<ActionCard>(arrayOf(stoneAxChop, stoneAxStrike))))
-val bow : ItemCard = ItemCard("bow", "skeleton1.png", "a simple weapon",
+val bow : ItemCard = ItemCard("bow", "bow.png", "a simple weapon",
     10, 10, metal = 10, wind = 20,
     actionCards = Deck(Array<ActionCard>(arrayOf(archery))))
-val ironSword : ItemCard = ItemCard("ironSword", "skeleton1.png", "a simple weapon",
+val ironSword : ItemCard = ItemCard("ironSword", "ironSword.png", "a simple weapon",
     10, 10, metal = 20,
     actionCards = Deck(Array<ActionCard>(arrayOf(ironSwordStab, ironSwordChop, ironSwordStrike))))
-val ironAx : ItemCard = ItemCard("ironAx", "skeleton1.png", "a simple weapon",
+val ironAx : ItemCard = ItemCard("ironAx", "ironAxe.png", "a simple weapon",
     5, 10, metal = 30,
     actionCards = Deck(Array<ActionCard>(arrayOf(ironAxChop, ironAxStrike, ironAxHardStrike))))
-val ironHammer : ItemCard = ItemCard("ironHammer", "skeleton1.png", "a simple weapon",
+val ironHammer : ItemCard = ItemCard("ironHammer", "ironHammer.png", "a simple weapon",
     5, earth = 10, metal = 30,
     actionCards = Deck(Array<ActionCard>(arrayOf(ironHammerStrike, ironHammerHardStrike))))
-val boneSword : ItemCard = ItemCard("boneSword", "skeleton1.png", "a simple weapon",
+val boneSword : ItemCard = ItemCard("boneSword", "boneSword.png", "a simple weapon",
     15, 10, 15,
     actionCards = Deck(Array<ActionCard>(arrayOf(boneSwordChop, boneSwordStab))))
-val fireSword : ItemCard = ItemCard("fireSword", "skeleton1.png", "a simple weapon",
+val fireSword : ItemCard = ItemCard("fireSword", "fireSword.png", "a simple weapon",
     fire = 70, metal = 25, electric = 2,
     actionCards = Deck(Array<ActionCard>(arrayOf(fireSwordChop, fireSwordHardStrike))))
-val electricAx : ItemCard = ItemCard("electricAx", "skeleton1.png", "a simple weapon",
+val electricAx : ItemCard = ItemCard("electricAx", "lightningAxe.png", "a simple weapon",
     earth = 10, metal = 20, electric = 60,
     actionCards = Deck(Array<ActionCard>(arrayOf(electricAxChop, electricAxHardStrike))))
-val poisonedArrow : ItemCard = ItemCard("poisonedArrow", "skeleton1.png", "a simple weapon",
+val poisonedArrow : ItemCard = ItemCard("poisonedArrow", "poisonArrow.png", "a simple weapon",
     10,  metal = 25, wind = 30,
     actionCards = Deck(Array<ActionCard>(arrayOf(poisonedArchery))))
-val mallet : ItemCard = ItemCard("mallet", "skeleton1.png", "a simple weapon",
+val mallet : ItemCard = ItemCard("mallet", "stickHammer.png", "a simple weapon",
     10,  water = 20, electric = 4,
     actionCards = Deck(Array<ActionCard>(arrayOf(malletPerform, malletStrike))))
-val earthShield : ItemCard = ItemCard("earthShield", "skeleton1.png", "a simple weapon",
+val earthShield : ItemCard = ItemCard("earthShield", "earthShield.png", "a simple weapon",
     earth = 70,  metal = 25, water = 5,
     actionCards = Deck(Array<ActionCard>(arrayOf(earthShieldDash, earthShieldShield))))
-val potion : ItemCard = ItemCard("potion", "skeleton1.png", "a simple weapon",
+val potion : ItemCard = ItemCard("potion", "potion.png", "a simple weapon",
     10,  water = 10, actionCards = Deck(Array<ActionCard>(arrayOf(heal))))
 
 public var itemInfo: ItemCardData = ItemCardData(mutableListOf
@@ -266,42 +285,43 @@ public var itemInfo: ItemCardData = ItemCardData(mutableListOf
     fireSword, electricAx, poisonedArrow, mallet, earthShield, potion))
 
 // materials
-val stone : MaterialCard = MaterialCard("stone","skeleton1.png", "a stone",
+val stone : MaterialCard = MaterialCard("stone","material/stone.png", "a stone",
     earth = 5, metal = 2, water = -2, level = 1)
-val log : MaterialCard = MaterialCard("log", "skeleton1.png", "a log",
+val log : MaterialCard = MaterialCard("log", "material/log.png", "a log",
     wood = 5, fire = 2, earth = -2, level = 1)
 
-val ironOre : MaterialCard = MaterialCard("ironOre", "skeleton1.png", "a log",
+val ironOre : MaterialCard = MaterialCard("ironOre", "material/iron.png", "an iron ore",
     wood = -5, fire = 5, earth = 2, metal = 10, electric = 2, wind = -2, level = 2)
-val goldOre : MaterialCard = MaterialCard("goldOre", "skeleton1.png", "a log",
+val goldOre : MaterialCard = MaterialCard("goldOre", "material/gold.png", "a gold",
     wood = -5, fire = 15, earth = 5, metal = 15, level = 3)
-val woodGem : MaterialCard = MaterialCard("woodGem", "skeleton1.png", "a log",
+val woodGem : MaterialCard = MaterialCard("woodGem", "material/woodDiamond.png", "a wood Gem",
     wood = 50, fire = 5, earth = -20, level = 3)
-val fireGem : MaterialCard = MaterialCard("fireGem", "skeleton1.png", "a log",
+val fireGem : MaterialCard = MaterialCard("fireGem", "material/fireDiamond.png", "a fire Gem",
     fire = 50, earth = 5, metal = -20, level = 3)
-val earthGem : MaterialCard = MaterialCard("earthGem", "skeleton1.png", "a log",
+val earthGem : MaterialCard = MaterialCard("earthGem", "material/earthDiamond.png", "a earth Gem",
     earth = 50, metal = 5, water = -20, level = 4)
-val metalGem : MaterialCard = MaterialCard("metalGem", "skeleton1.png", "a log",
+val metalGem : MaterialCard = MaterialCard("metalGem", "material/metalDiamond.png", "a metal Gem",
     metal = 50, water = 5, wood = -20, level = 4)
-val waterGem : MaterialCard = MaterialCard("waterGem", "skeleton1.png", "a log",
+val waterGem : MaterialCard = MaterialCard("waterGem", "material/waterDiamond.png", "a water Gem",
     wood = 5, fire = -5, water = 50, level = 4)
-val electricGem : MaterialCard = MaterialCard("electricGem", "skeleton1.png", "a log",
+val electricGem : MaterialCard = MaterialCard("electricGem", "material/lightningDiamond.png", "a electric Gem",
     wood = -10, earth = -10, water = -10, electric = 50, wind = 5, level = 4)
-val windGem : MaterialCard = MaterialCard("windGem", "skeleton1.png", "a log",
+val windGem : MaterialCard = MaterialCard("windGem", "material/windDiamond.png", "a wind Gem",
     fire = -10, metal = -10, electric = 5, wind = 50, level = 3)
-val bone : MaterialCard = MaterialCard("bone", "skeleton1.png", "a log",
+val bone : MaterialCard = MaterialCard("bone", "material/bone.png", "a bone",
     5, -2, 5, -2, -2, -2, -2,  level = 2)
-val feather : MaterialCard = MaterialCard("feather", "skeleton1.png", "a log",
+val feather : MaterialCard = MaterialCard("feather", "material/feather.png", "a feather",
     fire = 5, electric = -2, wind = 10, level = 2)
-val herb : MaterialCard = MaterialCard("electricGem", "skeleton1.png", "a log",
-    5, water = 5, level = 2)
+val herb : MaterialCard = MaterialCard("electricGem", "material/herb.png", "a electric Gem",
+    5, water = 5, level = 1)
+    
 public var materialInfo : MaterialCardData =
     MaterialCardData(mutableListOf(stone, log, ironOre, goldOre, woodGem, fireGem, earthGem, metalGem,
     waterGem, electricGem, windGem, bone, feather, herb))
 
 
 
-val m11 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 1, 1000,
+val m11 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 1, 20,
     "Enemy", mapOf<MaterialCard,Int>(log to 2), Deck(Array<ActionCard>(arrayOf(strike11))))
 val m12 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 1, 30,
     "Enemy", mapOf<MaterialCard,Int>(stone to 2), Deck(Array<ActionCard>(arrayOf(strike12, stab12))))
@@ -311,21 +331,21 @@ val m22 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skelet
     "Enemy", mapOf<MaterialCard,Int>(herb to 2), Deck(Array<ActionCard>(arrayOf(dash22, spew22))))
 val m23 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 100,
     "Enemy", mapOf<MaterialCard,Int>(feather to 2, ironOre to 2), Deck(Array<ActionCard>(arrayOf(hammer23, hardStrike23))))
-val m31 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 120,
+val m31 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 3, 120,
     "Enemy", mapOf<MaterialCard,Int>(bone to 2, ironOre to 1), Deck(Array<ActionCard>(arrayOf(ignite31, strike31))))
-val m32 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 150,
+val m32 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 3, 150,
 "Enemy", mapOf<MaterialCard,Int>(bone to 3, ironOre to 1, goldOre to 1),
     Deck(Array<ActionCard>(arrayOf(strike32, hardStrike32))))
-val m33 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 180,
+val m33 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 3, 180,
     "Enemy", mapOf<MaterialCard,Int>(bone to 2, fireGem to 1, goldOre to 2, stone to 2),
     Deck(Array<ActionCard>(arrayOf(shield33, dash33))))
-val m41 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 160,
+val m41 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 4, 160,
     "Enemy", mapOf<MaterialCard,Int>(waterGem to 1, herb to 3),
     Deck(Array<ActionCard>(arrayOf(shield41, spell41))))
-val m42 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 200,
+val m42 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 4, 200,
     "Enemy", mapOf<MaterialCard,Int>(waterGem to 1, herb to 5, earthGem to 1),
     Deck(Array<ActionCard>(arrayOf(freeze42, sleep42))))
-val m43 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 2, 250,
+val m43 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 5, 250,
     "Enemy", mapOf<MaterialCard,Int>(waterGem to 1, herb to 5, electricGem to 1, goldOre to 2, ironOre to 1),
     Deck(Array<ActionCard>(arrayOf(stab43, hardStrike43))))
 public var monsterInfo : MonsterData = MonsterData(mutableListOf(m11, m12, m21, m22, m23, m31, m32, m33, m41, m42, m43))
