@@ -66,7 +66,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("dragon.jpeg")
+        background.loadTexture("darkbackground.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
@@ -112,7 +112,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                     card.loadTexture(map.map[row][column].frontImg)
                     map.map[row][column].trigger()
                 }
-                card.height = card.width // Card is a square
+                card.setSize(275f,275f)
+                // card.height = card.width // Card is a square
                 card.centerAtPosition(screenWidth / 7 * column + card.width / 2 + 10, (screenHeight - 160) / 3 * row + card.height / 2)
 
                 // Set event action
@@ -127,7 +128,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                         if (map.map[row][column].isFlipped()) return true
                         if (map.go(row, column) != INVALIDMOVE) {
                             card.loadTexture(map.map[row][column].frontImg)
-                            card.height = card.width
+                            card.setSize(275f,275f)
+                            // card.height = card.width
                         }
                         return true
                     }
