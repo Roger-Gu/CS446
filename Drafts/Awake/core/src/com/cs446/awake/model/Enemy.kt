@@ -48,7 +48,6 @@ class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, 
     override fun updateEnergy(energyChange: Int) {
         energy += energyChange
         if (energy > maxEnergy) energy = maxEnergy
-        energy += energyChange
         val gap = energyBar.width - energy.toFloat()/originalEnergy * energyOriginalWidth
         energyBar.setSize(energy.toFloat()/originalEnergy * energyOriginalWidth, energyBar.height)
         energyBar.setPosition(energyBar.x + gap, energyBar.y)
