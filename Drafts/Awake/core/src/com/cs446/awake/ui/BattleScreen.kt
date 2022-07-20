@@ -313,7 +313,10 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
     // TODO: The Card should only be movable at player's turn. (currentTurn == Player)
     // TODO: The Card can apply to enemy and player itself. (need a Actor area to target to player)
     private fun renderCard() {
-        cardList.clear() // Clean all card displayed
+        for (card in cardList) {
+            card.remove()
+        }
+        cardList.clear()
 
         // Card Actor
         // TODO: Click and show card info
@@ -392,6 +395,8 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             cardActor.setOnDragNoIntersect {
                 borderImage.remove()
             }
+            // Add to card list so can clean next round
+            cardList.add(cardActor)
         }
     }
 
