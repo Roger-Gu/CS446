@@ -7,7 +7,7 @@ class Monster (val images: Array<String?>, val level: Int,  val HP: Int,
                val charName: String, val reward: Map<MaterialCard, Int>, val actions: Deck, val avator: String){
     fun getDeck (inputLevel: Int = dungeonLevel): Deck{
         //strengthen monster according to level
-        val levelDiff = inputLevel - level + 1
+        val levelDiff = inputLevel - level
         val monsterDeck = Deck()
         for (i in (0 until actions.count())){
             val curCard = actions.pop()

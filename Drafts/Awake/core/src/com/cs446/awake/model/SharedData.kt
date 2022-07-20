@@ -39,10 +39,16 @@ public var activeBoss : Boolean = false
 
 // reset all savable value
 fun reset(){
-    storage = CardData(mutableListOf(stick, stick))
+    storage = CardData(mutableListOf(stick, stick, log, log, log))
     dungeonLevel = 1
     success = 0
-    strength = 1000
+}
+
+// demo-only
+fun demo(){
+    storage = CardData(mutableListOf(fireSword, electricAx, earthShield, poisonedArrow))
+    dungeonLevel = 4
+    success = 100
 }
 
 // record a success battle
