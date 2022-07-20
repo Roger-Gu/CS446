@@ -88,6 +88,9 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         else {
             use.setText(card.usage + "wood: ${card.wood}, \n fire: ${card.fire}, \n earth: ${card.earth}, \n " +
                     "metal: ${card.metal}, \n water: ${card.water}, \n electric: ${card.electric}， \n wind: ${card.wind} \n.")
+            use.setFontScale(0.8f)
+            use.setPosition(paper.x + 60, paper.y)
+            use.setSize(paper.width, paper.height)
             use.wrap = true
         }
     }
