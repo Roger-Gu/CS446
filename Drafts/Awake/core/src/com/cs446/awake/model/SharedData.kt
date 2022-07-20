@@ -142,7 +142,7 @@ public const val Sleep = "Sleep"
 
 // Info
 // ActionCards
-val stickStrike : ActionCard = ActionCard("stickStrike", "playerAction/itemAction18.png",
+val stickStrike : ActionCard = ActionCard("stickStrike", "playerAction/itemAction1.png",
     "", 1, 0, -5, Array<State>(), 5)
 val stoneSwordChop : ActionCard = ActionCard("stoneSwordChop", "playerAction/itemAction2",
     "", 2, 0, -10, Array<State>(), 3)
@@ -153,7 +153,7 @@ val stoneAxChop : ActionCard = ActionCard("stoneAxChop", "playerAction/itemActio
 val stoneAxStrike : ActionCard = ActionCard("stoneAxStrike", "playerAction/itemAction5.png",
     "", 3, 0, -8,
     Array<State>(arrayOf(State( Paralysis, 1))), 2)
-val archery : ActionCard = ActionCard("archery", "playerAction/itemAction26",
+val archery : ActionCard = ActionCard("archery", "playerAction/itemAction6",
     "", 2, 0, -12, Array<State>(), 7)
 val ironAxChop : ActionCard = ActionCard("ironAxChop", "playerAction/itemAction9.png",
     "", 2, 0, -20, Array<State>(), 4)
@@ -197,7 +197,7 @@ val poisonedArchery : ActionCard = ActionCard("poisonedArchery", "playerAction/i
     Array<State>(arrayOf(State(Poison, 1))), 7)
 val malletStrike : ActionCard = ActionCard("malletStrike", "playerAction/itemAction30.png",
     "", 3, 0, -15, Array<State>(), 5)
-val malletPerform : ActionCard = ActionCard("malletPerform", "playerAction/itemAction30.png",
+val malletPerform : ActionCard = ActionCard("malletPerform", "playerAction/itemAction31.png",
     "", 5, 0, -10,
     Array<State>(arrayOf(State(Sleep, 1))), 4)
 val earthShieldShield : ActionCard = ActionCard("earthShieldShield", "playerAction/itemAction32.png",

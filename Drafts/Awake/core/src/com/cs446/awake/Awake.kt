@@ -24,7 +24,6 @@ class Awake : Game() {
 
     init {
         game = this
-
         reset()
     }
 
