@@ -85,6 +85,13 @@ class BackpackScreen(val g: Int) : BaseScreen() {
             use.setSize(paper.width, paper.height)
             use.wrap = true
         }
+        else {
+            use.setText(card.usage)
+            use.setFontScale(0.8f)
+            use.setPosition(paper.x + 50, paper.y)
+            use.setSize(paper.width, paper.height)
+            use.wrap = true
+        }
     }
 
     fun backpackScroll(i: Int) {

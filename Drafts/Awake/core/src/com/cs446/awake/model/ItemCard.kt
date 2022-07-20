@@ -29,4 +29,13 @@ class ItemCard (cardName: String, img: String, usage: String, wood: Int = 0,
         val stringItem = Gson().toJson(this, ItemCard::class.java)
         return Gson().fromJson<ItemCard>(stringItem, ItemCard::class.java)
     }
+    init {
+        // initialize the usage if not given
+        if (usage == ""){
+            for (i in (0 until actionCards.count())){
+                val action = actionCards.deck[i]
+                this.usage += (action.cardName + " ${action.count} times\n")
+            }
+        }
+    }
     }

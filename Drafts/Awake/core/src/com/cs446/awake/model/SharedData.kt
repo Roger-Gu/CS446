@@ -261,43 +261,43 @@ val hardStrike43 : ActionCard = ActionCard("hardStrike", "Monster_action/lv4acti
 
 
 // Items
-val stick : ItemCard = ItemCard("stick", "material/stick.png", "a simple weapon",
+val stick : ItemCard = ItemCard("stick", "material/stick.png", "",
     10, actionCards = Deck(mutableListOf(stickStrike)))
-val stoneSword : ItemCard = ItemCard("stoneSword", "material/stoneSword.png", "a simple weapon",
+val stoneSword : ItemCard = ItemCard("stoneSword", "material/stoneSword.png", "",
     5, earth = 15, actionCards = Deck(mutableListOf(stoneSwordStab, stoneSwordChop)))
-val stoneAx : ItemCard = ItemCard("stoneAx", "material/stoneAx.png", "a simple weapon",
+val stoneAx : ItemCard = ItemCard("stoneAx", "material/stoneAx.png", "",
     10, earth = 10, actionCards = Deck(mutableListOf(stoneAxChop, stoneAxStrike)))
 val bow : ItemCard = ItemCard("bow", "material/bow.png", "a simple weapon",
     10, 10, metal = 10, wind = 20,
     actionCards = Deck(mutableListOf(archery)))
-val ironSword : ItemCard = ItemCard("ironSword", "material/ironSword.png", "a simple weapon",
+val ironSword : ItemCard = ItemCard("ironSword", "material/ironSword.png", "",
     10, 10, metal = 20,
     actionCards = Deck(mutableListOf(ironSwordStab, ironSwordChop, ironSwordStrike)))
-val ironAx : ItemCard = ItemCard("ironAx", "material/ironAxe.png", "a simple weapon",
+val ironAx : ItemCard = ItemCard("ironAx", "material/ironAxe.png", "",
     5, 10, metal = 30,
     actionCards = Deck(mutableListOf(ironAxChop, ironAxStrike, ironAxHardStrike)))
-val ironHammer : ItemCard = ItemCard("ironHammer", "material/ironHammer.png", "a simple weapon",
+val ironHammer : ItemCard = ItemCard("ironHammer", "material/ironHammer.png", "",
     5, earth = 10, metal = 30,
     actionCards = Deck(mutableListOf(ironHammerStrike, ironHammerHardStrike)))
-val boneSword : ItemCard = ItemCard("boneSword", "material/boneSword.png", "a simple weapon",
+val boneSword : ItemCard = ItemCard("boneSword", "material/boneSword.png", "",
     15, 10, 15,
     actionCards = Deck(mutableListOf(boneSwordChop, boneSwordStab)))
-val fireSword : ItemCard = ItemCard("fireSword", "material/fireSword.png", "a simple weapon",
+val fireSword : ItemCard = ItemCard("fireSword", "material/fireSword.png", "",
     fire = 70, metal = 25, electric = 2,
     actionCards = Deck(mutableListOf(fireSwordChop, fireSwordHardStrike)))
-val electricAx : ItemCard = ItemCard("electricAx", "material/lightningAxe.png", "a simple weapon",
+val electricAx : ItemCard = ItemCard("electricAx", "material/lightningAxe.png", "",
     earth = 10, metal = 20, electric = 60,
     actionCards = Deck(mutableListOf(electricAxChop, electricAxHardStrike)))
-val poisonedArrow : ItemCard = ItemCard("poisonedArrow", "material/poisonArrow.png", "a simple weapon",
+val poisonedArrow : ItemCard = ItemCard("poisonedArrow", "material/poisonArrow.png", "",
     10,  metal = 25, wind = 30,
     actionCards = Deck(mutableListOf(poisonedArchery)))
-val mallet : ItemCard = ItemCard("mallet", "material/stickHammer.png", "a simple weapon",
+val mallet : ItemCard = ItemCard("mallet", "material/stickHammer.png", "",
     10,  water = 20, electric = 4,
     actionCards = Deck(mutableListOf(malletPerform, malletStrike)))
-val earthShield : ItemCard = ItemCard("earthShield", "material/earthShield.png", "a simple weapon",
+val earthShield : ItemCard = ItemCard("earthShield", "material/earthShield.png", "",
     earth = 70,  metal = 25, water = 5,
     actionCards = Deck(mutableListOf(earthShieldDash, earthShieldShield)))
-val potion : ItemCard = ItemCard("potion", "material/potion.png", "a simple weapon",
+val potion : ItemCard = ItemCard("potion", "material/potion.png", "",
     10,  water = 10, actionCards = Deck(mutableListOf(heal)))
 
 public var itemInfo: ItemCardData = ItemCardData(mutableListOf
