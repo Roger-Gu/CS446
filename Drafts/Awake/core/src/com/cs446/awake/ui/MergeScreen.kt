@@ -21,7 +21,9 @@ class MergeScreen() : BaseScreen() {
     // Screen size
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
+
     private val buttonHeight = screenHeight / 6 - 75f
+    private val cardHeight = screenHeight / 3
 
     // Background
     private lateinit var background : BaseActor
@@ -145,8 +147,8 @@ class MergeScreen() : BaseScreen() {
                 val cardActor = DragDropActor(0f, 0f, stage, mergeArea, inTable = true)
                 cardActor.toFront()
                 cardActor.loadTexture(material.img)
-                cardActor.setSize(300f, 300f)
-
+                // cardActor.setSize(300f, 300f)
+                cardActor.setSize(cardHeight/cardActor.height*cardActor.width, cardHeight)
                 // if not on the merge area, return back to the start position
                 cardActor.setOnDropNoIntersect {
                     mergeArea.isVisible = false
@@ -181,7 +183,8 @@ class MergeScreen() : BaseScreen() {
                         newCard.toFront()
 
                         newCard.loadTexture(oneMaterial.img)
-                        newCard.setSize(300f, 300f)
+                        newCard.setSize(cardHeight/newCard.height*newCard.width, cardHeight)
+
 
                         mergeTable.add(newCard).expandX().pad(10f).right()
                     }
@@ -229,8 +232,16 @@ class MergeScreen() : BaseScreen() {
 
         var mergeField = BaseActor(0f,0f,stage)
         mergeField.loadTexture("bpback.png")
-        mergeField.setSize(screenWidth*2, screenHeight/3)
-        mergeField.centerAtPosition(screenWidth/2,screenHeight -400+ mergeField.height/2)
+        mergeField.setSize(screenWidth*2, screenHeight/2.5f)
+        mergeField.centerAtPosition(screenWidth/2,screenHeight / 4 * 3f + 15f)
+
+        val mergeText = BaseActor(0f, 0f, stage)
+        mergeText.loadTexture("mergeField.png")
+        val mergeTextHeight = screenHeight/8
+        mergeText.setSize(mergeTextHeight / mergeText.height * mergeText.width, mergeTextHeight)
+        mergeText.setPosition(50f,screenHeight -120)
+
+        /*
         val txt1 = Label("Merge Field", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         txt1.setSize(screenWidth/3, screenHeight/2)
         txt1.setPosition(50f,screenHeight -400)
@@ -238,10 +249,20 @@ class MergeScreen() : BaseScreen() {
         txt1.wrap = true
         stage.addActor(txt1)
 
+         */
+
         var storageField = BaseActor(0f,0f,stage)
         storageField.loadTexture("bpback.png")
-        storageField.setSize(screenWidth*2, screenHeight/3)
-        storageField.centerAtPosition(screenWidth/2,screenHeight -800 + storageField.height/2 )
+        storageField.setSize(screenWidth*2, screenHeight/2.5f)
+        storageField.centerAtPosition(screenWidth/2,screenHeight / 3 )
+
+        val storageText = BaseActor(0f, 0f, stage)
+        storageText.loadTexture("storageField.png")
+        val storageTextHeight = screenHeight/8
+        storageText.setSize(storageTextHeight / storageText.height * storageText.width, storageTextHeight)
+        storageText.setPosition(50f,screenHeight -565)
+
+        /*
         val txt2 = Label("Storage Field", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         txt2.setSize(screenWidth/3, screenHeight/2)
         txt2.setPosition(50f,screenHeight -800)
@@ -249,8 +270,10 @@ class MergeScreen() : BaseScreen() {
         txt2.wrap = true
         stage.addActor(txt2)
 
-        tableDisplay.setSize(screenWidth/2, screenHeight/3)
-        tableDisplay.setPosition(500f,screenHeight -800 )
+         */
+
+        tableDisplay.setSize(screenWidth/2, screenHeight/2.5f)
+        tableDisplay.setPosition(500f,screenHeight / 6 - 40f )
         println("Init Storage:")
         for (i in storage.getStored()) {
             println(i.cardName + " " + i.count.toString())
@@ -260,12 +283,12 @@ class MergeScreen() : BaseScreen() {
         Gdx.input.inputProcessor = stage
 
         // set merge area
-        mergeDisplay.setSize(screenWidth/2, screenHeight/3)
-        mergeDisplay.setPosition(500f,screenHeight -400 )
+        mergeDisplay.setSize(screenWidth/2, screenHeight/2.5f)
+        mergeDisplay.setPosition(500f,screenHeight -450 )
         mergeArea = BaseActor(0f, 0f, stage)
         mergeArea.toFront()
         mergeArea.loadTexture("highlight_border.png")
-        mergeArea.setSize(screenWidth, screenHeight/3)
+        mergeArea.setSize(screenWidth, screenHeight/2.5f)
         mergeArea.centerAtPosition(screenWidth / 2, screenHeight * 3 / 4)
         mergeArea.isVisible = false
 
@@ -294,8 +317,10 @@ class MergeScreen() : BaseScreen() {
                 if (outputCard != null) {
                     println("Card Merged")
 
-                    txt1.isVisible = false
-                    txt2.isVisible = false
+                    // txt1.isVisible = false
+                    // txt2.isVisible = false
+                    mergeText.isVisible = false
+                    storageText.isVisible = false
                     mergeField.isVisible = false
                     storageField.isVisible = false
                     storage.add(outputCard)
@@ -318,7 +343,8 @@ class MergeScreen() : BaseScreen() {
                     outputCardActor.toFront()
                     outputCardActor.loadTexture(outputCard.img) //TODO: read card image & info
                     outputCardActor.setPosition(screenWidth/2 - outputCardActor.width/2, screenHeight/2 - 300)
-                    outputCardActor.setSize(350f, 400f)
+                    outputCardActor.setSize(cardHeight/outputCardActor.height*outputCardActor.width * 1.3f, cardHeight*1.3f)
+
 
                     outputCardActor.addListener(object : InputListener() {
                         override fun touchDown(
@@ -330,8 +356,10 @@ class MergeScreen() : BaseScreen() {
                         ): Boolean {
                             // refresh table
                             txt.isVisible = false
-                            txt1.isVisible = true
-                            txt2.isVisible = true
+                            // txt1.isVisible = true
+                            // txt2.isVisible = true
+                            mergeText.isVisible = true
+                            storageText.isVisible = true
                             mergeField.isVisible = true
                             storageField.isVisible = true
                             outputCardActor.remove()
