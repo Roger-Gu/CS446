@@ -53,9 +53,15 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
     private val stateList = Array<String>(arrayOf("Burn", "Freeze", "Poison", "Paralysis", "Sleep"))
 
     //// Variable of display related
+    private var cardHeight = Texture("Heal.png").height.toFloat()
+
     private lateinit var enemyDisplay : BaseActor
     private lateinit var infoAITurn : Label
     private lateinit var infoPlayerTurn : Label
+    private lateinit var aITurn : BaseActor
+    private lateinit var playerTurn : BaseActor
+    private lateinit var aICursor : BaseActor
+    private lateinit var playerCursor : BaseActor
     private lateinit var finishPlayerRound : BaseActor // A button
     private val cardList = ArrayList<DragDropActor>() // Used for cleaning
 
@@ -133,7 +139,9 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
     // Let enemy (AI) draw cards.
     private fun enemyTurn() {
-        stage.addActor(infoAITurn)
+        stage.addActor(aITurn)
+        stage.addActor(aICursor)
+        enemyImageActor.toFront()
 
         if (enemy.canUseCard) {
             // Enemy use one card
@@ -144,13 +152,13 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             cardActor.moveBy(0f, -550f)
 
             // Same border image as the player's one
-            val borderWidth = 30
             borderImage.setSize(
-                cardActor.width + borderWidth * 2,
-                cardActor.height + borderWidth * 2
+                cardActor.width + 20f,
+                cardActor.height + 20f
             )
-            borderImage.setPosition(cardActor.x - borderWidth, cardActor.y - borderWidth)
+            borderImage.setPosition(cardActor.x + 10f, cardActor.y + 5f)
             stage.addActor(borderImage)
+            cardActor.toFront()
 
             // The following code will do
             // 1. display card for 1sec
@@ -186,7 +194,10 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
     // Let player draw cards.
     private fun playerTurn() {
-        stage.addActor(infoPlayerTurn)
+        stage.addActor(playerTurn)
+        stage.addActor(playerCursor)
+        playerImageActor.toFront()
+
         if (player.canUseCard) {
             stage.addActor(finishPlayerRound)
         } else {
@@ -215,6 +226,10 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
+        aITurn.remove()
+        playerTurn.remove()
+        aICursor.remove()
+        playerCursor.remove()
         // PreRound: Restore energy and apply state effect
         if (currentTurn == player) {
             player.preRound()
@@ -283,6 +298,10 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
+        aITurn.remove()
+        playerTurn.remove()
+        aICursor.remove()
+        playerCursor.remove()
 
         val winLabel = Label("You Win!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
@@ -302,6 +321,10 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
+        aITurn.remove()
+        playerTurn.remove()
+        aICursor.remove()
+        playerCursor.remove()
 
         // TODO: Exit back to Village.
         val winLabel = Label("You Lose!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
@@ -332,27 +355,32 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
             cardActor.loadTexture(card.img)
             // y-coord is set to hide the bottom half, click to elevate?
-            cardActor.centerAtPosition(350f, screenHeight - 950f)
-            cardActor.setRotation(30f - 15f*handIndex)
+            // cardActor.setSize(cardHeight / cardActor.height * cardActor.width, cardHeight)
+            cardActor.setSize(cardHeight / cardActor.height * cardActor.width, cardHeight)
+            cardActor.centerAtPosition(350f, cardHeight / 2 - 40f)
+            // cardActor.rotation = 30f - 15f*handIndex
+            // cardActor.rotateBy(30f - 15f*handIndex)
+
             cardActor.moveBy(
                 (screenWidth - (cardTotal * cardActor.width + (cardTotal - 1) * intervalWid)) / 2 + handIndex * (cardActor.width + intervalWid),
-                70f - abs(2-handIndex) *35f
+                // 70f + (2-handIndex) *35f
+            0f
             )
+
             cardActor.setOnDropIntersect {
                 cardActor.remove()
                 useCard(card)
                 borderImage.remove()
             }
             cardActor.setOnDragIntersect {
-                val borderWidth = 30
                 borderImage.setSize(
-                    cardActor.width + borderWidth * 2,
-                    cardActor.height + borderWidth * 2
+                    cardActor.width + 45f,
+                    cardActor.height + 55f
                 )
 
                 borderImage.setPosition(
-                    cardActor.x - borderWidth,
-                    cardActor.y - borderWidth
+                    cardActor.x - 36f,
+                    cardActor.y - 55f
                 )
 
                 stage.addActor(borderImage)
@@ -416,7 +444,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("dungeon.png")
+        background.loadTexture("battle1.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
@@ -427,14 +455,19 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         enemyDisplay.loadAnimationFromFiles(enemy.images, 0.5f, true)
         // TODO: if picture
         // enemy.loadTexture("skeleton1.png")
+        val enemyHeight = screenHeight
+        enemyDisplay.setSize(enemyHeight / enemyDisplay.height * enemyDisplay.width, enemyHeight )
+        enemyDisplay.centerAtPosition(screenWidth / 2, screenHeight / 2 + 75f)
+
         // TODO: remove this line when above done.
-        enemyDisplay.centerAtPosition(screenWidth / 2, screenHeight)
-        enemyDisplay.moveBy(0f, -550f)
+        // enemyDisplay.centerAtPosition(screenWidth / 2, screenHeight)
+        // enemyDisplay.moveBy(0f, -550f)
 
         enemyAttackActor = BaseActor(0f, 0f, stage)
-        enemyAttackActor.loadTexture("card_empty.png")
-        enemyAttackActor.setOpacity(0.3f)
-        enemyAttackActor.setSize(enemyAttackActor.width*2, enemyAttackActor.height*2)
+        enemyAttackActor.loadTexture("transparent.png")
+        // enemyAttackActor.loadTexture("card_empty.png")
+        // enemyAttackActor.setOpacity(0.3f)
+        enemyAttackActor.setSize(enemyAttackActor.width*3f, enemyAttackActor.height*1.5f)
         enemyAttackActor.centerAtPosition(screenWidth/2, screenHeight)
         enemyAttackActor.moveBy(0f, -300f)
 
@@ -497,15 +530,41 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         infoAITurn = Label("AI-Round", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         infoAITurn.y = screenHeight / 2 + infoAITurn.height / 2
 
+        aITurn = BaseActor(0f, 0f, stage, inTable = true)
+        aITurn.loadTexture("enemy_bar_highlight.png")
+        aITurn.setSize(enemyImageActor.width + 150f, enemyImageActor.height+ 70f)
+        aITurn.centerAtActor(enemyImageActor)
+
+        aICursor = BaseActor(0f,0f, stage, inTable = true)
+        val list1 = Array<String?>(arrayOf("cursor_enemy.png", "cursor_enemy2.png"))
+        aICursor.loadAnimationFromFiles(list1, 0.5f, true)
+        // aICursor.loadTexture("cursor_enemy.png")
+        val aICursorHeight = 160f
+        aICursor.setSize(aICursorHeight / aICursor.height * aICursor.width, aICursorHeight)
+        aICursor.setPosition(enemyImageActor.x + 475f, enemyImageActor.y - 160f)
         // Player-Round Indicator
         // * Not yet added to stage, only added when Player turn starts
         infoPlayerTurn = Label("Your-Round", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         infoPlayerTurn.y = screenHeight / 2 + infoPlayerTurn.height / 2
+        playerTurn = BaseActor(0f, 0f, stage, inTable = true)
+        playerTurn.loadTexture("hero_bar_highlight.png")
+        playerTurn.setSize(playerImageActor.width + 35f, playerImageActor.height + 5f)
+        playerTurn.centerAtActor(playerImageActor)
+        playerTurn.moveBy(0f, 3f)
+
+        playerCursor = BaseActor(0f,0f, stage, inTable = true)
+        val list2 = Array<String?>(arrayOf("cursor_player.png", "cursor_player2.png"))
+        playerCursor.loadAnimationFromFiles(list2, 0.5f, true)
+        // playerCursor.loadTexture("cursor_player.png")
+        val playerCursorHeight = 160f
+        playerCursor.setSize(playerCursorHeight / playerCursor.height * playerCursor.width, playerCursorHeight)
+        playerCursor.setPosition(playerImageActor.x + 45f, playerImageActor.y + playerCursor.height + 145f)
 
         // Finish-Player-Round button
         // * Not yet added to stage, only added when Player turn starts
         finishPlayerRound = BaseActor(0f, 0f, stage)
         finishPlayerRound.loadTexture("EndTurnButton.png")
+        finishPlayerRound.setSize(finishPlayerRound.width / 2, finishPlayerRound.height / 2)
         finishPlayerRound.centerAtPosition(screenWidth - 250f, 400f)
         finishPlayerRound.addListener(object : InputListener() {
             override fun touchDown(

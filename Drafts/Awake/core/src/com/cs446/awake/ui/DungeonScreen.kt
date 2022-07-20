@@ -132,17 +132,21 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         // Get the item picture
         val itemPic = BaseActor(0f, 0f, stage)
         itemPic.loadTexture(colletEvent.material.img)
-        itemPic.centerAtPosition(screenWidth / 2, screenHeight)
-        itemPic.moveBy(0f, -550f)
+        val itemHeight = screenHeight / 4 * 3
+        itemPic.setSize(itemHeight / itemPic.height * itemPic.width, itemHeight)
+
+        itemPic.centerAtPosition(screenWidth / 2, screenHeight / 2)
+        // itemPic.moveBy(0f, -550f)
 
         // Add card border image
         val borderWidth = 30
         borderImage.setSize(
-            borderImage.width + borderWidth * 2,
-            borderImage.height + borderWidth * 2
+            itemPic.width + 20f,
+            itemPic.height + 20f
         )
-        borderImage.setPosition(itemPic.x - borderWidth, itemPic.y - borderWidth)
+        borderImage.setPosition(itemPic.x - 10f, itemPic.y - 10f)
         stage.addActor(borderImage)
+        itemPic.toFront()
         itemNotify.toFront()
 
         // Display 0.3 sec
@@ -163,7 +167,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
             }
             startTimer(20, endTime, duringTime, timeCount)
         }
-        startTimer(30, timeUp, {}, timeCount)
+        startTimer(60, timeUp, {}, timeCount)
     }
 
     // TODO: lockTouchDown
