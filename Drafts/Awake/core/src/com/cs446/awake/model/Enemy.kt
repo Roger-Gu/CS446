@@ -37,8 +37,9 @@ class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, 
     }
 
 
-    override  fun updateHealth(HpChange: Int){
+    override fun updateHealth(HpChange: Int){
         HP += HpChange
+        println(HP)
         val gap = healthBar.width - HP.toFloat()/originalHP * healthOriginalWidth
         if (HP >= 0) {
             healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
