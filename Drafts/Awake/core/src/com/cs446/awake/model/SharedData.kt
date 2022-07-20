@@ -46,7 +46,8 @@ fun reset(){
 
 // demo-only
 fun demo(){
-    storage = CardData(mutableListOf(fireSword, electricAx, earthShield, poisonedArrow))
+    storage = CardData(mutableListOf(fireSword, electricAx, earthShield, poisonedArrow, boneSword,
+        fireGem, waterGem, herb, ironHammer, ironOre, goldOre, ironSword, potion, woodGem))
     dungeonLevel = 4
     success = 100
 }
