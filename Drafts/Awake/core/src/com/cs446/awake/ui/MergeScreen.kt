@@ -315,7 +315,7 @@ class MergeScreen() : BaseScreen() {
                     // add this item into storage
                     val outputCardActor = BaseActor(0f, 0f, stage)
                     outputCardActor.toFront()
-                    outputCardActor.loadTexture("skeleton1.png") //TODO: read card image & info
+                    outputCardActor.loadTexture(outputCard.img) //TODO: read card image & info
                     outputCardActor.setPosition(screenWidth/2 - outputCardActor.width/2, screenHeight/2 - 300)
                     outputCardActor.setSize(350f, 400f)
 
