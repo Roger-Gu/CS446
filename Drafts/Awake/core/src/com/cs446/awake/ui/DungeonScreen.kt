@@ -69,6 +69,25 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         villageButtonActor.loadTexture("Icon_village.png")
         villageButtonActor.setSize(villageButtonActor.width/2, villageButtonActor.height/2)
         villageButtonActor.setPosition(100f, screenHeight-150f)
+        villageButtonActor.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
+                storage.append(backPackMaterial)
+                storage.append(backPackItem)
+                storage.append(battleItem)
+                backPackItem = ItemCardData(mutableListOf())
+                backPackMaterial = MaterialCardData(mutableListOf())
+                battleItem = ItemCardData(mutableListOf())
+                Awake.setActiveScreen(VillageScreen())
+                dumpJson()
+                return true
+            }
+        })
 
         // backpack button
         val backpackButtonActor = BaseActor(0f, 0f, stage)
