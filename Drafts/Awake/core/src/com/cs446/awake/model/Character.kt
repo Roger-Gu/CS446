@@ -70,10 +70,10 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     abstract fun initChar()
 
-    fun update(card: ActionCard, from: Character) {
+    fun update(card: ActionCard, from: Character) : Boolean{
         // If this card is used by myself, deduct the cost, and restores health if the card allows
         if (from == this){
-            updateEnergy(0-card.energyCost)
+            if (!updateEnergy(0-card.energyCost)) return false
             updateStrength(0-card.strengthCost)
             if (card.healthChange > 0){
                 updateHealth(card.healthChange)
@@ -88,6 +88,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
             }
         }
         println("health $HP")
+        return true
     }
 
     fun selectRamdomCard(): ActionCard {
@@ -101,13 +102,15 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     // add try catch block for 1. empty deck 2.hand full
-    open fun drawCard(){
+    // return false if cannot drawCard
+    open fun drawCard(): Boolean {
         if (deck.isEmpty()){
             HP = 0
-            return endRound()
+            return false
         }
         val c = deck.pop() // deck should shuffle when it is empty
         hand.add(c)
+        return true
     }
 
     fun updateState(newState: State){
@@ -142,9 +145,12 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     }
 
-    open fun preRound() {
+    // Draw cards and apply states, if no cards,return false
+    open fun preRound(): Boolean {
         updateEnergy(3)
-        while (hand.size < 5) drawCard()
+        while (hand.size < 5) {
+            if (!drawCard()) { return false }
+        }
 
 
         println("start with states:")
@@ -156,18 +162,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
                 canUseCard = false
             }
         }
-    }
-
-    /*
-    open fun reset() {
-        for (i in 1..5) {
-            drawCard()
-        }
-    }
-
-     */
-
-    open fun endRound() {
+        return true
     }
 
     open fun postRound(){
@@ -178,7 +173,6 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
             }
         }
         removeStates(removedStates)
-
     }
 
     abstract fun updateHealth(HpChange: Int)
@@ -187,7 +181,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
         strength += strengthChange
     }
 
-    abstract fun updateEnergy(energyChange: Int)
+    abstract fun updateEnergy(energyChange: Int) : Boolean
 
 
     fun isDead(): Boolean {

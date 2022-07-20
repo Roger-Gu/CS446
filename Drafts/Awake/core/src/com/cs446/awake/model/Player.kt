@@ -37,15 +37,22 @@ class Player(charName: String, HP: Int, energy: Int, strength: Int, var playerIm
 
     override fun updateHealth(HpChange: Int){
         HP += HpChange
-        healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
+        if (HP >= 0) {
+            healthBar.setSize(HP.toFloat()/originalHP * healthOriginalWidth, healthBar.height)
+        } else {
+            healthBar.setSize(0f, healthBar.height)
+        }
     }
 
 
-    override fun updateEnergy(energyChange: Int) {
+    override fun updateEnergy(energyChange: Int) : Boolean{
+        // not valid if decrease below 0
+        if (energyChange + energy < 0) return false
         energy += energyChange
         if (energy > maxEnergy) energy = maxEnergy
         energyBar.setSize(energy.toFloat()/originalEnergy * energyOriginalWidth, energyBar.height)
         println("Energy: " + energy)
+        return true
     }
 
     override fun initCharImage() {

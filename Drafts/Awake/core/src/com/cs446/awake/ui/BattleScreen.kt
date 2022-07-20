@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Null
+import com.cs446.awake.Awake
+import com.cs446.awake.Awake.Companion.setActiveScreen
 import com.cs446.awake.model.*
 import com.cs446.awake.utils.*
 import java.awt.Rectangle
@@ -82,7 +84,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
     private val descriptionWidth = descriptionImage.width / 2
     private val descriptionHeight = descriptionImage.height / 4
 
-    private val descriptionFont = BitmapFont(Gdx.files.internal("Arial120Bold.fnt"))
+    private val descriptionFont = BitmapFont(Gdx.files.internal("font/font1.fnt"))
 
 
     //// Variable of game Core
@@ -224,6 +226,12 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         return null
     }
 
+    private fun noCardNofity(who: String) {
+        val noCard = Label("$who no Cards!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        noCard.setPosition(screenWidth/2 - noCard.width/2, screenHeight/2 + noCard.height)
+        stage.addActor(noCard)
+    }
+
     // Function that apply the start part of round of game and active AI if it is AI's turn.
     private fun startTurn() {
         // Clean the round indicator
@@ -235,9 +243,19 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         playerCursor.remove()
         // PreRound: Restore energy and apply state effect
         if (currentTurn == player) {
-            player.preRound()
+            if (!player.preRound()) {
+                // player does not have any cards
+                noCardNofity("Player")
+                loseGame()
+                return
+            }
         } else {
-            enemy.preRound()
+            if (!enemy.preRound()) {
+                // enemy does not have any cards
+                noCardNofity("Enemy")
+                winGame()
+                return
+            }
         }
 
         // Give card to player for player's turn
@@ -254,12 +272,16 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
     }
 
     // Function that apply event of using cards.
-    private fun useCard(card: ActionCard) {
+    private fun useCard(card: ActionCard) : Boolean {
+
+        // Notify everyone to apply effect of card
+        if (!player.update(card, from = currentTurn)) {
+            return false
+        }
+        enemy.update(card, from = currentTurn)
+
         // Remove the used card
         currentTurn.removeCard(card)
-        // Notify everyone to apply effect of card
-        player.update(card, from = currentTurn)
-        enemy.update(card, from = currentTurn)
         // Check game status
         if (isPlayerWin() != null) {
             // Game end
@@ -269,6 +291,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
                 loseGame()
             }
         }
+        return true
     }
 
     // Function that apply the end part of round of game.
@@ -298,6 +321,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
     // The game result with player wins.
     private fun winGame() {
+        succeed() // call global data to store succeed battle
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
@@ -313,14 +337,34 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         // Let enemy vanish
         val duringTime : () -> Unit = { enemyDisplay.setOpacity(worldTimer / 60f) }
         val endTime : () -> Unit = {
-            enemyDisplay.remove()
-            // TODO: Exit back to Dungeon
+            if (activeBoss) {
+                // Beat the boss
+                enemyDisplay.remove()
+                storage.append(backPackMaterial)
+                storage.append(backPackItem)
+                storage.append(battleItem)
+                backPackItem = ItemCardData(mutableListOf())
+                backPackMaterial = MaterialCardData(mutableListOf())
+                battleItem = ItemCardData(mutableListOf())
+                setActiveScreen(VillageScreen())
+                dumpJson()
+            } else {
+                enemyDisplay.remove()
+                backPackItem.append(battleItem)
+                battleItem = ItemCardData(mutableListOf()) // clear battle item
+                if (dungeonMap != null) {
+                    setActiveScreen(DungeonScreen(dungeonMap as DungeonMap))
+                }
+                dumpJson()
+            }
+
         }
         startTimer(60, endTime, duringTime) // about 1 second
     }
 
     // The game result with player lose.
     private fun loseGame() {
+        reset() // loose everything
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
@@ -330,8 +374,31 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         playerCursor.remove()
 
         // TODO: Exit back to Village.
-        val winLabel = Label("You Lose!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
+        val looseLabel = Label("You Lose!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        looseLabel.setPosition(screenWidth/2 - looseLabel.width/2, screenHeight/2 - looseLabel.height/2)
+        stage.addActor(looseLabel)
+
+        val back = Label(">> Back to Village <<", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        back.setPosition(screenWidth/2 - back.width/2, screenHeight/2 - back.height)
+        stage.addActor(back)
+
+        back.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
+                // Clear eveything one has.
+                backPackItem = ItemCardData(mutableListOf())
+                backPackMaterial = MaterialCardData(mutableListOf())
+                battleItem = ItemCardData(mutableListOf())
+                setActiveScreen(VillageScreen())
+                return true
+            }
+        })
+
     }
 
     // Function that render player's card on the screen.
@@ -371,9 +438,15 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             )
 
             cardActor.setOnDropIntersect {
-                cardActor.remove()
-                useCard(card)
-                borderImage.remove()
+                if (useCard(card)) {
+                    cardActor.remove()
+                    borderImage.remove()
+                } else {
+                    cardActor.setPosition(cardActor.startX, cardActor.startY)
+                    cardActor.setRotation(cardActor.startRotation)
+                    borderImage.remove()
+                }
+
             }
             cardActor.setOnDragIntersect {
                 borderImage.setSize(
@@ -506,7 +579,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         // Description
         descriptionTable.setBackground(TextureRegionDrawable(TextureRegion(descriptionTexture)))
-        descriptionFont.getData().setScale(0.4f)
+        descriptionFont.getData().setScale(0.8f)
 
         // State
         for ((stateIndex, state) in stateList.withIndex()) {

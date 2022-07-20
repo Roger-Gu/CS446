@@ -13,7 +13,7 @@ class ItemCardData (cardList: MutableList<ItemCard>): CardData(cardList as Mutab
     // add a new card into the data list
     override fun add(card: MergableCard) {
         if (card is ItemCard) super.add(card)
-        println("trying to add a non-item into deck")
+        else println("trying to add a non-item into deck")
     }
 
     // return the card with this name, or null if not exist
@@ -26,7 +26,7 @@ class ItemCardData (cardList: MutableList<ItemCard>): CardData(cardList as Mutab
     // remove a card.
     override fun remove(card: MergableCard){
         if (card is ItemCard) super.remove(card)
-        println("trying to remove a non-item from deck")
+        else println("trying to remove a non-item from deck")
     }
 
     // return the possible merge from this list given input list

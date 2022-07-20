@@ -8,14 +8,18 @@ class ItemCard (cardName: String, img: String, usage: String, wood: Int = 0,
     MergableCard(cardName, img, usage, count, wood, fire, earth, metal, water, electric, wind){
 
     // add the action cards of this item
-    fun addToDeck(addDeck: Deck = deck) {
-        for (i in (0 until actionCards.count())){
+    fun addToDeck() {
+        // println("adding " + cardName)
+        for (i in (0 until actionCards.count())) {
             val curCard = actionCards.pop()
+            // println("adding " + curCard.cardName + curCard.count.toString())
             // generate a separate copy for each card count
-            for (j in (0 until curCard.count)){
-                val copyCard = ActionCard(curCard.cardName, curCard.img, curCard.usage, curCard.energyCost,
-                     curCard.strengthCost, curCard.healthChange, curCard.Effect, 1)
-                addDeck.addCard(copyCard)
+            for (j in (0 until curCard.count)) {
+                val copyCard = ActionCard(
+                    curCard.cardName, curCard.img, curCard.usage, curCard.energyCost,
+                    curCard.strengthCost, curCard.healthChange, curCard.Effect, 1
+                )
+                deck.addCard(copyCard)
             }
         }
     }

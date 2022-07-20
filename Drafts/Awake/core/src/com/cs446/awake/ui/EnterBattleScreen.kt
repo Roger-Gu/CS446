@@ -2,24 +2,18 @@ package com.cs446.awake.ui
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.cs446.awake.Awake
 import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
-import com.cs446.awake.utils.DragDropActor
 
 
-class EnterDungeonScreen() : BaseScreen() {
+class EnterBattleScreen() : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
     private val buttonHeight = screenHeight / 6 - 75f
@@ -100,7 +94,7 @@ class EnterDungeonScreen() : BaseScreen() {
             Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
         border = Image(borderTexture)
         border.isVisible = false
-        for (c in storage.getStored()) {
+        for (c in backPackItem.getStored()) {
             if (c is MaterialCard) {
                 continue
             }
@@ -158,13 +152,14 @@ class EnterDungeonScreen() : BaseScreen() {
         table.left()
         stage.addActor(container)
 
+        // table1 is the upper row
         var table1 = Table()
         var container1 = Table()
         val borderTexture1 =
             Texture(Gdx.files.internal("highlight_border.png")) // TODO: change the texture
         border1 = Image(borderTexture1)
         border1.isVisible = false
-        for (c in backPackItem.getStored()) {
+        for (c in battleItem.getStored()) {
             if (c is MaterialCard) {
                 continue
             }
@@ -253,7 +248,21 @@ class EnterDungeonScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(DungeonScreen(DungeonMap(dungeonLevel)))
+                // generate new player deck according to the items in backpack
+                deck = Deck()
+                for (item in battleItem.getStored()){
+                    if (item !is ItemCard){
+                        println("Warning: non-material in backpack")
+                        continue
+                    }
+                    item.addToDeck()
+                }
+                player = Player("Hero", getHP(), getEnergy(), strength, "badlogic.jpg", deck, mutableListOf(), PlayerType.Human)
+                if (player != null && enemy != null) {
+                    val p : Player = player as Player
+                    val e : Enemy = enemy as Enemy
+                    Awake.setActiveScreen(BattleScreen(p, e))
+                }
                 return true
             }
         })
@@ -275,31 +284,14 @@ class EnterDungeonScreen() : BaseScreen() {
                     return true
                 }
                 if (v) {
-                    storage.remove(card)
-                    backPackItem.add(card)
-                } else {
                     backPackItem.remove(card)
-                    storage.add(card)
+                    battleItem.add(card)
+                } else {
+                    battleItem.remove(card)
+                    backPackItem.add(card)
                 }
-                Awake.setActiveScreen(EnterDungeonScreen())
-                return true
-            }
-        })
-
-        back = BaseActor(0f, 0f, stage)
-        back.loadTexture("backButton.png")
-        back.setSize(buttonHeight / back.height * back.width, buttonHeight)
-        back.setPosition(screenWidth / 20, 20f)
-        // Set event action
-        back.addListener(object : InputListener() {
-            override fun touchDown(
-                event: InputEvent?,
-                x: Float,
-                y: Float,
-                pointer: Int,
-                button: Int
-            ): Boolean {
-                Awake.setActiveScreen(VillageScreen())
+                println(battleItem.itemList.size)
+                Awake.setActiveScreen(EnterBattleScreen())
                 return true
             }
         })
