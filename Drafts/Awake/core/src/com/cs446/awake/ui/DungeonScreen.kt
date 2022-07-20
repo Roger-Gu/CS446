@@ -93,8 +93,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                 backPackMaterial = MaterialCardData(mutableListOf())
                 battleItem = ItemCardData(mutableListOf())
                 dungeonMusic.stop()
-                dumpJson()
                 dungeonLevel = 1
+                dumpJson()
                 Awake.setActiveScreen(VillageScreen())
                 return true
             }
