@@ -23,17 +23,26 @@ class DungeonMap(val level: Int) {
                     eventRow.add(Event("map/unexplored.png", "map/start.png"))
                     continue
                 }
-                // The last is always empty exit for next level
+                // The last is always empty exit for next level, except for level == 4, which has the boss
                 if (row == rownum && col == colnum){
-                    eventRow.add(Event("map/unexplored.png", "map/next.png"))
+                    if (level == 4) eventRow.add(BattleEvent("map/unexplored.png", "map/battle.png", m43))
+                    else eventRow.add(Event("map/unexplored.png", "map/next.png"))
                     continue
                 }
                 // randomize between battle, item, or empty
                 val ram = (0 until 100).random()
-                if (ram < battleProbabilty){
-                    eventRow.add(BattleEvent("map/unexplored.png", "map/battle.png", monsterInfo.randomSelect() as Monster))
+                if (ram < battleProbabilty) {
+                    var monster : Monster? = null
+                    while (monster == null){
+                        monster = monsterInfo.getMonster(level)
+                        if (monster != null) eventRow.add(BattleEvent("map/unexplored.png", "map/battle.png", monster))
+                    }
                 } else if (ram < battleProbabilty + collectProbabilty){
-                    eventRow.add(CollectEvent("map/unexplored.png", "map/item.png", materialInfo.getBelowLevel(level) as MaterialCard))
+                    var material : MaterialCard? = null
+                    while (material == null){
+                        material = materialInfo.getBelowLevel(level)
+                        if (material != null) eventRow.add(CollectEvent("map/unexplored.png", "map/item.png", material))
+                    }
                 } else {
                     eventRow.add(Event("map/unexplored.png", "map/empty.png"))
                 }

@@ -71,6 +71,7 @@ open class CardData (cardList: MutableList<MergableCard>): Data<MergableCard>(ca
 
     // merge materials or items to get a new item
     // possilbeOutcomes should be all item cards, in particular, our global variable itemInfo
+
     fun merge(inputList: CardData = this, possilbeOutcomes: ItemCardData = itemInfo): ItemCard?{
         // call the merge function with the subclass
         return possilbeOutcomes.merge(inputList)

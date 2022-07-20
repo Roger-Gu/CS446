@@ -13,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.cs446.awake.Awake
-import com.cs446.awake.model.DungeonMap
-import com.cs446.awake.model.VillageMap
-import com.cs446.awake.model.INVALIDMOVE
+import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 
@@ -67,26 +65,23 @@ class VillageScreen() : BaseScreen() {
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
-        // Menu Bar Label
-        val coin = Label("Coin: 20", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        val cards = Label("Cards Owned: 15/30", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        val attempt = Label("Best Attempt: 2/3", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-
-        // Menu Bar Picture
-        val bgPixmap = Pixmap(1, 1, Pixmap.Format.RGB565)
-        bgPixmap.setColor(Color.GRAY)
-        bgPixmap.fill()
-        val textureRegionDrawableBg = TextureRegionDrawable(TextureRegion(Texture(bgPixmap)))
-        val menuBar = Table()
-        menuBar.background = textureRegionDrawableBg
-        menuBar.setPosition(0f, screenHeight - 160f)
-        menuBar.setSize(screenWidth, 160f)
-        menuBar.top()
-        menuBar.add(coin).expandX()
-        menuBar.add(cards).expandX()
-        menuBar.add(attempt).expandX()
-        stage.addActor(menuBar)
-
+        val saveButton = BaseActor(0f, 0f, stage)
+        saveButton.loadTexture("Icon_save.png")
+        saveButton.setSize(150f, 150f)
+        saveButton.centerAtPosition(100f, 950f)
+        saveButton.toFront()
+        saveButton.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ) : Boolean {
+                dumpJson()
+                return true
+            }
+        })
 
         val house1 = BaseActor(0f, 0f, stage)
         house1.loadTexture("villages/TX House A.png")
@@ -165,7 +160,7 @@ class VillageScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
-                Awake.setActiveScreen(DungeonScreen(dungeonMap))
+                Awake.setActiveScreen(MergeScreen())
                 return true
             }
         })

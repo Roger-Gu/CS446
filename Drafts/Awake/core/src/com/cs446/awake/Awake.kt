@@ -6,6 +6,7 @@ import com.cs446.awake.model.*
 import com.cs446.awake.ui.BattleScreen
 import com.cs446.awake.ui.DungeonScreen
 import com.cs446.awake.ui.EnterDungeonScreen
+import com.cs446.awake.ui.MergeScreen
 import com.cs446.awake.ui.VillageScreen
 import com.cs446.awake.utils.BaseScreen
 
@@ -53,25 +54,28 @@ class Awake : Game() {
         var card7 = ItemCard("h","equipment.png","usec",1,1,1,1,1,1,1,d)
         var card8 = ItemCard("i","equipment.png","usec",1,1,1,1,1,1,1,d)
         var card9 = MergableCard("j","equipment.png","usec")
-        storage.add(card)
-        storage.add(card1)
-        storage.add(card2)
-        storage.add(card3)
-        storage.add(card4)
-        storage.add(card5)
-        storage.add(card6)
-        storage.add(card7)
-        storage.add(card8)
-        storage.add(card9)
+//        storage.add(card)
+//        storage.add(card1)
+//        storage.add(card2)
+//        storage.add(card3)
+//        storage.add(card4)
+//        storage.add(card5)
+//        storage.add(card6)
+//        storage.add(card7)
+//        storage.add(card8)
+//        storage.add(card9)
 
     }
 
 
     override fun create() {
         // Test Battle View
+
 //        setActiveScreen(VillageScreen())
-        setActiveScreen(EnterDungeonScreen())
+//        setActiveScreen(VillageScreen())
+//        setActiveScreen(EnterDungeonScreen())
 //        setActiveScreen(BattleScreen(player, enemy))
+        setActiveScreen(VillageScreen())
     }
 
     override fun dispose() {
