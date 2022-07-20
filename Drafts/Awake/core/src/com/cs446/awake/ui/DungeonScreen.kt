@@ -172,7 +172,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
     // TODO: lockTouchDown
     private fun battleAnimation() {
-//        lockTouchDown = true
+        lockTouchDown = true
         val timer = Timer(0)
         val itemNotify = Label("Battle!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/2 + itemNotify.height/2)
@@ -188,6 +188,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
             }
             val endTime: () -> Unit = {
                 itemNotify.remove()
+                // Start select card for battle
+                Awake.setActiveScreen(EnterBattleScreen())
             }
             startTimer(20, endTime, duringTime, timer)
         }

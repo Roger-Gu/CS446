@@ -13,7 +13,7 @@ class MaterialCardData (cardList: MutableList<MaterialCard>): CardData(cardList 
     // add a new card into the data list
     override fun add(card: MergableCard) {
         if (card is MaterialCard) super.add(card)
-        println("trying to add a non-material into deck")
+        else println("trying to add a non-material into deck")
     }
 
     // return the card with this name, or null if not exist
@@ -26,7 +26,7 @@ class MaterialCardData (cardList: MutableList<MaterialCard>): CardData(cardList 
     // remove a card.
     override fun remove(card: MergableCard){
         if (card is MaterialCard) super.remove(card)
-        println("trying to remove a non-material from deck")
+        else println("trying to remove a non-material from deck")
     }
 
 

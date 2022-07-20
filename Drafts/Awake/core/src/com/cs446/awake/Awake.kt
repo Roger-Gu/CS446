@@ -62,24 +62,16 @@ class Awake : Game() {
         var card13 = ItemCard("n","material/stoneSword.png","usec",1,1,1,1,1,1,1,d)
         var card14 = MergableCard("o","material/ironHammer.png","usec")
         
-        storage.add(card)
-        storage.add(card1)
-        storage.add(card2)
-        storage.add(card3)
-        storage.add(card4)
-        storage.add(card5)
-        storage.add(card6)
-        storage.add(card7)
-        storage.add(card8)
-        storage.add(card9)
+        storage.add(stick)
+        storage.add(stick)
+        storage.add(ironAx)
+        storage.add(ironSword)
 
         storage.add(card10)
         storage.add(card11)
         storage.add(card12)
         storage.add(card13)
         storage.add(card14)
-
-
     }
 
 
@@ -87,8 +79,10 @@ class Awake : Game() {
         // Test Battle View
 
 //        setActiveScreen(EnterDungeonScreen())
-        setActiveScreen(BattleScreen(player, enemy))
-//        setActiveScreen(VillageScreen())
+//        setActiveScreen(BattleScreen(player, enemy))
+        setActiveScreen(VillageScreen())
+//        setActiveScreen(DungeonScreen(dungeonMap))
+//        setActiveScreen(BattleScreen(player, enemy))
     }
 
     override fun dispose() {

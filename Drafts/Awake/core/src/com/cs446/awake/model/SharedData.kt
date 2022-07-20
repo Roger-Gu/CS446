@@ -34,6 +34,9 @@ public var backPackMaterial : MaterialCardData = MaterialCardData(mutableListOf(
 // the weapons that player bring into dungeon
 public var backPackItem : ItemCardData = ItemCardData(mutableListOf())
 
+// Additional storage for selected item for battle
+public var battleItem : ItemCardData = ItemCardData(mutableListOf())
+
 // reset all savable value
 fun reset(){
     storage = CardData(mutableListOf(stick, stick))
