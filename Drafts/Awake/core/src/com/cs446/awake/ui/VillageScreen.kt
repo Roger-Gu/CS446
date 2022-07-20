@@ -80,13 +80,12 @@ class VillageScreen() : BaseScreen() {
                 button: Int
             ) : Boolean {
                 dumpJson()
-                Gdx.app.exit()
                 val duringTime: () -> Unit = {
                     val winLabel = Label("Saving...", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
                     winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
                     stage.addActor(winLabel)
                 }
-                startTimer(20, {}, duringTime)
+                startTimer(20, {Gdx.app.exit()}, duringTime)
                 return true
             }
         })
