@@ -9,6 +9,8 @@ class ItemCard (cardName: String, img: String, usage: String, wood: Int = 0,
 
     // add the action cards of this item
     fun addToDeck(addDeck: Deck = deck) {
+        println(addDeck.count())
+        println("adding " + cardName)
         for (i in (0 until actionCards.count())){
             val curCard = actionCards.pop()
             // generate a separate copy for each card count
@@ -18,6 +20,7 @@ class ItemCard (cardName: String, img: String, usage: String, wood: Int = 0,
                 addDeck.addCard(copyCard)
             }
         }
+        println(addDeck.count())
     }
     // create a clone (deep copy) of the data
     override fun clone(): ItemCard{
