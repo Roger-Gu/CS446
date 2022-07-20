@@ -75,7 +75,7 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         name.setPosition(paper.x + 50, paper.y + 300)
         name.setSize(paper.width, paper.height)
         name.wrap = true
-        use.setText(card.usage)
+        use.setText(card.count.toString())
         use.setFontScale(0.8f)
         use.setPosition(paper.x + 50, paper.y)
         use.setSize(paper.width, paper.height)
