@@ -392,7 +392,6 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             cardActor.setOnDragNoIntersect {
                 borderImage.remove()
             }
-
         }
     }
 
@@ -536,6 +535,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
             ): Boolean {
                 enemy.initBars()
                 player.initBars()
+
                 battleScreen()
                 startTurn()
                 return true
