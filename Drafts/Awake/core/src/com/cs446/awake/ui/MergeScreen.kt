@@ -219,6 +219,12 @@ class MergeScreen() : BaseScreen() {
     }
 
     override fun initialize() {
+        // test data
+        storage.add(log)
+        storage.add(log)
+        storage.add(log)
+        storage.add(log)
+        storage.add(log)
 
         // Music
         villageMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/village_bgm.wav"))
