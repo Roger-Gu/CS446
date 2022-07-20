@@ -75,21 +75,21 @@ class BackpackScreen(val g: Int) : BaseScreen() {
     fun showInfo(card: MergableCard) {
         name.setText(card.cardName)
         name.setFontScale(0.8f)
-        name.setPosition(paper.x + 50, paper.y + 300)
+        name.setPosition(paper.x + 100, paper.y + 300)
         name.setSize(paper.width, paper.height)
         name.wrap = true
         if (g == 1){
             use.setText(card.count.toString())
             use.setFontScale(0.8f)
-            use.setPosition(paper.x + 50, paper.y)
+            use.setPosition(paper.x + 100, paper.y)
             use.setSize(paper.width, paper.height)
             use.wrap = true
         }
         else {
             use.setText(card.usage + "wood: ${card.wood}, \n fire: ${card.fire}, \n earth: ${card.earth}, \n " +
-                    "metal: ${card.metal}, \n water: ${card.water}, \n electric: ${card.electric}， \n wind: ${card.wind} \n.")
+                    "metal: ${card.metal}, \n water: ${card.water}, \n electric: ${card.electric}， \n wind: ${card.wind} \n")
             use.setFontScale(0.8f)
-            use.setPosition(paper.x + 60, paper.y)
+            use.setPosition(paper.x + 30, paper.y - 50)
             use.setSize(paper.width, paper.height)
             use.wrap = true
         }
