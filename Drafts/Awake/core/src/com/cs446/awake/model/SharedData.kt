@@ -248,7 +248,7 @@ public var materialInfo : MaterialCardData =
 
 
 
-val m11 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 1, 20,
+val m11 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 1, 1000,
     "Enemy", mapOf<MaterialCard,Int>(log to 2), Deck(Array<ActionCard>(arrayOf(strike11))))
 val m12 = Monster(Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png")), 1, 30,
     "Enemy", mapOf<MaterialCard,Int>(stone to 2), Deck(Array<ActionCard>(arrayOf(strike12, stab12))))

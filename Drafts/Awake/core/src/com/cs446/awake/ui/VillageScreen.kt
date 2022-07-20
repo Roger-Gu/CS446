@@ -13,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.cs446.awake.Awake
-import com.cs446.awake.model.DungeonMap
-import com.cs446.awake.model.VillageMap
-import com.cs446.awake.model.INVALIDMOVE
+import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
 
@@ -65,6 +63,24 @@ class VillageScreen() : BaseScreen() {
         background.loadTexture("villageBackground.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
+
+        val saveButton = BaseActor(0f, 0f, stage)
+        saveButton.loadTexture("Icon_save.png")
+        saveButton.setSize(200f, 200f)
+        saveButton.centerAtPosition(100f, 950f)
+        saveButton.toFront()
+        saveButton.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ) : Boolean {
+                dumpJson()
+                return true
+            }
+        })
 
         val house1 = BaseActor(0f, 0f, stage)
         house1.loadTexture("House1.png")
