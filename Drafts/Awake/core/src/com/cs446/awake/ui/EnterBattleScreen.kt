@@ -257,7 +257,7 @@ class EnterBattleScreen() : BaseScreen() {
                     }
                     item.addToDeck()
                 }
-                player = Player("Hero", getHP(), getEnergy(), strength, "badlogic.jpg", deck, mutableListOf(), PlayerType.Human)
+                player = Player("Hero", getHP(), getEnergy(), strength, "hero_bar.png", deck, mutableListOf(), PlayerType.Human)
                 if (player != null && enemy != null) {
                     val p : Player = player as Player
                     val e : Enemy = enemy as Enemy
