@@ -20,22 +20,22 @@ class DungeonMap(val level: Int) {
             for (col in 0..colnum){
                 // The first is always empty entry
                 if (row == 0 && col == 0){
-                    eventRow.add(Event("Attack.png", "Heal.png"))
+                    eventRow.add(Event("map/unexplored.png", "map/start.png"))
                     continue
                 }
                 // The last is always empty exit for next level
                 if (row == rownum && col == colnum){
-                    eventRow.add(Event("Attack.png", "Heal.png"))
+                    eventRow.add(Event("map/unexplored.png", "map/next.png"))
                     continue
                 }
                 // randomize between battle, item, or empty
                 val ram = (0 until 100).random()
                 if (ram < battleProbabilty){
-                    eventRow.add(BattleEvent("Attack.png", "skeleton1.png", monsterInfo.randomSelect() as Monster))
+                    eventRow.add(BattleEvent("map/unexplored.png", "map/battle.png", monsterInfo.randomSelect() as Monster))
                 } else if (ram < battleProbabilty + collectProbabilty){
-                    eventRow.add(CollectEvent("Attack.png", "Fire.png", materialInfo.getBelowLevel(level) as MaterialCard))
+                    eventRow.add(CollectEvent("map/unexplored.png", "map/item.png", materialInfo.getBelowLevel(level) as MaterialCard))
                 } else {
-                    eventRow.add(Event("Attack.png", "Heal.png"))
+                    eventRow.add(Event("map/unexplored.png", "map/empty.png"))
                 }
             }
             map.add(eventRow)

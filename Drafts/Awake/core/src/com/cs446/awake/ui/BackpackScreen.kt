@@ -144,9 +144,10 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         stage.addActor(container)
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("EndTurnButton.png")
-        back.setSize(250f, 200f)
-        back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 300, (screenHeight / 2) + back.height / 2 - 700)
+        back.loadTexture("backArrow.png")
+        back.setSize(200f, 200f)
+        // back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 300, (screenHeight / 2) + back.height / 2 - 700)
+        back.centerAtPosition(back.width, screenHeight / 2)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(
@@ -170,7 +171,7 @@ class BackpackScreen(val g: Int) : BaseScreen() {
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("dragonBackground.png")
+        background.loadTexture("darkbackground.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
@@ -178,7 +179,7 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         weapon = BaseActor(0f, 0f, stage)
         weapon.loadTexture("equipment.png")
         weapon.setSize(800f, 850f)
-        weapon.centerAtPosition(screenWidth / 3, (screenHeight / 3) + weapon.height / 2 - 200)
+        weapon.centerAtPosition(screenWidth / 3f, screenHeight / 2)
         // Set event action
         weapon.addListener(object : InputListener() {
             override fun touchDown(
@@ -199,7 +200,7 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         material = BaseActor(0f, 0f, stage)
         material.loadTexture("material.png")
         material.setSize(800f, 850f)
-        material.centerAtPosition(screenWidth / 3 * 2, (screenHeight / 3) + material.height / 2 - 200)
+        material.centerAtPosition(screenWidth / 2.8f * 2, screenHeight / 2)
         // Set event action
         material.addListener(object : InputListener() {
             override fun touchDown(
@@ -218,9 +219,10 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         })
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("EndTurnButton.png")
-        back.setSize(300f, 350f)
-        back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 200, (screenHeight / 2) + back.height / 2 - 600)
+        back.loadTexture("backArrow.png")
+        back.setSize(200f, 200f)
+        // back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 200, (screenHeight / 2) + back.height / 2 - 600)
+        back.centerAtPosition(back.width, screenHeight / 2)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(
