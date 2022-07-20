@@ -302,7 +302,7 @@ class MergeScreen() : BaseScreen() {
                     mergeAreaCards.clear()
                     mergeData = CardData(mutableListOf())
 
-                    val txt = Label("Congratulation! You have successfully merged these card. Click to collect the card.", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+                    val txt = Label("Congratulation! You have successfully merged these cards. Click to collect the card.", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
                     txt.setSize(screenWidth/3, screenHeight/2)
                     txt.setPosition(screenWidth/5, screenHeight/2)
                     txt.setFontScale(0.5f)

@@ -233,8 +233,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         }
         var ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         var mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        ip.setPosition(weapon.x + 50, weapon.y + 200)
-        mp.setPosition(material.x + 50, material.y + 200)
+        ip.setPosition(weapon.x + 250, weapon.y + 810)
+        mp.setPosition(material.x + 250, material.y + 810)
         stage.addActor(ip)
         stage.addActor(mp)
         if (g == 1) {

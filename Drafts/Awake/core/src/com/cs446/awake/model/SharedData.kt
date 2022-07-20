@@ -285,34 +285,34 @@ public var itemInfo: ItemCardData = ItemCardData(mutableListOf
     fireSword, electricAx, poisonedArrow, mallet, earthShield, potion))
 
 // materials
-val stone : MaterialCard = MaterialCard("stone","stone.png", "a stone",
+val stone : MaterialCard = MaterialCard("stone","material/stone.png", "a stone",
     earth = 5, metal = 2, water = -2, level = 1)
-val log : MaterialCard = MaterialCard("log", "log.png", "a log",
+val log : MaterialCard = MaterialCard("log", "material/log.png", "a log",
     wood = 5, fire = 2, earth = -2, level = 1)
 
-val ironOre : MaterialCard = MaterialCard("ironOre", "iron.png", "an iron ore",
+val ironOre : MaterialCard = MaterialCard("ironOre", "material/iron.png", "an iron ore",
     wood = -5, fire = 5, earth = 2, metal = 10, electric = 2, wind = -2, level = 2)
-val goldOre : MaterialCard = MaterialCard("goldOre", "gold.png", "a log",
+val goldOre : MaterialCard = MaterialCard("goldOre", "material/gold.png", "a gold",
     wood = -5, fire = 15, earth = 5, metal = 15, level = 3)
-val woodGem : MaterialCard = MaterialCard("woodGem", "woodDiamond.png", "a log",
+val woodGem : MaterialCard = MaterialCard("woodGem", "material/woodDiamond.png", "a wood Gem",
     wood = 50, fire = 5, earth = -20, level = 3)
-val fireGem : MaterialCard = MaterialCard("fireGem", "fireDiamond.png", "a log",
+val fireGem : MaterialCard = MaterialCard("fireGem", "material/fireDiamond.png", "a fire Gem",
     fire = 50, earth = 5, metal = -20, level = 3)
-val earthGem : MaterialCard = MaterialCard("earthGem", "earthDiamond.png", "a log",
+val earthGem : MaterialCard = MaterialCard("earthGem", "material/earthDiamond.png", "a earth Gem",
     earth = 50, metal = 5, water = -20, level = 4)
-val metalGem : MaterialCard = MaterialCard("metalGem", "metalDiamond.png", "a log",
+val metalGem : MaterialCard = MaterialCard("metalGem", "material/metalDiamond.png", "a metal Gem",
     metal = 50, water = 5, wood = -20, level = 4)
-val waterGem : MaterialCard = MaterialCard("waterGem", "waterDiamond.png", "a log",
+val waterGem : MaterialCard = MaterialCard("waterGem", "material/waterDiamond.png", "a water Gem",
     wood = 5, fire = -5, water = 50, level = 4)
-val electricGem : MaterialCard = MaterialCard("electricGem", "lightningDiamond.png", "a log",
+val electricGem : MaterialCard = MaterialCard("electricGem", "material/lightningDiamond.png", "a electric Gem",
     wood = -10, earth = -10, water = -10, electric = 50, wind = 5, level = 4)
-val windGem : MaterialCard = MaterialCard("windGem", "windDiamond.png", "a log",
+val windGem : MaterialCard = MaterialCard("windGem", "material/windDiamond.png", "a wind Gem",
     fire = -10, metal = -10, electric = 5, wind = 50, level = 3)
-val bone : MaterialCard = MaterialCard("bone", "bone.png", "a log",
+val bone : MaterialCard = MaterialCard("bone", "material/bone.png", "a bone",
     5, -2, 5, -2, -2, -2, -2,  level = 2)
-val feather : MaterialCard = MaterialCard("feather", "feather.png", "a log",
+val feather : MaterialCard = MaterialCard("feather", "material/feather.png", "a feather",
     fire = 5, electric = -2, wind = 10, level = 2)
-val herb : MaterialCard = MaterialCard("electricGem", "herb.png", "a log",
+val herb : MaterialCard = MaterialCard("electricGem", "material/herb.png", "a electric Gem",
     5, water = 5, level = 1)
     
 public var materialInfo : MaterialCardData =
