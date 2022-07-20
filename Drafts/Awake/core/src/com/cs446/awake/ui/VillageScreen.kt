@@ -65,12 +65,13 @@ class VillageScreen() : BaseScreen() {
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
-        val saveButton = BaseActor(0f, 0f, stage)
-        saveButton.loadTexture("Icon_save.png")
-        saveButton.setSize(150f, 150f)
-        saveButton.centerAtPosition(100f, 950f)
-        saveButton.toFront()
-        saveButton.addListener(object : InputListener() {
+        // Save before quit
+        val quitButton = BaseActor(0f, 0f, stage)
+        quitButton.loadTexture("Icon_quit.png")
+        quitButton.setSize(150f, 150f)
+        quitButton.centerAtPosition(100f, 950f)
+        quitButton.toFront()
+        quitButton.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
                 x: Float,
@@ -79,6 +80,13 @@ class VillageScreen() : BaseScreen() {
                 button: Int
             ) : Boolean {
                 dumpJson()
+                Gdx.app.exit()
+                val duringTime: () -> Unit = {
+                    val winLabel = Label("Saving...", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+                    winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
+                    stage.addActor(winLabel)
+                }
+                startTimer(20, {}, duringTime)
                 return true
             }
         })
