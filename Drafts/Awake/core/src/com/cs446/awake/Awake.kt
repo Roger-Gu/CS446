@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array
 import com.cs446.awake.model.*
 import com.cs446.awake.ui.BattleScreen
 import com.cs446.awake.ui.DungeonScreen
+import com.cs446.awake.ui.MergeScreen
 import com.cs446.awake.ui.VillageScreen
 import com.cs446.awake.utils.BaseScreen
 
@@ -68,6 +69,7 @@ class Awake : Game() {
 
     override fun create() {
         // Test Battle View
+
 //        setActiveScreen(VillageScreen())
 //        setActiveScreen(VillageScreen())
         setActiveScreen(BattleScreen(player, enemy))
