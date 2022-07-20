@@ -73,10 +73,12 @@ class EnterDungeonScreen() : BaseScreen() {
         name.setFontScale(0.8f)
         name.setPosition(paper.x + 50, paper.y + 300)
         name.setSize(paper.width, paper.height)
+        name.wrap = true
         use.setText(card.usage)
         use.setFontScale(0.8f)
         use.setPosition(paper.x + 50, paper.y)
         use.setSize(paper.width, paper.height)
+        use.wrap = true
     }
 
     private fun backpackScroll() {
