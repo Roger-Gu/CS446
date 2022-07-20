@@ -132,8 +132,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
     }
 
     open fun preRound() {
-        // demo only, restore some amount of energy in real game
-        energy += 3
+        updateEnergy(3)
         while (hand.size < 5) drawCard()
 
 
@@ -183,6 +182,7 @@ abstract class Character (val charName: String, val maxHP: Int, val maxEnergy: I
 
     fun updateEnergy(energyChange: Int) {
         energy += energyChange
+        if (energy > maxEnergy) energy = maxEnergy
         energyBar.value = energy / 100f
     }
 
