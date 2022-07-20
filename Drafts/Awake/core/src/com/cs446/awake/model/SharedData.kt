@@ -1,6 +1,8 @@
 package com.cs446.awake.model
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.Array
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -117,7 +119,6 @@ public const val Freeze = "Freeze"
 public const val Poison = "Poison"
 public const val Paralysis = "Paralysis"
 public const val Sleep = "Sleep"
-
 
 // Info
 // ActionCards
