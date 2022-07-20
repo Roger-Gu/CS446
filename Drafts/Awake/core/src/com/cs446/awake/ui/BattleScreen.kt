@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Null
+import com.cs446.awake.Awake
 import com.cs446.awake.model.*
 import com.cs446.awake.utils.*
 import java.awt.Rectangle
@@ -210,6 +211,12 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         return null
     }
 
+    private fun noCardNofity(who: String) {
+        val noCard = Label("$who no Cards!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        noCard.setPosition(screenWidth/2 - noCard.width/2, screenHeight/2 + noCard.height)
+        stage.addActor(noCard)
+    }
+
     // Function that apply the start part of round of game and active AI if it is AI's turn.
     private fun startTurn() {
         // Clean the round indicator
@@ -217,9 +224,19 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         infoPlayerTurn.remove()
         // PreRound: Restore energy and apply state effect
         if (currentTurn == player) {
-            player.preRound()
+            if (!player.preRound()) {
+                // player does not have any cards
+                noCardNofity("Player")
+                loseGame()
+                return
+            }
         } else {
-            enemy.preRound()
+            if (!enemy.preRound()) {
+                // enemy does not have any cards
+                noCardNofity("Enemy")
+                winGame()
+                return
+            }
         }
 
         // Give card to player for player's turn
@@ -280,9 +297,11 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
     // The game result with player wins.
     private fun winGame() {
+        succeed() // call global data to store succeed battle
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
+        finishPlayerRound.remove()
 
         val winLabel = Label("You Win!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
@@ -299,13 +318,34 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
     // The game result with player lose.
     private fun loseGame() {
+        reset() // loose everything
         // Clean the round indicator
         infoAITurn.remove()
         infoPlayerTurn.remove()
+        finishPlayerRound.remove()
 
         // TODO: Exit back to Village.
-        val winLabel = Label("You Lose!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
+        val looseLabel = Label("You Lose!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        looseLabel.setPosition(screenWidth/2 - looseLabel.width/2, screenHeight/2 - looseLabel.height/2)
+        stage.addActor(looseLabel)
+
+        val back = Label(">> Back to Village <<", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        back.setPosition(screenWidth/2 - back.width/2, screenHeight/2 - back.height)
+        stage.addActor(back)
+
+        back.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
+                Awake.setActiveScreen(VillageScreen())
+                return true
+            }
+        })
+
     }
 
     // Function that render player's card on the screen.

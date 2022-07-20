@@ -77,8 +77,6 @@ class Awake : Game() {
         storage.add(card12)
         storage.add(card13)
         storage.add(card14)
-
-
     }
 
 
@@ -88,6 +86,8 @@ class Awake : Game() {
 //        setActiveScreen(EnterDungeonScreen())
 //        setActiveScreen(BattleScreen(player, enemy))
         setActiveScreen(VillageScreen())
+//        setActiveScreen(DungeonScreen(dungeonMap))
+//        setActiveScreen(BattleScreen(player, enemy))
     }
 
     override fun dispose() {
