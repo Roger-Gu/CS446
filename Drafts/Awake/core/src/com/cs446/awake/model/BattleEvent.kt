@@ -8,16 +8,6 @@ class BattleEvent (backImg: String, frontImg: String, val monster: Monster) : Ev
         enemy = Enemy(monster.images, monster.charName, monster.getHP(dungeonLevel),
             monster.getEnergy(), monster.getStrength(), "badlogic.jpg",
             monsterDeck, mutableListOf(), PlayerType.AI)
-        // generate new player deck according to the items in backpack
-        deck = Deck()
-        for (item in backPackItem.getStored()){
-            if (item !is ItemCard){
-                println("Warning: non-material in backpack")
-                continue
-            }
-            item.addToDeck(deck)
-        }
-        player = Player("Hero", getHP(), getEnergy(), strength, "badlogic.jpg",deck, mutableListOf(), PlayerType.Human)
 
         // add the reward to the backpack
         for (rewarded in monster.reward.keys){

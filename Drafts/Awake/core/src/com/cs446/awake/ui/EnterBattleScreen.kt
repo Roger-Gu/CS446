@@ -255,9 +255,9 @@ class EnterBattleScreen() : BaseScreen() {
                         println("Warning: non-material in backpack")
                         continue
                     }
-                    item.addToDeck(deck)
+                    item.addToDeck()
                 }
-                println(deck.deck.size)
+                println(deck.count())
                 battleItem = ItemCardData(mutableListOf())
                 player = Player("Hero", getHP(), getEnergy(), strength, "badlogic.jpg", deck, mutableListOf(), PlayerType.Human)
                 if (player != null && enemy != null) {
