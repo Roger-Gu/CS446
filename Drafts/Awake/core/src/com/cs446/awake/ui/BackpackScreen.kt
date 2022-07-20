@@ -100,8 +100,9 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         paper.setPosition(screenWidth / 20, screenHeight / 6 - 50f)
         paper.setSize(390f, screenHeight / 2.5f * 2 + 50f)
 
-        name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+
+        name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
+        use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_black.fnt")), Color.WHITE))
         stage.addActor(name)
         stage.addActor(use)
 
@@ -258,10 +259,10 @@ class BackpackScreen(val g: Int) : BaseScreen() {
                 mlen += 1
             }
         }
-        ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        ip.setPosition(weapon.x + 250, weapon.y + 810)
-        mp.setPosition(material.x + 250, material.y + 810)
+        ip = Label("$ilen / $TOTAL_ITEM", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+        mp = Label("$mlen / $TOTAL_MATERIAL", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+        ip.setPosition(weapon.x + 300, weapon.y + 825)
+        mp.setPosition(material.x + 300, material.y + 825)
         stage.addActor(ip)
         stage.addActor(mp)
         if (g == 1) {

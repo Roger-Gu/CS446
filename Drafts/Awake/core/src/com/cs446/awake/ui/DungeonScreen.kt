@@ -179,7 +179,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
         activeBoss = true
         lockTouchDown = true
         val timer = Timer(0)
-        val itemNotify = Label("BOSS Battle!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
+        val itemNotify = Label("BOSS Battle!", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
         itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/2 + itemNotify.height/2)
         stage.addActor(itemNotify)
 
@@ -208,8 +208,8 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
     private fun collectAnimation(row: Int, col: Int, timeCount: Timer) {
         // Notification message
-        val itemNotify = Label("Collected Item!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/2 + itemNotify.height/2)
+        val itemNotify = Label("Collected Item!", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+        itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/5)
         stage.addActor(itemNotify)
 
         val collectSound = Gdx.audio.newMusic(Gdx.files.internal("sound/mixkit-arcade-game-complete-or-approved-mission-205.wav"))
@@ -261,8 +261,9 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
     private fun battleAnimation() {
         lockTouchDown = true
         val timer = Timer(0)
-        val itemNotify = Label("Battle!", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
-        itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/2 + itemNotify.height/2)
+        val itemNotify = Label("Battle!", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+        itemNotify.setPosition(screenWidth/2 - itemNotify.width/2, screenHeight/2 - itemNotify.height/2)
+        itemNotify.scaleBy(2f)
         stage.addActor(itemNotify)
 
         // Display 0.4 sec
