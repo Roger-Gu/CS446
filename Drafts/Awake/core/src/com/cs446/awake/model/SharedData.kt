@@ -291,7 +291,7 @@ val log : MaterialCard = MaterialCard("log", "log.png", "a log",
 
 val ironOre : MaterialCard = MaterialCard("ironOre", "iron.png", "an iron ore",
     wood = -5, fire = 5, earth = 2, metal = 10, electric = 2, wind = -2, level = 2)
-val goldOre : MaterialCard = MaterialCard("goldOre", "metalDiamond.png", "a log", //TODO: add gold image
+val goldOre : MaterialCard = MaterialCard("goldOre", "gold.png", "a log",
     wood = -5, fire = 15, earth = 5, metal = 15, level = 3)
 val woodGem : MaterialCard = MaterialCard("woodGem", "woodDiamond.png", "a log",
     wood = 50, fire = 5, earth = -20, level = 3)
