@@ -37,9 +37,9 @@ class Awake : Game() {
         // Create demo enemy
         val enemyDeck = getTestDeck()
         // val enemyImage = Array<String?>(arrayOf("skeleton1.png","skeleton2.png","skeleton3.png","skeleton2.png"))
-        val enemyImage = Array<String?>(arrayOf("Monster_lv3/monster3.png"))
+        val enemyImage = Array<String?>(arrayOf("Monster_lv4/monster2.png"))
         val enemyStates : MutableList<State> = mutableListOf()
-        enemy = Enemy(enemyImage,"Enemy",100, 99, 99,"Monster_lv1/monster1_bar.png", enemyDeck, enemyStates, PlayerType.AI)
+        enemy = Enemy(enemyImage,"Enemy",100, 99, 99,"Monster_lv4/monster2_bar.png", enemyDeck, enemyStates, PlayerType.AI)
 
         // For dungeon demo
         dungeonMap = DungeonMap(1)

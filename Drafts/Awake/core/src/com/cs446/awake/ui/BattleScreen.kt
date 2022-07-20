@@ -142,6 +142,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         stage.addActor(aITurn)
         stage.addActor(aICursor)
         enemyImageActor.toFront()
+        enemy.healthBar.toFront()
 
         if (enemy.canUseCard) {
             // Enemy use one card
@@ -197,6 +198,8 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         stage.addActor(playerTurn)
         stage.addActor(playerCursor)
         playerImageActor.toFront()
+        player.healthBar.toFront()
+        player.energyBar.toFront()
 
         if (player.canUseCard) {
             stage.addActor(finishPlayerRound)
@@ -444,7 +447,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("battle1.png")
+        background.loadTexture("battle4.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
