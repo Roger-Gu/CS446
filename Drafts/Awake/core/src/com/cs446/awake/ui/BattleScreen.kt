@@ -347,6 +347,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         val endTime : () -> Unit = {
             if (activeBoss) {
                 // Beat the boss
+                activeBoss = false
                 enemyDisplay.remove()
                 storage.append(backPackMaterial)
                 storage.append(backPackItem)
