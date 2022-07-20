@@ -66,7 +66,7 @@ class VillageScreen() : BaseScreen() {
 
         val saveButton = BaseActor(0f, 0f, stage)
         saveButton.loadTexture("Icon_save.png")
-        saveButton.setSize(200f, 200f)
+        saveButton.setSize(150f, 150f)
         saveButton.centerAtPosition(100f, 950f)
         saveButton.toFront()
         saveButton.addListener(object : InputListener() {
