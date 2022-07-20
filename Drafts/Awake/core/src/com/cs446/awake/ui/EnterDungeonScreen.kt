@@ -22,6 +22,7 @@ import com.cs446.awake.utils.DragDropActor
 class EnterDungeonScreen() : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
+    private val buttonHeight = screenHeight / 6 - 75f
 
     // Timer variables
     private var worldTimer  = -1
@@ -83,9 +84,9 @@ class EnterDungeonScreen() : BaseScreen() {
 
     private fun backpackScroll() {
         paper = BaseActor(0f, 0f, stage)
-        paper.loadTexture("paperboarder.png")
-        paper.setPosition(100f, 300f)
-        paper.setSize(390f, 780f)
+        paper.loadTexture("map/empty.png")
+        paper.setPosition(screenWidth / 20, screenHeight / 6 - 50f)
+        paper.setSize(390f, screenHeight / 2.5f * 2 + 50f)
 
         name = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
         use = Label("", Label.LabelStyle(BitmapFont(Gdx.files.internal("Arial120Bold.fnt")), Color.WHITE))
@@ -108,7 +109,8 @@ class EnterDungeonScreen() : BaseScreen() {
             }
             val cardActor = BaseActor(0f, 0f, stage)
             cardActor.loadTexture(c.img)
-            cardActor.setSize(500f, 600f)
+            val cardHeight = screenHeight / 2.5f - 100f
+            cardActor.setSize(cardHeight / cardActor.height*cardActor.width, cardHeight)
             cardActor.addListener(object : InputListener() {
                 override fun touchDown(
                     event: InputEvent?,
@@ -118,38 +120,41 @@ class EnterDungeonScreen() : BaseScreen() {
                     button: Int
                 ): Boolean {
                     showInfo(c)
-                    val borderWidth = 30
                     border.isVisible = true
                     border.setSize(
-                        cardActor.width - 20,
-                        cardActor.height + borderWidth * 2
+                        cardActor.width + 25,
+                        cardActor.height + 25
                     )
                     border.isVisible = true
-                    border.setPosition(cardActor.x + 20, cardActor.y - borderWidth)
+                    border.setPosition(cardActor.x-10, cardActor.y-10)
                     border1.isVisible = false
                     card = c.clone()
                     v = true
                     selected = true
+                    cardActor.toFront()
                     return true
                 }
             })
-            table.add(cardActor)
+            table.add(cardActor).pad(15f)
         }
         table.add(border)
         table.row()
         //table.setSize(screenWidth - 300, 860f)
 
         scrollPane = ScrollPane(table)
+        table.setFillParent(true)
         scrollPane.scrollTo(0f,0f,0f,0f)
 
-        container.add(scrollPane)
-        container.setPosition(300f, 260f)
-        container.setSize(screenWidth - 100, 430f)
+        container.setPosition(screenWidth / 4.5f, screenHeight / 6 - 50f)
+        container.setSize(screenWidth / 5 * 3.9f, screenHeight / 2.5f)
         var skin = Skin()
         skin.add("logo", Texture("bpback.png"));
         container.background(skin.getDrawable("logo"))
+        container.add(scrollPane).height(screenHeight / 2.5f).expandX()
         container.row()
-        container.getCell(scrollPane).size(1900f,600f)
+        container.getCell(scrollPane).size(1750f,container.height /2*3)
+        table.bottom()
+        table.left()
         stage.addActor(container)
 
         var table1 = Table()
@@ -167,7 +172,8 @@ class EnterDungeonScreen() : BaseScreen() {
             }
             val cardActor = BaseActor(0f, 0f, stage)
             cardActor.loadTexture(c.img)
-            cardActor.setSize(500f, 600f)
+            val cardHeight = screenHeight / 2.5f - 100f
+            cardActor.setSize(cardHeight / cardActor.height*cardActor.width, cardHeight)
             cardActor.addListener(object : InputListener() {
                 override fun touchDown(
                     event: InputEvent?,
@@ -177,38 +183,45 @@ class EnterDungeonScreen() : BaseScreen() {
                     button: Int
                 ): Boolean {
                     showInfo(c)
-                    val borderWidth = 30
                     border1.isVisible = true
                     border1.setSize(
-                        cardActor.width - 20,
-                        cardActor.height + borderWidth * 2
+                        cardActor.width + 25,
+                        cardActor.height + 25
                     )
                     border1.isVisible = true
-                    border1.setPosition(cardActor.x + 20, cardActor.y - borderWidth)
+                    border1.setPosition(cardActor.x-10, cardActor.y-10)
                     border.isVisible = false
+
                     card = c.clone()
                     v = false
                     selected = true
+                    select.loadTexture("cancel.png")
+                    select.setSize(buttonHeight / select.height * select.width, buttonHeight)
+                    select.setPosition(screenWidth / 2 - select.width / 2, 20f)
+                    cardActor.toFront()
                     return true
                 }
             })
-            table1.add(cardActor)
+            table1.add(cardActor).pad(15f)
         }
         table1.add(border1)
         table1.row()
         //table.setSize(screenWidth - 300, 860f)
 
         scrollPane = ScrollPane(table1)
+        table1.setFillParent(true)
         scrollPane.scrollTo(0f,0f,0f,0f)
 
-        container1.add(scrollPane)
-        container1.setPosition(300f, 860f)
-        container1.setSize(screenWidth - 100, 430f)
+        container1.setPosition(screenWidth / 4.5f, screenHeight / 6 + container.height)
+        container1.setSize(screenWidth / 5 * 3.9f, screenHeight / 2.5f)
         var skin1 = Skin()
         skin1.add("logo", Texture("bpback.png"));
         container1.background(skin1.getDrawable("logo"))
+        container1.add(scrollPane).height(screenHeight / 2.5f).expandX()
         container1.row()
-        container1.getCell(scrollPane).size(1900f,600f)
+        container1.getCell(scrollPane).size(1750f,container.height /2*3)
+        table1.bottom()
+        table1.left()
         stage.addActor(container1)
 
     }
@@ -226,9 +239,10 @@ class EnterDungeonScreen() : BaseScreen() {
 
         backpackScroll()
         enter = BaseActor(0f, 0f, stage)
-        enter.loadTexture("EndTurnButton.png")
-        enter.setSize(300f, 350f)
-        enter.centerAtPosition(screenWidth / 5 * 4 + enter.width / 2 + 200, (screenHeight / 2) + enter.height / 2 - 600)
+        enter.loadTexture("goButton.png")
+
+        enter.setSize(buttonHeight / enter.height * enter.width, buttonHeight)
+        enter.setPosition(screenWidth / 20 * 19 - enter.width, 20f)
         // Set event action
         enter.addListener(object : InputListener() {
             override fun touchDown(
@@ -244,9 +258,9 @@ class EnterDungeonScreen() : BaseScreen() {
         })
 
         select = BaseActor(0f, 0f, stage)
-        select.loadTexture("EndTurnButton.png")
-        select.setSize(300f, 350f)
-        select.centerAtPosition(screenWidth / 5 * 2 + select.width / 2 + 200, (screenHeight / 2) + select.height / 2 - 600)
+        select.loadTexture("selectButton.png")
+        select.setSize(buttonHeight / select.height * select.width, buttonHeight)
+        select.setPosition(screenWidth / 2 - select.width / 2, 20f)
         // Set event action
         select.addListener(object : InputListener() {
             override fun touchDown(
@@ -272,9 +286,9 @@ class EnterDungeonScreen() : BaseScreen() {
         })
 
         back = BaseActor(0f, 0f, stage)
-        back.loadTexture("EndTurnButton.png")
-        back.setSize(300f, 350f)
-        back.centerAtPosition(screenWidth / 5 * 0 + back.width / 2 + 200, (screenHeight / 2) + back.height / 2 - 600)
+        back.loadTexture("backButton.png")
+        back.setSize(buttonHeight / back.height * back.width, buttonHeight)
+        back.setPosition(screenWidth / 20, 20f)
         // Set event action
         back.addListener(object : InputListener() {
             override fun touchDown(
