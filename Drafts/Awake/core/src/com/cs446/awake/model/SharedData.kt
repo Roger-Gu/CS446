@@ -39,17 +39,15 @@ public var activeBoss : Boolean = false
 
 // reset all savable value
 fun reset(){
-    storage = CardData(mutableListOf())
-    storage.append(itemInfo)
-    storage.append(materialInfo)
+    storage = CardData(mutableListOf(log, log, log, stick, stick))
     dungeonLevel = 1
     success = 0
 }
 
 // demo-only, put in VillageScreen initialize() after readJson()
 fun demo(){
-    storage = CardData(mutableListOf(fireSword, electricAx, earthShield, poisonedArrow, boneSword,
-        fireGem, waterGem, herb, ironHammer, ironOre, goldOre, ironSword, potion, woodGem))
+    storage.append(itemInfo)
+    storage.append(materialInfo)
     dungeonLevel = 4
     success = 100
 }
