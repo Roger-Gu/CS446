@@ -46,7 +46,7 @@ fun reset(){
     success = 0
 }
 
-// demo-only
+// demo-only, put in VillageScreen initialize() after readJson()
 fun demo(){
     storage = CardData(mutableListOf(fireSword, electricAx, earthShield, poisonedArrow, boneSword,
         fireGem, waterGem, herb, ironHammer, ironOre, goldOre, ironSword, potion, woodGem))
@@ -85,6 +85,7 @@ fun dumpJson (){// create json from class
     handle.writeString(json, false)
 }
 
+// load the progress of the game
 fun readJson (){
     var exists = Gdx.files.local("storage").exists()
     if (exists){
@@ -147,7 +148,7 @@ public const val Sleep = "Sleep"
 // ActionCards
 val stickStrike : ActionCard = ActionCard("stick strike", "playerAction/itemAction1.png",
     "", 1, 0, -5, Array<State>(), 5)
-val stoneSwordChop : ActionCard = ActionCard("stone sword chop", "playerAction/itemAction2",
+val stoneSwordChop : ActionCard = ActionCard("stone sword chop", "playerAction/itemAction2.png",
     "", 2, 0, -10, Array<State>(), 3)
 val stoneSwordStab : ActionCard = ActionCard("stone sword Stab", "playerAction/itemAction3.png",
     "", 1, 0, -5, Array<State>(), 2)
@@ -156,7 +157,7 @@ val stoneAxChop : ActionCard = ActionCard("stone axe chop", "playerAction/itemAc
 val stoneAxStrike : ActionCard = ActionCard("stone axe knock", "playerAction/itemAction5.png",
     "", 3, 0, -8,
     Array<State>(arrayOf(State( Paralysis, 1))), 2)
-val archery : ActionCard = ActionCard("archery", "playerAction/itemAction6",
+val archery : ActionCard = ActionCard("archery", "playerAction/itemAction6.png",
     "", 2, 0, -12, Array<State>(), 7)
 val ironAxChop : ActionCard = ActionCard("iron axe chop", "playerAction/itemAction9.png",
     "", 2, 0, -20, Array<State>(), 4)
