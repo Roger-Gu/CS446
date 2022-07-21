@@ -71,6 +71,7 @@ class DungeonMap(val level: Int) {
     fun go(row:Int, col: Int): Int {
         if (! canGo(row, col)) return INVALIDMOVE
         if (row == rownum && col == colnum) return NEXTLEVEL
+        stepsLeft --
         return map[row][col].trigger()
     }
 }
