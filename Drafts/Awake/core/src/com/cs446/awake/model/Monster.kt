@@ -10,7 +10,7 @@ class Monster (val images: Array<String?>, val level: Int,  val HP: Int,
         val levelDiff = inputLevel - level
         val monsterDeck = Deck()
         for (i in (0 until actions.count())){
-            val curCard = actions.pop()
+            val curCard = actions.deck[i]
             // generate a separate copy for each card count
             for (j in (0 until (curCard.count + levelDiff))){
                 val copyCard = ActionCard(curCard.cardName, curCard.img, curCard.usage, curCard.energyCost,
