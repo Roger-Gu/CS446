@@ -39,7 +39,9 @@ public var activeBoss : Boolean = false
 
 // reset all savable value
 fun reset(){
-    storage = CardData(mutableListOf(stick, stick, log, log, log))
+    storage = CardData(mutableListOf())
+    storage.append(itemInfo)
+    storage.append(materialInfo)
     dungeonLevel = 1
     success = 0
 }
