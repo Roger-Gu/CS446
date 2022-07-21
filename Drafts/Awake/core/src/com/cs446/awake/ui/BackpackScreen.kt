@@ -79,7 +79,8 @@ class BackpackScreen(val g: Int) : BaseScreen() {
         name.setSize(paper.width, paper.height)
         name.wrap = true
         if (g == 1){
-            use.setText(card.count.toString())
+            name.moveBy(0f, -55f)
+            use.setText("Amount: " + card.count.toString())
             use.setFontScale(0.8f)
             use.setPosition(paper.x + 100, paper.y)
             use.setSize(paper.width, paper.height)
@@ -89,9 +90,9 @@ class BackpackScreen(val g: Int) : BaseScreen() {
             use.setText(card.usage + "\n\n wood: ${card.wood}, \n fire: ${card.fire}, \n earth: ${card.earth}, \n " +
                     "metal: ${card.metal}, \n water: ${card.water}, \n electr: ${card.electric}， \n wind: ${card.wind} \n.")
 
-            use.setFontScale(0.8f)
+            use.setFontScale(0.6f)
             use.setPosition(paper.x + 30, paper.y - 50)
-            use.setSize(paper.width, paper.height)
+            use.setSize(paper.width -10f, paper.height)
             use.wrap = true
         }
     }
