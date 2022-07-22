@@ -713,7 +713,6 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         val loading = BaseActor(0f, 0f, stage)
         loading.loadTexture("Loading_line.png")
         val originalWidth = loading.width
-        loadingBar.setSize(loading.width + 135f, (loading.width + 135f)/loadingBar.width* loadingBar.height)
         loadingBar.centerAtPosition(screenWidth/2, screenHeight/2 - 300f)
         loading.centerAtActor(loadingBar)
         loading.setSize(10f, loading.height)
@@ -728,7 +727,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         val timeUp: () -> Unit = {
             val duringTime: () -> Unit = {
-                val value: Float = (timeframes - worldTimer + 7).toFloat()
+                val value: Float = (timeframes - worldTimer + 5).toFloat()
                 loading.setSize(value/(timeframes)*originalWidth, loading.height)
                 // loading.setPosition(loadingBar.x, loadingBar.y)
             }
