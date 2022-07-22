@@ -59,12 +59,12 @@ fun succeed(){
 
 // get current maxHP for player
 fun getHP(): Int {
-    return baseHP + 5 * (success % 3)
+    return baseHP + 5 * (success / 3)
 }
 
 // get current HP for player
 fun getEnergy(): Int {
-    return baseEnergy + (success % 3)
+    return baseEnergy + (success / 3)
 }
 
 // save the progress of game

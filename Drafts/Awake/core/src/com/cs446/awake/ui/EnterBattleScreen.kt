@@ -274,6 +274,8 @@ class EnterBattleScreen() : BaseScreen() {
                     val p : Player = player as Player
                     val e : Enemy = enemy as Enemy
 //                    enterBattleMusic.stop()
+                    println(getHP())
+                    println(p.HP)
                     Awake.setActiveScreen(BattleScreen(p, e))
                 }
                 return true
