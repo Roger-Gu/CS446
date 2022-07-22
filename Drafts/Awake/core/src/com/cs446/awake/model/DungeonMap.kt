@@ -10,7 +10,6 @@ val battleProbabilty = 30
 val collectProbabilty = 30
 val rownum = 2
 val colnum = 6
-// ToDo: generate map according to level
 class DungeonMap(val level: Int) {
     var map: Array<Array<Event>> = Array<Array<Event>>()
     var stepsLeft : Int = 15
