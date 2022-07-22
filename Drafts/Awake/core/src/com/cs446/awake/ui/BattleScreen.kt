@@ -409,10 +409,10 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
                 backPackItem = ItemCardData(mutableListOf())
                 backPackMaterial = MaterialCardData(mutableListOf())
                 battleItem = ItemCardData(mutableListOf())
+                dungeonLevel = 1
                 dumpJson()
                 battleMusic.stop()
                 setActiveScreen(VillageScreen())
-                dungeonLevel = 1
                 return true
             }
         })
