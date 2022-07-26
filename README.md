@@ -14,3 +14,25 @@ The repo for **UW CS446 Spring 2022 Section 2 Group 8**
 | Richella Li | j2333li  | [richellali](https://github.com/richellali)            |
 | Yixing Gu   | y232gu   | [Roger-Gu](https://github.com/Roger-Gu)                | 
 
+All assets used in this project have legitimate license agreement.
+Sources list:
+https://assetstore.unity.com/packages/2d/environments/pixel-art-platformer-village-house-166186#content
+
+https://craftpix.net/freebies/free-elven-land-game-battle-backgrounds/
+
+https://craftpix.net/product/battle-arena-game-assets-pack/
+
+https://assetstore.unity.com/packages/2d/gui/fantasy-wooden-gui-free-103811
+
+https://assetstore.unity.com/packages/2d/gui/dragon-mobile-ui-141915
+
+https://assetstore.unity.com/packages/2d/gui/icons/artifact-cards-02-222560
+
+https://assetstore.unity.com/packages/2d/gui/icons/500-skill-icons-136564#content
+
+https://assetstore.unity.com/packages/2d/characters/lost-temple-creatures-223447
+
+https://assetstore.unity.com/packages/2d/characters/underwater-monsters-223543
+
+https://assetstore.unity.com/packages/2d/characters/lava-creatures-223444
+
