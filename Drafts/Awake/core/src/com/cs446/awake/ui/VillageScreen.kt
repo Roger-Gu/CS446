@@ -105,11 +105,10 @@ class VillageScreen() : BaseScreen() {
 
         // Reset button
         val resetButton = BaseActor(0f, 0f, stage)
-        resetButton.loadTexture("Icon_quit.png") // TODO: Need icon for reset.
+        resetButton.loadTexture("resetButton.png")
         resetButton.setSize(150f, 150f)
         resetButton.centerAtPosition(260f, 950f)
         resetButton.toFront()
-        resetButton.remove() // TODO: Remove this when have a icon picture
         resetButton.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,

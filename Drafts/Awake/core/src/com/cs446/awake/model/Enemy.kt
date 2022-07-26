@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Array
 import com.cs446.awake.utils.BaseActor
 
 
-class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, strength: Int, var enemyImage: String, deck: Deck, state: MutableList<State>, playerType: PlayerType) : Character(charName, HP, energy, strength, enemyImage,deck, state, playerType) {
+class Enemy(val images: Array<String?>, charName: String, HP: Int, energy: Int, strength: Int, var enemyImage: String, var enemyLevel: Int, deck: Deck, state: MutableList<State>, playerType: PlayerType) : Character(charName, HP, energy, strength, enemyImage,deck, state, playerType) {
 
     override fun initBars() {
 //        healthBar = BaseActor(0f, 0f, stage)
