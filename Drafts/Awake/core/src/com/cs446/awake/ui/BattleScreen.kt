@@ -539,7 +539,9 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("battle$dungeonLevel.png")
+        var level = enemy.enemyLevel
+        if (level > 4) level = 4
+        background.loadTexture("battle${level}.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 

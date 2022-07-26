@@ -6,7 +6,7 @@ class BattleEvent (backImg: String, frontImg: String, val monster: Monster) : Ev
         super.trigger()
         val monsterDeck = monster.getDeck(dungeonLevel)
         enemy = Enemy(monster.images, monster.charName, monster.getHP(dungeonLevel),
-            monster.getEnergy(), monster.getStrength(), monster.avator,
+            monster.getEnergy(), monster.getStrength(), monster.avator, monster.level,
             monsterDeck, mutableListOf(), PlayerType.AI)
 
         // add the reward to the backpack
