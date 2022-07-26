@@ -17,6 +17,7 @@ import com.cs446.awake.Awake
 import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
+import java.util.*
 
 class VillageScreen() : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
@@ -254,6 +255,16 @@ class VillageScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
+                // COMMENT FOR TESTING
+//                val rightNow = Calendar.getInstance()
+//                val currentHourIn24Format: Int = rightNow.get(Calendar.HOUR_OF_DAY)
+//                if (8 <= currentHourIn24Format && currentHourIn24Format <= 22) {
+//                    villageMusic.stop()
+//                    Awake.setActiveScreen(EnterDungeonScreen())
+//                    return true
+//                } else {
+//                    return false
+//                }
                 villageMusic.stop()
                 Awake.setActiveScreen(EnterDungeonScreen())
                 return true
