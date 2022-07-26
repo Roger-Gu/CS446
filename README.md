@@ -1,7 +1,8 @@
 ![image](https://user-images.githubusercontent.com/69770812/179666894-98eade1d-4ac0-4513-9270-d83aed90cb3f.png)
 
 
-The repo for **UW CS446 Spring 2022 Section 2 Group 8**
+The repo for **UW CS446 Spring 2022 Section 2 Group 8**  
+**Final version** of the project is at [**Core/Awake**](https://github.com/ErastoRuuuuuush/CS446/tree/main/Core/Awake)
 
 **Group members:**
 
