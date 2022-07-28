@@ -26,6 +26,9 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
     private val screenHeight = Gdx.graphics.height.toFloat()
 
+    // step
+    lateinit var step : Label
+
     // DungeonMap Data
     private val level = map.level
 
@@ -75,7 +78,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
         // Village button
         val villageButtonActor = BaseActor(0f, 0f, stage)
-        villageButtonActor.loadTexture("Icon_village.png")
+        villageButtonActor.loadTexture("villageButton.png")
         villageButtonActor.setSize(villageButtonActor.width/2, villageButtonActor.height/2)
         villageButtonActor.setPosition(100f, screenHeight-150f)
         villageButtonActor.addListener(object : InputListener() {
@@ -102,9 +105,10 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
         // backpack button
         val backpackButtonActor = BaseActor(0f, 0f, stage)
-        backpackButtonActor.loadTexture("Icon_backpack.png")
+        backpackButtonActor.loadTexture("bagButton.png")
         backpackButtonActor.setSize(backpackButtonActor.width/2, backpackButtonActor.height/2)
-        backpackButtonActor.setPosition(screenWidth-250f, screenHeight-150f)
+        backpackButtonActor.centerAtActor(villageButtonActor)
+        backpackButtonActor.moveBy(backpackButtonActor.width + 30f, 0f)
         backpackButtonActor.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -117,6 +121,10 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
                 return true
             }
         })
+
+        step = Label("StepLeft: ${map.stepsLeft} / 15", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+        step.setPosition(screenWidth - step.width * 1.3f, screenHeight-150f )
+        stage.addActor(step)
 
         // Add Event Cards
         for (row in 0 until 3) {
@@ -348,6 +356,7 @@ class DungeonScreen(private val map: DungeonMap) : BaseScreen() {
 
     override fun update(delta: Float) {
         runTimer()
+        step.setText("StepLeft: ${map.stepsLeft} / 15")
         return
     }
 }
