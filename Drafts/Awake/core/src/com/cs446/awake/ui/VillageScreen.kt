@@ -17,6 +17,7 @@ import com.cs446.awake.Awake
 import com.cs446.awake.model.*
 import com.cs446.awake.utils.BaseActor
 import com.cs446.awake.utils.BaseScreen
+import java.util.*
 
 class VillageScreen() : BaseScreen() {
     private val screenWidth = Gdx.graphics.width.toFloat()
@@ -59,7 +60,7 @@ class VillageScreen() : BaseScreen() {
 
     override fun initialize() {
         readJson()
-        // demo()
+        demo()
         Gdx.input.inputProcessor = stage
         //stage.addActor(countdownLabel)
         //countdownLabel.setPosition(screenWidth/2 - countdownLabel.width/2, screenHeight/2 + countdownLabel.height/2)
@@ -94,6 +95,33 @@ class VillageScreen() : BaseScreen() {
                 dumpJson()
                 val duringTime: () -> Unit = {
                     val winLabel = Label("Saving...", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+                    winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
+                    stage.addActor(winLabel)
+                }
+                startTimer(20, {Gdx.app.exit()}, duringTime)
+                return true
+            }
+        })
+
+
+        // Reset button
+        val resetButton = BaseActor(0f, 0f, stage)
+        resetButton.loadTexture("resetButton.png")
+        resetButton.setSize(150f, 150f)
+        resetButton.centerAtPosition(260f, 950f)
+        resetButton.toFront()
+        resetButton.addListener(object : InputListener() {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ) : Boolean {
+                reset()
+                dumpJson()
+                val duringTime: () -> Unit = {
+                    val winLabel = Label("Reset...", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
                     winLabel.setPosition(screenWidth/2 - winLabel.width/2, screenHeight/2 - winLabel.height/2)
                     stage.addActor(winLabel)
                 }
@@ -227,6 +255,16 @@ class VillageScreen() : BaseScreen() {
                 pointer: Int,
                 button: Int
             ): Boolean {
+                // COMMENT FOR TESTING
+//                val rightNow = Calendar.getInstance()
+//                val currentHourIn24Format: Int = rightNow.get(Calendar.HOUR_OF_DAY)
+//                if (8 <= currentHourIn24Format && currentHourIn24Format <= 22) {
+//                    villageMusic.stop()
+//                    Awake.setActiveScreen(EnterDungeonScreen())
+//                    return true
+//                } else {
+//                    return false
+//                }
                 villageMusic.stop()
                 Awake.setActiveScreen(EnterDungeonScreen())
                 return true

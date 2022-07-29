@@ -10,7 +10,6 @@ val battleProbabilty = 30
 val collectProbabilty = 30
 val rownum = 2
 val colnum = 6
-// ToDo: generate map according to level
 class DungeonMap(val level: Int) {
     var map: Array<Array<Event>> = Array<Array<Event>>()
     var stepsLeft : Int = 15
@@ -70,7 +69,10 @@ class DungeonMap(val level: Int) {
     // decrement steps, return 0 if cannot go, 1 if empty event, 2 if collect event, 3 if battle event, 4 if leave the level
     fun go(row:Int, col: Int): Int {
         if (! canGo(row, col)) return INVALIDMOVE
-        if (row == rownum && col == colnum) return NEXTLEVEL
+        if (row == rownum && col == colnum && level < 4) {
+            return NEXTLEVEL
+        }
+        stepsLeft --
         return map[row][col].trigger()
     }
 }

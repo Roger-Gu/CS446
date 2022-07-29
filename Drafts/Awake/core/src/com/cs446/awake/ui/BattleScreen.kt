@@ -151,7 +151,7 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         if (enemy.canUseCard) {
             // Enemy use one card
-            val card = currentTurn.selectRamdomCard()
+            val card = currentTurn.selectCard()
             val cardActor = BaseActor(0f, 0f, stage)
             cardActor.loadTexture(card.img)
             cardActor.centerAtPosition(screenWidth / 2, screenHeight)
@@ -539,7 +539,9 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
 
         // Background Picture
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("battle$dungeonLevel.png")
+        var level = enemy.enemyLevel
+        if (level > 4) level = 4
+        background.loadTexture("battle${level}.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth / 2, screenHeight / 2)
 
@@ -703,34 +705,48 @@ class BattleScreen(private val player: Player, private val enemy: Enemy) : BaseS
         battleMusic.play()
 
         val background = BaseActor(0f, 0f, stage)
-        background.loadTexture("dragon.jpeg")
+        background.loadTexture("dragonBackground.png")
         background.setSize(screenWidth, (screenWidth / background.width * background.height))
         background.centerAtPosition(screenWidth/2, screenHeight/2)
-        background.addListener(object : InputListener() {
-            override fun touchDown(
-                event: InputEvent?,
-                x: Float,
-                y: Float,
-                pointer: Int,
-                button: Int
-            ): Boolean {
+
+        val loadingBar = BaseActor(0f, 0f, stage)
+        loadingBar.loadTexture("Loading.png")
+
+        val loading = BaseActor(0f, 0f, stage)
+        loading.loadTexture("Loading_line.png")
+        val originalWidth = loading.width
+        loadingBar.centerAtPosition(screenWidth/2, screenHeight/2 - 300f)
+        loading.centerAtActor(loadingBar)
+        loading.setSize(10f, loading.height)
+
+        // Text Info
+        val loadText =  Label("LOADING...", Label.LabelStyle(BitmapFont(Gdx.files.internal("font/font4_brown.fnt")), Color.WHITE))
+        loadText.setFontScale(1.8f)
+        loadText.setPosition(screenWidth/2 - loadText.width/4*3, screenHeight/2)
+        stage.addActor(loadText)
+
+        val timeframes = 150
+
+        val timeUp: () -> Unit = {
+            val duringTime: () -> Unit = {
+                val value: Float = (timeframes - worldTimer + 5).toFloat()
+                loading.setSize(value/(timeframes)*originalWidth, loading.height)
+                // loading.setPosition(loadingBar.x, loadingBar.y)
+            }
+            val endTime: () -> Unit = {
                 enemy.initBars()
                 player.initBars()
 
                 battleScreen()
                 startTurn()
-                return true
             }
-        })
-
-        // Text Info
-        val start = BaseActor(0f, 0f, stage)
-        start.loadTexture("start-message.png")
-        start.centerAtPosition(screenWidth/2, screenHeight)
-        start.moveBy(0f, -800f)
+            startTimer(timeframes, endTime, duringTime)
+        }
+        startTimer(170, timeUp) {}
     }
 
     override fun initialize() {
+        player.deck.shuffle()
         Gdx.input.inputProcessor = stage
         battleEnterScreen()
     }

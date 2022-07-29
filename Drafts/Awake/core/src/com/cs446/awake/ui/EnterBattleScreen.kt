@@ -72,7 +72,7 @@ class EnterBattleScreen() : BaseScreen() {
         name.setPosition(paper.x + 50, paper.y + 300)
         name.setSize(paper.width, paper.height)
         name.wrap = true
-        use.setText(card.count.toString())
+        use.setText(card.usage+ "\namount: ${card.count}")
         use.setFontScale(0.8f)
         use.setPosition(paper.x + 50, paper.y)
         use.setSize(paper.width, paper.height)
@@ -274,6 +274,8 @@ class EnterBattleScreen() : BaseScreen() {
                     val p : Player = player as Player
                     val e : Enemy = enemy as Enemy
 //                    enterBattleMusic.stop()
+                    println(getHP())
+                    println(p.HP)
                     Awake.setActiveScreen(BattleScreen(p, e))
                 }
                 return true

@@ -47,25 +47,6 @@ class MaterialCardData (cardList: MutableList<MaterialCard>): CardData(cardList 
         return validList.randomSelect()
     }
 
-    // return the possible merge from this list given input list
-    fun merge(inputList: CardData): MaterialCard?{
-        var validList = MaterialCardData(mutableListOf<MaterialCard>())
-        for (item in getStored()){
-            // be a candidate if all element fields are satisfied
-            if (item.earth <= max(inputList.earth,0)
-                && item.fire <= max(inputList.fire ,0)
-                && item.metal <= max(inputList.metal,0)
-                && item.electric <= max(inputList.electric,0)
-                && item.water <= max(inputList.water,0)
-                && item.wood <= max(inputList.wood,0)
-                && item.wind <= max(inputList.wind,0)){
-                validList.add(item)
-            }
-        }
-        // select a random one
-        return validList.randomSelect() as MaterialCard?
-    }
-
     override fun randomSelect(): MaterialCard? {
         return super.randomSelect() as MaterialCard?
     }
